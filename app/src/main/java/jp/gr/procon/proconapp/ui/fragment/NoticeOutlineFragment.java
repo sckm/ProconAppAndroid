@@ -1,4 +1,4 @@
-package jp.gr.procon.proconapp.ui;
+package jp.gr.procon.proconapp.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,10 +14,12 @@ import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.dummymodel.DummyNotice;
 import jp.gr.procon.proconapp.model.Notice;
 import jp.gr.procon.proconapp.model.NoticeList;
+import jp.gr.procon.proconapp.ui.view.NoticeListItemView;
 import jp.gr.procon.proconapp.util.JsonUtil;
 import timber.log.Timber;
 
 public class NoticeOutlineFragment extends BaseFragment implements View.OnClickListener {
+    private static final int MAX_NUM_ROW = 3;
 
     public interface OnShowAllNoticeClickListener {
         void onShowAllNoticeClick();
@@ -94,12 +96,10 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
             return;
         }
         LayoutInflater inflater = LayoutInflater.from(mBodyLayout.getContext());
-        for (Notice notice : mNoticeList) {
-            View v = inflater.inflate(R.layout.item_notice_list, mBodyLayout, false);
-            // TODO 表示の変更
-            ((TextView) v.findViewById(R.id.text_title)).setText(notice.getmTitle());
-            ((TextView) v.findViewById(R.id.text_published_at)).setText(notice.getmPublishedAt() + "");
-
+        for (Notice notice : mNoticeList.subList(0, Math.min(mNoticeList.size(), MAX_NUM_ROW))) {
+            View v = inflater.inflate(NoticeListItemView.RESOURECE_ID, mBodyLayout, false);
+            NoticeListItemView itemView = new NoticeListItemView(v);
+            itemView.bindTo(notice);
             mBodyLayout.addView(v);
         }
 

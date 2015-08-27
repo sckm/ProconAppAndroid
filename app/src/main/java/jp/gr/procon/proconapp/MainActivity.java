@@ -1,16 +1,10 @@
 package jp.gr.procon.proconapp;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import jp.gr.procon.proconapp.R;
-import jp.gr.procon.proconapp.dummymodel.DummyNotice;
-import jp.gr.procon.proconapp.model.NoticeList;
-import jp.gr.procon.proconapp.ui.NoticeOutlineFragment;
-import jp.gr.procon.proconapp.util.JsonUtil;
-import timber.log.Timber;
+import jp.gr.procon.proconapp.ui.activity.NoticeListActivity;
+import jp.gr.procon.proconapp.ui.fragment.NoticeOutlineFragment;
 
 public class MainActivity extends BaseActivity implements NoticeOutlineFragment.OnShowAllNoticeClickListener {
 
@@ -29,6 +23,7 @@ public class MainActivity extends BaseActivity implements NoticeOutlineFragment.
 
     @Override
     public void onShowAllNoticeClick() {
-
+        Intent intent = NoticeListActivity.createIntent(this);
+        startActivity(intent);
     }
 }
