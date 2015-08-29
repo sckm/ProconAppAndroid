@@ -8,6 +8,7 @@ import android.os.Bundle;
 import jp.gr.procon.proconapp.MainActivity;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.model.Notice;
+import jp.gr.procon.proconapp.ui.fragment.GameResultOutlineFragment;
 import jp.gr.procon.proconapp.ui.fragment.NoticeListFragment;
 
 public class NoticeListActivity extends AppCompatActivity {
