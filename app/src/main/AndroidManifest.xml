@@ -23,6 +23,10 @@
         <activity
             android:name=".ui.activity.NoticeListActivity">
         </activity>
+
+        <activity
+            android:name=".ui.activity.GamePhotoListActivity">
+        </activity>
     </application>
 
 </manifest>

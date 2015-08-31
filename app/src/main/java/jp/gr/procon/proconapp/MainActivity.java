@@ -3,7 +3,9 @@ package jp.gr.procon.proconapp;
 import android.content.Intent;
 import android.os.Bundle;
 
+import jp.gr.procon.proconapp.model.GamePhoto;
 import jp.gr.procon.proconapp.model.GamePhotoList;
+import jp.gr.procon.proconapp.ui.activity.GamePhotoListActivity;
 import jp.gr.procon.proconapp.ui.activity.NoticeListActivity;
 import jp.gr.procon.proconapp.ui.fragment.NoticeOutlineFragment;
 import jp.gr.procon.proconapp.ui.fragment.PhotoOutlineFragment;
@@ -34,6 +36,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onShowAllGamePhotoClick() {
-
+        Intent intent = GamePhotoListActivity.createIntent(this);
+        startActivity(intent);
     }
 }
