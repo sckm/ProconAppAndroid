@@ -115,7 +115,6 @@ public class PhotoOutlineFragment extends BaseFragment implements View.OnClickLi
             }
             Glide.with(this)
                     .load(photo.getmThumbnailUrl())
-//                    .transform(new ScaleBaseOutWidth(imageView.getContext()))
 //                    .centerCrop()
                     .fitCenter()
                     .into(imageView);
@@ -135,24 +134,5 @@ public class PhotoOutlineFragment extends BaseFragment implements View.OnClickLi
                 break;
         }
 
-    }
-
-    private static class ScaleBaseOutWidth extends BitmapTransformation {
-
-        public ScaleBaseOutWidth(Context context) {
-            super(context);
-        }
-
-        @Override
-        protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
-            Timber.d("transform: from (" + toTransform.getWidth() + ", " + toTransform.getHeight() + ") to (" + outWidth + ", " + outHeight + ")");
-//            return Bitmap.createScaledBitmap(toTransform, outWidth, toTransform.getHeight() * outWidth / toTransform.getWidth(), true);
-            return toTransform;
-        }
-
-        @Override
-        public String getId() {
-            return ScaleBaseOutWidth.class.getSimpleName();
-        }
     }
 }
