@@ -3,6 +3,8 @@
     package="jp.gr.procon.proconapp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".ProconApplication"
         android:allowBackup="true"

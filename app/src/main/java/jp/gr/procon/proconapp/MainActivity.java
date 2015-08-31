@@ -3,10 +3,14 @@ package jp.gr.procon.proconapp;
 import android.content.Intent;
 import android.os.Bundle;
 
+import jp.gr.procon.proconapp.model.GamePhotoList;
 import jp.gr.procon.proconapp.ui.activity.NoticeListActivity;
 import jp.gr.procon.proconapp.ui.fragment.NoticeOutlineFragment;
+import jp.gr.procon.proconapp.ui.fragment.PhotoOutlineFragment;
 
-public class MainActivity extends BaseActivity implements NoticeOutlineFragment.OnShowAllNoticeClickListener {
+public class MainActivity extends BaseActivity implements
+        NoticeOutlineFragment.OnShowAllNoticeClickListener
+        , PhotoOutlineFragment.OnShowAllGamePhotoClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +21,7 @@ public class MainActivity extends BaseActivity implements NoticeOutlineFragment.
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.container_notice, NoticeOutlineFragment.newInstance())
+                    .add(R.id.container_photo, PhotoOutlineFragment.newInstance())
                     .commit();
         }
     }
@@ -25,5 +30,10 @@ public class MainActivity extends BaseActivity implements NoticeOutlineFragment.
     public void onShowAllNoticeClick() {
         Intent intent = NoticeListActivity.createIntent(this);
         startActivity(intent);
+    }
+
+    @Override
+    public void onShowAllGamePhotoClick() {
+
     }
 }
