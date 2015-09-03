@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import jp.gr.procon.proconapp.model.twitter.Entities;
 import jp.gr.procon.proconapp.model.twitter.Metadata;
 import jp.gr.procon.proconapp.model.twitter.User;
 
