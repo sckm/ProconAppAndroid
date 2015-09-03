@@ -83,4 +83,99 @@ public class FeedTwitterStatus implements Serializable {
     private String mLang;
 
 
+    public Metadata getMetadata() {
+        return mMetadata;
+    }
+
+    public String getCreatedAt() {
+        return mCreatedAt;
+    }
+
+    public Long getId() {
+        return mId;
+    }
+
+    public String getIdStr() {
+        return mIdStr;
+    }
+
+    public String getText() {
+        return mText;
+    }
+
+    public String getSource() {
+        return mSource;
+    }
+
+    public Boolean getTruncated() {
+        return mTruncated;
+    }
+
+    public Long getInReplyToStatusId() {
+        return mInReplyToStatusId;
+    }
+
+    public String getInReplyToStatusIdStr() {
+        return mInReplyToStatusIdStr;
+    }
+
+    public Long getInReplyToUserId() {
+        return mInReplyToUserId;
+    }
+
+    public String getInReplyToUserIdStr() {
+        return mInReplyToUserIdStr;
+    }
+
+    public String getInReplyToScreenName() {
+        return mInReplyToScreenName;
+    }
+
+    public User getUser() {
+        return mUser;
+    }
+
+    public String getGeo() {
+        return mGeo;
+    }
+
+    public String getCoordinates() {
+        return mCoordinates;
+    }
+
+    public String getPlace() {
+        return mPlace;
+    }
+
+    public String getContributors() {
+        return mContributors;
+    }
+
+    public Boolean getIsQuoteStatus() {
+        return mIsQuoteStatus;
+    }
+
+    public Integer getRetweetCount() {
+        return mRetweetCount;
+    }
+
+    public Integer getFavoriteCount() {
+        return mFavoriteCount;
+    }
+
+    public Entities getEntities() {
+        return mEntities;
+    }
+
+    public Boolean getFavorited() {
+        return mFavorited;
+    }
+
+    public Boolean getRetweeted() {
+        return mRetweeted;
+    }
+
+    public String getLang() {
+        return mLang;
+    }
 }

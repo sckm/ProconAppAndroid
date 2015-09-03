@@ -128,4 +128,167 @@ public class User implements Serializable {
     @SerializedName("notifications")
     private Boolean mNotifications;
 
+    public Long getId() {
+        return mId;
+    }
+
+    public String getIdStr() {
+        return mIdStr;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public String getScreenName() {
+        return mScreenName;
+    }
+
+    public String getLocation() {
+        return mLocation;
+    }
+
+    public String getDescription() {
+        return mDescription;
+    }
+
+    public String getUrl() {
+        return mUrl;
+    }
+
+    public Entities getEntities() {
+        return mEntities;
+    }
+
+    public Boolean getProtected() {
+        return mProtected;
+    }
+
+    public Long getFollowersCount() {
+        return mFollowersCount;
+    }
+
+    public Long getFriendsCount() {
+        return mFriendsCount;
+    }
+
+    public Long getListedCount() {
+        return mListedCount;
+    }
+
+    public String getCreatedAt() {
+        return mCreatedAt;
+    }
+
+    public Long getFavouritesCount() {
+        return mFavouritesCount;
+    }
+
+    public String getUtcOffset() {
+        return mUtcOffset;
+    }
+
+    public String getTimeZone() {
+        return mTimeZone;
+    }
+
+    public Boolean getGeoEnabled() {
+        return mGeoEnabled;
+    }
+
+    public Boolean getVerified() {
+        return mVerified;
+    }
+
+    public Long getStatusesCount() {
+        return mStatusesCount;
+    }
+
+    public String getLang() {
+        return mLang;
+    }
+
+    public Boolean getContributorsEnabled() {
+        return mContributorsEnabled;
+    }
+
+    public Boolean getIsTranslator() {
+        return mIsTranslator;
+    }
+
+    public Boolean getIsTranslationEnabled() {
+        return mIsTranslationEnabled;
+    }
+
+    public String getProfileBackgroundColor() {
+        return mProfileBackgroundColor;
+    }
+
+    public String getProfileBackgroundBmageUrl() {
+        return mProfileBackgroundBmageUrl;
+    }
+
+    public String getProfileBackgroundImageUrlHttps() {
+        return mProfileBackgroundImageUrlHttps;
+    }
+
+    public Boolean getProfileBackgroundTile() {
+        return mProfileBackgroundTile;
+    }
+
+    public String getProfileImageUrl() {
+        return mProfileImageUrl;
+    }
+
+    public String getProfileImageUrlHttps() {
+        return mProfileImageUrlHttps;
+    }
+
+    public String getProfileBannerUrl() {
+        return mProfileBannerUrl;
+    }
+
+    public String getProfileLinkColor() {
+        return mProfileLinkColor;
+    }
+
+    public String getProfileSidebarBorderColor() {
+        return mProfileSidebarBorderColor;
+    }
+
+    public String getProfileSidebarFillColor() {
+        return mProfileSidebarFillColor;
+    }
+
+    public String getProfileTextColor() {
+        return mProfileTextColor;
+    }
+
+    public Boolean getProfileUseBackgroundImage() {
+        return mProfileUseBackgroundImage;
+    }
+
+    public Boolean getHasExtendedProfile() {
+        return mHasExtendedProfile;
+    }
+
+    public Boolean getDefaultProfile() {
+        return mDefaultProfile;
+    }
+
+    public Boolean getDefaultProfileImage() {
+        return mDefaultProfileImage;
+    }
+
+    public Boolean getFollowing() {
+        return mFollowing;
+    }
+
+    public Boolean getFollowRequestSent() {
+        return mFollowRequestSent;
+    }
+
+    public Boolean getNotifications() {
+        return mNotifications;
+    }
 }
