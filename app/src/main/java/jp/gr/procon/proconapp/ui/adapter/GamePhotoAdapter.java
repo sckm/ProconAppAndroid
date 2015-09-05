@@ -39,7 +39,6 @@ public class GamePhotoAdapter extends ArrayAdapter<GamePhoto> {
         Glide.with(getContext())
                 .load(item.getmThumbnailUrl())
                 .asBitmap()
-                .placeholder(R.mipmap.ic_launcher)
 //                .asBitmap()
 //                .override(300, 300)
 //                .fitCenter()
