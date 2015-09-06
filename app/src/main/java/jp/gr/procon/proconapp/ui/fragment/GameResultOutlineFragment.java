@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import jp.gr.procon.proconapp.BaseFragment;
@@ -14,7 +16,7 @@ import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.dummymodel.DummyGameResultList;
 import jp.gr.procon.proconapp.model.GameResult;
 import jp.gr.procon.proconapp.model.GameResultList;
-import jp.gr.procon.proconapp.ui.view.NoticeListItemView;
+import jp.gr.procon.proconapp.model.PlayerResult;
 import jp.gr.procon.proconapp.util.JsonUtil;
 import timber.log.Timber;
 
@@ -30,7 +32,7 @@ public class GameResultOutlineFragment extends BaseFragment implements View.OnCl
         return fragment;
     }
 
-    private ViewGroup mBodyLayout;
+    private TableLayout mTableLayout;
     private GameResultList mGameResultList;
     private OnShowAllGameResultClickListener mOnShowAllGameResultClickListener;
 
@@ -39,7 +41,7 @@ public class GameResultOutlineFragment extends BaseFragment implements View.OnCl
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_outline, container, false);
+        return inflater.inflate(R.layout.fragment_outline_game_result, container, false);
     }
 
     @Override
@@ -54,12 +56,12 @@ public class GameResultOutlineFragment extends BaseFragment implements View.OnCl
         ImageView iconImageView = (ImageView) view.findViewById(R.id.icon);
 
         TextView titleTextView = (TextView) view.findViewById(R.id.outline_title);
-        titleTextView.setText(R.string.title_outline_notice);
+        titleTextView.setText(R.string.title_outline_game_result);
 
         TextView showAllTextView = (TextView) view.findViewById(R.id.outline_show_all);
         showAllTextView.setOnClickListener(this);
 
-        mBodyLayout = (ViewGroup) view.findViewById(R.id.outline_body);
+        mTableLayout = (TableLayout) view.findViewById(R.id.outline_table);
 
         if (mGameResultList != null) {
             setDataToView();
@@ -68,7 +70,7 @@ public class GameResultOutlineFragment extends BaseFragment implements View.OnCl
 
     @Override
     public void onDestroyView() {
-        mBodyLayout = null;
+        mTableLayout = null;
         super.onDestroyView();
     }
 
@@ -92,15 +94,22 @@ public class GameResultOutlineFragment extends BaseFragment implements View.OnCl
     }
 
     private void setDataToView() {
-        if (mBodyLayout == null) {
+        if (mTableLayout == null) {
             return;
         }
-        LayoutInflater inflater = LayoutInflater.from(mBodyLayout.getContext());
+        LayoutInflater inflater = LayoutInflater.from(mTableLayout.getContext());
         for (GameResult result : mGameResultList.subList(0, Math.min(mGameResultList.size(), MAX_NUM_ROW))) {
             // TODO View変更
-            TextView v = new TextView(mBodyLayout.getContext());
-            v.setText(result.getmTitle());
-            mBodyLayout.addView(v);
+            TableRow row = (TableRow) inflater.inflate(R.layout.row_game_result, mTableLayout, false);
+            for (int i = 0; i < Math.min(3, result.getResult().size()); i++) {
+                PlayerResult playerResult = result.getResult().get(i);
+                TextView infoText = (TextView) row.getChildAt(i * 2);
+                TextView titleText = (TextView) row.getChildAt(i * 2 + 1);
+                infoText.setText(playerResult.getRank() + "");
+                titleText.setText(playerResult.getPlayer().getmShortName());
+            }
+
+            mTableLayout.addView(row);
         }
 
     }

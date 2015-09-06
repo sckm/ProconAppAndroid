@@ -18,19 +18,33 @@ public class GameResult implements Serializable {
     @SerializedName("result")
     private ArrayList<PlayerResult> mResult;
 
-    public Long getmId() {
+    @SerializedName("started_at")
+    private Long mStartedAt;
+
+    @SerializedName("finished_at")
+    private Long mFinishedAt;
+
+    public Long getId() {
         return mId;
     }
 
-    public String getmTitle() {
+    public String getTitle() {
         return mTitle;
     }
 
-    public Long getmStatus() {
+    public Long getStatus() {
         return mStatus;
     }
 
-    public ArrayList<PlayerResult> getmResult() {
+    public ArrayList<PlayerResult> getResult() {
         return mResult;
+    }
+
+    public Long getStartedAt() {
+        return mStartedAt;
+    }
+
+    public Long getFinishedAt() {
+        return mFinishedAt;
     }
 }

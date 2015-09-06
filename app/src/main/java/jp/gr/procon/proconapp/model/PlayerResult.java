@@ -14,15 +14,15 @@ public class PlayerResult implements Serializable {
     @SerializedName("rank")
     private Integer mRank;
 
-    public GamePlayer getmPlayer() {
+    public GamePlayer getPlayer() {
         return mPlayer;
     }
 
-    public Long getmScore() {
+    public Long getScore() {
         return mScore;
     }
 
-    public Integer getmRank() {
+    public Integer getRank() {
         return mRank;
     }
 }
