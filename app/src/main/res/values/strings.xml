@@ -7,4 +7,5 @@
     <string name="btn_show_all">すべて表示</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_outline_game_result">競技部門速報</string>
+    <string name="title_outline_game_photo">写真</string>
 </resources>
