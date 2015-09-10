@@ -20,12 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activity.NoticeListActivity">
+        <activity android:name=".ui.activity.NoticeListActivity">
         </activity>
-
+        <activity android:name=".ui.activity.GamePhotoListActivity">
+        </activity>
         <activity
-            android:name=".ui.activity.GamePhotoListActivity">
+            android:name=".ui.activity.GameResultListActivity">
         </activity>
     </application>
 
