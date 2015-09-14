@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import jp.gr.procon.proconapp.dummymodel.DummyGameResultList;
 import jp.gr.procon.proconapp.model.GameResult;
 import jp.gr.procon.proconapp.model.GameResultList;
 import jp.gr.procon.proconapp.model.PlayerResult;
+import jp.gr.procon.proconapp.ui.view.GameResultTitleRow;
 import jp.gr.procon.proconapp.util.JsonUtil;
 import timber.log.Timber;
 
@@ -100,6 +102,10 @@ public class GameResultOutlineFragment extends BaseFragment implements View.OnCl
         LayoutInflater inflater = LayoutInflater.from(mTableLayout.getContext());
         for (GameResult result : mGameResultList.subList(0, Math.min(mGameResultList.size(), MAX_NUM_ROW))) {
             // TODO View変更
+            GameResultTitleRow titleRow = new GameResultTitleRow(mTableLayout.getContext());
+            titleRow.setGameResult(result);
+            mTableLayout.addView(titleRow);
+
             TableRow row = (TableRow) inflater.inflate(R.layout.row_game_result, mTableLayout, false);
             for (int i = 0; i < Math.min(3, result.getResult().size()); i++) {
                 PlayerResult playerResult = result.getResult().get(i);

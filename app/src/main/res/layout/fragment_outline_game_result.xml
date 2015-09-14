@@ -12,5 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/header"
-        android:orientation="vertical"/>
+        android:orientation="vertical"
+        android:shrinkColumns="1,3,5"
+        android:stretchColumns="1,3,5"/>
 </RelativeLayout>
