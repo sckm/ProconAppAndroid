@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import jp.gr.procon.proconapp.BaseFragment;
 import jp.gr.procon.proconapp.R;
@@ -31,7 +32,7 @@ public class GameResultListFragment extends BaseFragment {
 
     public GameResultListFragment() {
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,6 +46,9 @@ public class GameResultListFragment extends BaseFragment {
         // TODO savedInstanceState
         // TODO sort
         ArrayList<GameResult> gameResults = JsonUtil.fromJson(DummyGameResultList.getDummyGameResultList(), GameResultList.class);
+        for (GameResult result : gameResults) {
+            Collections.sort(result.getResult());
+        }
 
         mExpandableListView = (ExpandableListView) view.findViewById(R.id.expandable_list_view);
         mAdapter = new GameResultExpandableListAdapter(gameResults);

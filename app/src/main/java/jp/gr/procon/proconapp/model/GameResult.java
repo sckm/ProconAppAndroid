@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class GameResult implements Serializable {
+    public static final int STATUS_GAME_ENDED = 0;
+    public static final int STATUS_GAME_PROGRESS = 1;
+
     @SerializedName("id")
     private Long mId;
 
@@ -13,7 +16,7 @@ public class GameResult implements Serializable {
     private String mTitle;
 
     @SerializedName("status")
-    private Long mStatus;
+    private Integer mStatus;
 
     @SerializedName("result")
     private ArrayList<PlayerResult> mResult;
@@ -32,7 +35,7 @@ public class GameResult implements Serializable {
         return mTitle;
     }
 
-    public Long getStatus() {
+    public Integer getStatus() {
         return mStatus;
     }
 

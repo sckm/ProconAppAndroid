@@ -35,6 +35,16 @@ public class GameResultTitleRow extends TableRow {
         // TODO テキスト変更
         mGameResult = gameResult;
         mTitleText.setText(mGameResult.getTitle());
-        mStartedAtText.setText(mGameResult.getStartedAt() + "");
+
+        switch (gameResult.getStatus()) {
+            case GameResult.STATUS_GAME_ENDED:
+                mStartedAtText.setText(mGameResult.getStartedAt() + "");
+                break;
+
+            case GameResult.STATUS_GAME_PROGRESS:
+                mStartedAtText.setText("試合中");
+                break;
+        }
+
     }
 }

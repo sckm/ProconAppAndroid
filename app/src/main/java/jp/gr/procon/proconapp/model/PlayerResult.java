@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class PlayerResult implements Serializable {
+public class PlayerResult implements Serializable, Comparable<PlayerResult> {
     @SerializedName("player")
     private GamePlayer mPlayer;
 
@@ -24,5 +24,10 @@ public class PlayerResult implements Serializable {
 
     public Integer getRank() {
         return mRank;
+    }
+
+    @Override
+    public int compareTo(PlayerResult another) {
+        return this.getRank() - another.getRank();
     }
 }

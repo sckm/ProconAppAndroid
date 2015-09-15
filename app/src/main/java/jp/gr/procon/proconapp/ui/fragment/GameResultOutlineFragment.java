@@ -12,6 +12,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.Collections;
+
 import jp.gr.procon.proconapp.BaseFragment;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.dummymodel.DummyGameResultList;
@@ -101,6 +103,8 @@ public class GameResultOutlineFragment extends BaseFragment implements View.OnCl
         }
         LayoutInflater inflater = LayoutInflater.from(mTableLayout.getContext());
         for (GameResult result : mGameResultList.subList(0, Math.min(mGameResultList.size(), MAX_NUM_ROW))) {
+            Collections.sort(result.getResult());
+
             // TODO View変更
             GameResultTitleRow titleRow = new GameResultTitleRow(mTableLayout.getContext());
             titleRow.setGameResult(result);
@@ -111,7 +115,17 @@ public class GameResultOutlineFragment extends BaseFragment implements View.OnCl
                 PlayerResult playerResult = result.getResult().get(i);
                 TextView infoText = (TextView) row.getChildAt(i * 2);
                 TextView titleText = (TextView) row.getChildAt(i * 2 + 1);
-                infoText.setText(playerResult.getRank() + "");
+
+                // TODO resource
+                switch (result.getStatus()) {
+                    case GameResult.STATUS_GAME_ENDED:
+                        infoText.setText(playerResult.getRank() + "");
+                        break;
+
+                    case GameResult.STATUS_GAME_PROGRESS:
+                        infoText.setText(playerResult.getScore() + "zk");
+                        break;
+                }
                 titleText.setText(playerResult.getPlayer().getmShortName());
             }
 
