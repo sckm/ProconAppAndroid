@@ -1,14 +1,11 @@
 package jp.gr.procon.proconapp.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import jp.gr.procon.proconapp.BaseFragment;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.dummymodel.DummyNotice;
 import jp.gr.procon.proconapp.model.NoticeList;

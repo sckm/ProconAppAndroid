@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import jp.gr.procon.proconapp.BaseActivity;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.ui.fragment.GameResultListFragment;
 

@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import jp.gr.procon.proconapp.BaseFragment;
 import jp.gr.procon.proconapp.R;
 
 public class HomeFragment extends BaseFragment {

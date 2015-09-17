@@ -1,7 +1,6 @@
 package jp.gr.procon.proconapp.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,18 +9,12 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import jp.gr.procon.proconapp.BaseFragment;
 import jp.gr.procon.proconapp.R;
-import jp.gr.procon.proconapp.dummymodel.DummyGamePhoto;
 import jp.gr.procon.proconapp.dummymodel.DummySocialFeed;
 import jp.gr.procon.proconapp.model.FeedTwitterStatus;
-import jp.gr.procon.proconapp.model.GamePhoto;
-import jp.gr.procon.proconapp.model.GamePhotoList;
 import jp.gr.procon.proconapp.model.SocialFeedTwitter;
-import jp.gr.procon.proconapp.ui.adapter.GamePhotoRecyclerAdapter;
 import jp.gr.procon.proconapp.ui.adapter.TwitterFeedRecyclerAdapter;
 import jp.gr.procon.proconapp.util.JsonUtil;
-import timber.log.Timber;
 
 public class TwitterFeedFragment extends BaseFragment {
 

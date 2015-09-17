@@ -10,7 +10,6 @@ import android.widget.ExpandableListView;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import jp.gr.procon.proconapp.BaseFragment;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.dummymodel.DummyGameResultList;
 import jp.gr.procon.proconapp.model.GameResult;

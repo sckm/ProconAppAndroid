@@ -1,11 +1,8 @@
 package jp.gr.procon.proconapp.ui.fragment;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
-import jp.gr.procon.proconapp.BaseFragment;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.dummymodel.DummyGamePhoto;
 import jp.gr.procon.proconapp.model.GamePhoto;

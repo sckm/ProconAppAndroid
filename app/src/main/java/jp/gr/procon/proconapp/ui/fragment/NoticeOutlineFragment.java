@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import jp.gr.procon.proconapp.BaseFragment;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.dummymodel.DummyNotice;
 import jp.gr.procon.proconapp.model.Notice;

@@ -1,1 +1,4 @@
 /build
+
+# API設定は公開しない
+ApiConfig.java
