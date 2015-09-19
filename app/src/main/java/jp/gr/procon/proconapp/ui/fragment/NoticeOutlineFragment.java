@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import jp.gr.procon.proconapp.R;
+import jp.gr.procon.proconapp.api.NoticeListApi;
+import jp.gr.procon.proconapp.api.asynctask.NoticeApiAsyncTask;
 import jp.gr.procon.proconapp.dummymodel.DummyNotice;
 import jp.gr.procon.proconapp.model.Notice;
 import jp.gr.procon.proconapp.model.NoticeList;
@@ -17,7 +19,7 @@ import jp.gr.procon.proconapp.ui.view.NoticeListItemView;
 import jp.gr.procon.proconapp.util.JsonUtil;
 import timber.log.Timber;
 
-public class NoticeOutlineFragment extends BaseFragment implements View.OnClickListener {
+public class NoticeOutlineFragment extends BaseFragment implements View.OnClickListener, NoticeApiAsyncTask.NoticeApiListener {
     private static final int MAX_NUM_ROW = 3;
 
     public interface OnShowAllNoticeClickListener {
@@ -33,6 +35,8 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
     private NoticeList mNoticeList;
     private OnShowAllNoticeClickListener mOnShowAllNoticeClickListener;
 
+    private NoticeApiAsyncTask mNoticeApiAsyncTask;
+
     public NoticeOutlineFragment() {
     }
 
@@ -46,8 +50,8 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
         super.onViewCreated(view, savedInstanceState);
 
         // TODO apiから取得
-        mNoticeList = JsonUtil.fromJson(DummyNotice.getDummyNoticeList(), NoticeList.class);
-        Timber.d(mNoticeList.toString());
+//        mNoticeList = JsonUtil.fromJson(DummyNotice.getDummyNoticeList(), NoticeList.class);
+//        Timber.d(mNoticeList.toString());
 
         // TODO icon
         ImageView iconImageView = (ImageView) view.findViewById(R.id.icon);
@@ -63,6 +67,24 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
         if (mNoticeList != null) {
             setDataToView();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mNoticeList == null) {
+            mNoticeApiAsyncTask = new NoticeApiAsyncTask(getUserToken(), this);
+            mNoticeApiAsyncTask.execute(0);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        if (mNoticeApiAsyncTask != null) {
+            mNoticeApiAsyncTask.cancel(true);
+            mNoticeApiAsyncTask = null;
+        }
+        super.onPause();
     }
 
     @Override
@@ -114,6 +136,29 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
                 }
                 break;
         }
+    }
+
+
+    @Override
+    public void onPreExecuteNoticeApi() {
+        // TODO progress
+
+    }
+
+    @Override
+    public void onPostExecuteNoticeApi(NoticeListApi.GetRequest api) {
+        if (isDetached() || getActivity() == null) {
+            return;
+        }
+
+        if (api.isSuccessful()) {
+            mNoticeList = api.getResponseObj();
+            setDataToView();
+        }
+    }
+
+    @Override
+    public void onCanceledNoticeApi() {
 
     }
 }
