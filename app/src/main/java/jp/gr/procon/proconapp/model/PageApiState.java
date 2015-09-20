@@ -1,5 +1,6 @@
 package jp.gr.procon.proconapp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import timber.log.Timber;
@@ -9,7 +10,7 @@ import timber.log.Timber;
  *
  * @param <T> ページ内リストのアイテムの型
  */
-public class PageApiState<T> {
+public class PageApiState<T extends Serializable> {
     /** １ページのアイテム数 */
     public static final int DEFAULT_NUM_PAGE_ITEM = 10;
 
