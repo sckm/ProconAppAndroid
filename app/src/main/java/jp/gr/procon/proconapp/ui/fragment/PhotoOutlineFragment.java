@@ -13,14 +13,18 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import jp.gr.procon.proconapp.R;
+import jp.gr.procon.proconapp.api.GamePhotoListApi;
+import jp.gr.procon.proconapp.api.asynctask.GamePhotoApiAsyncTask;
 import jp.gr.procon.proconapp.dummymodel.DummyGamePhoto;
 import jp.gr.procon.proconapp.model.GamePhoto;
 import jp.gr.procon.proconapp.model.GamePhotoList;
 import jp.gr.procon.proconapp.util.JsonUtil;
 import timber.log.Timber;
 
-public class PhotoOutlineFragment extends BaseFragment implements View.OnClickListener {
-    private static final int MAX_NUM_ROW = 3;
+public class PhotoOutlineFragment extends BaseFragment implements
+        View.OnClickListener
+        , GamePhotoApiAsyncTask.GamePhotoApiListener {
+    private static final int MAX_NUM_PHOTO = 3;
     private static final int[] THUMBNAIL_IMAGE_RES_IS = new int[]{R.id.image1, R.id.image2};
 
     public interface OnShowAllGamePhotoClickListener {
@@ -37,6 +41,8 @@ public class PhotoOutlineFragment extends BaseFragment implements View.OnClickLi
     private GamePhotoList mPhotoList;
     private OnShowAllGamePhotoClickListener mOnShowAllGamePhotoClickListener;
 
+    private GamePhotoApiAsyncTask mGamePhotoApiAsyncTask;
+
     public PhotoOutlineFragment() {
     }
 
@@ -49,9 +55,7 @@ public class PhotoOutlineFragment extends BaseFragment implements View.OnClickLi
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // TODO apiから取得
-        mPhotoList = JsonUtil.fromJson(DummyGamePhoto.getDummyGamePhoto(), GamePhotoList.class);
-        Timber.d(mPhotoList.toString());
+        // TODO savedInstanceState
 
         // TODO headerをviewかfragmentへまとめる
         // TODO icon
@@ -68,6 +72,20 @@ public class PhotoOutlineFragment extends BaseFragment implements View.OnClickLi
         if (mPhotoList != null) {
             setDataToView();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mPhotoList == null) {
+            startApiAsyncTask();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        stopApiAsyncTask();
+        super.onPause();
     }
 
     @Override
@@ -107,6 +125,7 @@ public class PhotoOutlineFragment extends BaseFragment implements View.OnClickLi
             if (i % 2 == 0) {
                 mLinearLayout.addView(mLayout);
             }
+            // TODO 画像表示サイズ調整
             Glide.with(this)
                     .load(photo.getmThumbnailUrl())
 //                    .centerCrop()
@@ -127,6 +146,43 @@ public class PhotoOutlineFragment extends BaseFragment implements View.OnClickLi
                 }
                 break;
         }
+    }
 
+    @Override
+    public void onPreExecuteGamePhotoApi() {
+    }
+
+    @Override
+    public void onPostExecuteGamePhotoApi(GamePhotoListApi.GetRequest api) {
+        if (isDetached() || getActivity() == null) {
+            return;
+        }
+
+        if (api.isSuccessful()) {
+            mPhotoList = api.getResponseObj();
+            setDataToView();
+        } else {
+            // TODO error
+        }
+    }
+
+    @Override
+    public void onCanceledGamePhotoApi() {
+    }
+
+    private void startApiAsyncTask() {
+        if (mGamePhotoApiAsyncTask != null) {
+            return;
+        }
+
+        mGamePhotoApiAsyncTask = new GamePhotoApiAsyncTask(getUserToken(), this);
+        mGamePhotoApiAsyncTask.execute(MAX_NUM_PHOTO);
+    }
+
+    private void stopApiAsyncTask() {
+        if (mGamePhotoApiAsyncTask != null) {
+            mGamePhotoApiAsyncTask.cancel(true);
+            mGamePhotoApiAsyncTask = null;
+        }
     }
 }

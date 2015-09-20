@@ -2,7 +2,9 @@ package jp.gr.procon.proconapp.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class GamePhoto {
+import java.io.Serializable;
+
+public class GamePhoto implements Serializable {
 
     @SerializedName("id")
     private Long mId;

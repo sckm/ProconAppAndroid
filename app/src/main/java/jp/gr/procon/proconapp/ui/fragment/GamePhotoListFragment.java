@@ -10,14 +10,18 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import jp.gr.procon.proconapp.R;
+import jp.gr.procon.proconapp.api.GamePhotoListApi;
+import jp.gr.procon.proconapp.api.asynctask.GamePhotoApiAsyncTask;
 import jp.gr.procon.proconapp.dummymodel.DummyGamePhoto;
 import jp.gr.procon.proconapp.model.GamePhoto;
 import jp.gr.procon.proconapp.model.GamePhotoList;
+import jp.gr.procon.proconapp.model.PageApiState;
 import jp.gr.procon.proconapp.ui.adapter.GamePhotoRecyclerAdapter;
 import jp.gr.procon.proconapp.util.JsonUtil;
 import timber.log.Timber;
 
-public class GamePhotoListFragment extends BaseFragment {
+public class GamePhotoListFragment extends BaseFragment implements
+        GamePhotoApiAsyncTask.GamePhotoApiListener {
 
     public static GamePhotoListFragment newInstance() {
         GamePhotoListFragment fragment = new GamePhotoListFragment();
@@ -26,6 +30,9 @@ public class GamePhotoListFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     private GamePhotoRecyclerAdapter mAdapter;
+    private PageApiState<GamePhoto> mApiState;
+
+    private GamePhotoApiAsyncTask mGamePhotoApiAsyncTask;
 
     public GamePhotoListFragment() {
     }
@@ -43,20 +50,73 @@ public class GamePhotoListFragment extends BaseFragment {
             // TODO save
         }
 
-        // TODO apiから取得
-        ArrayList<GamePhoto> photoList = JsonUtil.fromJson(DummyGamePhoto.getDummyGamePhoto(), GamePhotoList.class);
-        Timber.d(photoList.toString());
+        if (mApiState == null) {
+            mApiState = new PageApiState<>();
+        }
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        mAdapter = new GamePhotoRecyclerAdapter(photoList);
+        mAdapter = new GamePhotoRecyclerAdapter(mApiState.getItems());
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mRecyclerView.setAdapter(mAdapter);
 
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (mApiState.getNextPage() == 0) {
+            startApiAsyncTask();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        stopApiAsyncTask();
+        super.onPause();
+    }
+
+    @Override
     public void onDestroyView() {
-        mRecyclerView = null;
         super.onDestroyView();
+    }
+
+    @Override
+    public void onPreExecuteGamePhotoApi() {
+    }
+
+    @Override
+    public void onPostExecuteGamePhotoApi(GamePhotoListApi.GetRequest api) {
+        if (isDetached() || getActivity() == null) {
+            return;
+        }
+
+        if (api.isSuccessful()) {
+            ArrayList<GamePhoto> photoList = api.getResponseObj();
+            mApiState.addPageList(photoList);
+            mAdapter.notifyDataSetChanged();
+        } else {
+            // TODO error
+        }
+    }
+
+    @Override
+    public void onCanceledGamePhotoApi() {
+    }
+
+    private void startApiAsyncTask() {
+        if (mGamePhotoApiAsyncTask != null) {
+            return;
+        }
+
+        // TODO 取得する数変更
+        mGamePhotoApiAsyncTask = new GamePhotoApiAsyncTask(getUserToken(), this);
+        mGamePhotoApiAsyncTask.execute(mApiState.getNumPageItem());
+    }
+
+    private void stopApiAsyncTask() {
+        if (mGamePhotoApiAsyncTask != null) {
+            mGamePhotoApiAsyncTask.cancel(true);
+            mGamePhotoApiAsyncTask = null;
+        }
     }
 }
