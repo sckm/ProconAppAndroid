@@ -14,6 +14,8 @@ import android.widget.TextView;
 import java.util.Collections;
 
 import jp.gr.procon.proconapp.R;
+import jp.gr.procon.proconapp.api.GameResultListApi;
+import jp.gr.procon.proconapp.api.asynctask.GameResultApiAsyncTask;
 import jp.gr.procon.proconapp.dummymodel.DummyGameResultList;
 import jp.gr.procon.proconapp.model.GameResult;
 import jp.gr.procon.proconapp.model.GameResultList;
@@ -22,7 +24,9 @@ import jp.gr.procon.proconapp.ui.view.GameResultTitleRow;
 import jp.gr.procon.proconapp.util.JsonUtil;
 import timber.log.Timber;
 
-public class GameResultOutlineFragment extends BaseFragment implements View.OnClickListener {
+public class GameResultOutlineFragment extends BaseFragment implements
+        View.OnClickListener
+        , GameResultApiAsyncTask.GameResultApiListener {
     private static final int MAX_NUM_ROW = 3;
 
     public interface OnShowAllGameResultClickListener {
@@ -37,6 +41,7 @@ public class GameResultOutlineFragment extends BaseFragment implements View.OnCl
     private TableLayout mTableLayout;
     private GameResultList mGameResultList;
     private OnShowAllGameResultClickListener mOnShowAllGameResultClickListener;
+    private GameResultApiAsyncTask mGameResultApiAsyncTask;
 
     public GameResultOutlineFragment() {
     }
@@ -51,8 +56,8 @@ public class GameResultOutlineFragment extends BaseFragment implements View.OnCl
         super.onViewCreated(view, savedInstanceState);
 
         // TODO apiから取得
-        mGameResultList = JsonUtil.fromJson(DummyGameResultList.getDummyGameResultList(), GameResultList.class);
-        Timber.d(mGameResultList.toString());
+//        mGameResultList = JsonUtil.fromJson(DummyGameResultList.getDummyGameResultList(), GameResultList.class);
+//        Timber.d(mGameResultList.toString());
 
         // TODO icon
         ImageView iconImageView = (ImageView) view.findViewById(R.id.icon);
@@ -68,6 +73,20 @@ public class GameResultOutlineFragment extends BaseFragment implements View.OnCl
         if (mGameResultList != null) {
             setDataToView();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mGameResultList == null) {
+            startApiAsyncTask();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        stopApiAsyncTask();
+        super.onPause();
     }
 
     @Override
@@ -142,6 +161,47 @@ public class GameResultOutlineFragment extends BaseFragment implements View.OnCl
                 }
                 break;
         }
+    }
+
+
+    @Override
+    public void onPreExecuteGameResultApi() {
 
     }
+
+    @Override
+    public void onPostExecuteGameResultApi(GameResultListApi.GetRequest api) {
+        if (isDetached() || getActivity() == null) {
+            return;
+        }
+
+        if (api.isSuccessful()) {
+            mGameResultList = api.getResponseObj();
+            setDataToView();
+        } else {
+            // TODO error
+        }
+    }
+
+    @Override
+    public void onCanceledGameResultApi() {
+
+    }
+
+    private void startApiAsyncTask() {
+        if (mGameResultApiAsyncTask != null) {
+            return;
+        }
+
+        mGameResultApiAsyncTask = new GameResultApiAsyncTask(getUserToken(), this);
+        mGameResultApiAsyncTask.execute(3);
+    }
+
+    private void stopApiAsyncTask() {
+        if (mGameResultApiAsyncTask != null) {
+            mGameResultApiAsyncTask.cancel(true);
+            mGameResultApiAsyncTask = null;
+        }
+    }
 }
+
