@@ -12,17 +12,21 @@ import java.lang.ref.WeakReference;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.api.AuthApi;
 import jp.gr.procon.proconapp.api.BaseApi;
+import jp.gr.procon.proconapp.model.Notice;
 import jp.gr.procon.proconapp.model.User;
 import jp.gr.procon.proconapp.ui.adapter.HomeViewPagerAdapter;
+import jp.gr.procon.proconapp.ui.callback.OnNoticeClickListener;
 import jp.gr.procon.proconapp.ui.fragment.GameResultOutlineFragment;
 import jp.gr.procon.proconapp.ui.fragment.NoticeOutlineFragment;
 import jp.gr.procon.proconapp.ui.fragment.PhotoOutlineFragment;
 import jp.gr.procon.proconapp.util.AppSharedPreference;
+import timber.log.Timber;
 
 public class MainActivity extends BaseActivity implements
         NoticeOutlineFragment.OnShowAllNoticeClickListener
         , GameResultOutlineFragment.OnShowAllGameResultClickListener
-        , PhotoOutlineFragment.OnShowAllGamePhotoClickListener {
+        , PhotoOutlineFragment.OnShowAllGamePhotoClickListener
+        , OnNoticeClickListener {
 
     private final WeakReference<MainActivity> wkRef = new WeakReference<>(this);
 
@@ -81,6 +85,13 @@ public class MainActivity extends BaseActivity implements
 
     public void onShowAllGamePhotoClick() {
         Intent intent = GamePhotoListActivity.createIntent(this);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onNoticeClick(Notice notice) {
+        Timber.d("onNoticeClick: ");
+        Intent intent = NoticeDetailActivity.createIntent(this, notice.getId());
         startActivity(intent);
     }
 

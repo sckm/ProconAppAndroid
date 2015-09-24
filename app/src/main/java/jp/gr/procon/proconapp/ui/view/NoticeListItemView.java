@@ -21,8 +21,8 @@ public class NoticeListItemView {
 
     public void bindTo(Notice notice) {
         // TODO テキスト変更
-        mTitleText.setText(notice.getmTitle());
-        mPublishedAtText.setText(notice.getmPublishedAt() + "");
+        mTitleText.setText(notice.getTitle());
+        mPublishedAtText.setText(notice.getPublishedAt() + "");
     }
 
 }

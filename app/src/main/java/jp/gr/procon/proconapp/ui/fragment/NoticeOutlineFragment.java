@@ -15,6 +15,7 @@ import jp.gr.procon.proconapp.api.asynctask.NoticeApiAsyncTask;
 import jp.gr.procon.proconapp.dummymodel.DummyNotice;
 import jp.gr.procon.proconapp.model.Notice;
 import jp.gr.procon.proconapp.model.NoticeList;
+import jp.gr.procon.proconapp.ui.callback.OnNoticeClickListener;
 import jp.gr.procon.proconapp.ui.view.NoticeListItemView;
 import jp.gr.procon.proconapp.util.JsonUtil;
 import timber.log.Timber;
@@ -34,6 +35,7 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
     private ViewGroup mBodyLayout;
     private NoticeList mNoticeList;
     private OnShowAllNoticeClickListener mOnShowAllNoticeClickListener;
+    private OnNoticeClickListener mOnNoticeClickListener;
 
     private NoticeApiAsyncTask mNoticeApiAsyncTask;
 
@@ -104,12 +106,21 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
         } else {
             throw new RuntimeException("parent or activity must implement listener");
         }
+
+        if (parent != null && parent instanceof OnNoticeClickListener) {
+            mOnNoticeClickListener = (OnNoticeClickListener) parent;
+        } else if (activity instanceof OnShowAllNoticeClickListener) {
+            mOnNoticeClickListener = (OnNoticeClickListener) activity;
+        } else {
+            throw new RuntimeException("parent or activity must implement listener");
+        }
     }
 
     @Override
     public void onDetach() {
-        mOnShowAllNoticeClickListener = null;
         super.onDetach();
+        mOnNoticeClickListener = null;
+        mOnShowAllNoticeClickListener = null;
     }
 
     private void setDataToView() {
@@ -117,10 +128,18 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
             return;
         }
         LayoutInflater inflater = LayoutInflater.from(mBodyLayout.getContext());
-        for (Notice notice : mNoticeList.subList(0, Math.min(mNoticeList.size(), MAX_NUM_ROW))) {
+        for (final Notice notice : mNoticeList.subList(0, Math.min(mNoticeList.size(), MAX_NUM_ROW))) {
             View v = inflater.inflate(NoticeListItemView.RESOURECE_ID, mBodyLayout, false);
             NoticeListItemView itemView = new NoticeListItemView(v);
             itemView.bindTo(notice);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnNoticeClickListener != null) {
+                        mOnNoticeClickListener.onNoticeClick(notice);
+                    }
+                }
+            });
             mBodyLayout.addView(v);
         }
 

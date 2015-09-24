@@ -4,8 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Notice implements Serializable {
-
+public class NoticeDetail implements Serializable {
     @SerializedName("id")
     private Long mId;
 
@@ -15,32 +14,29 @@ public class Notice implements Serializable {
     @SerializedName("published_at")
     private Long mPublishedAt;
 
+    @SerializedName("body")
+    private String mBody;
+
     @SerializedName("body_size")
     private Long mBodySize;
 
-    public Long getId() {
+    public Long getmId() {
         return mId;
     }
 
-    public String getTitle() {
+    public String getmTitle() {
         return mTitle;
     }
 
-    public Long getPublishedAt() {
+    public Long getmPublishedAt() {
         return mPublishedAt;
     }
 
-    public Long getBodySize() {
-        return mBodySize;
+    public String getBody() {
+        return mBody;
     }
 
-    @Override
-    public String toString() {
-        return "Notice{" +
-                "mId=" + mId +
-                ", mTitle='" + mTitle + '\'' +
-                ", mPublishedAt=" + mPublishedAt +
-                ", mBodySize=" + mBodySize +
-                '}';
+    public Long getmBodySize() {
+        return mBodySize;
     }
 }

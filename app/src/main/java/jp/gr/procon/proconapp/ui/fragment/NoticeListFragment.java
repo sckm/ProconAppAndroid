@@ -1,6 +1,8 @@
 package jp.gr.procon.proconapp.ui.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,21 +16,24 @@ import jp.gr.procon.proconapp.model.Notice;
 import jp.gr.procon.proconapp.model.PageApiState;
 import jp.gr.procon.proconapp.ui.adapter.NoticeListAdapter;
 import jp.gr.procon.proconapp.ui.callback.OnGetViewListener;
+import jp.gr.procon.proconapp.ui.callback.OnNoticeClickListener;
 
 public class NoticeListFragment extends BaseFragment implements
         NoticeApiAsyncTask.NoticeApiListener
         , OnGetViewListener {
     private static final String STATE_PAGE_API_STATE = "state_page_api_state";
+    private RecyclerView mRecyclerView;
+
+    private NoticeListAdapter mAdapter;
+
+    private PageApiState<Notice> mNoticePageApiState;
+    private NoticeApiAsyncTask mNoticeApiAsyncTask;
+    private OnNoticeClickListener mOnNoticeClickListener;
 
     public static NoticeListFragment newInstance() {
         NoticeListFragment fragment = new NoticeListFragment();
         return fragment;
     }
-
-    private RecyclerView mRecyclerView;
-    private NoticeListAdapter mAdapter;
-    private PageApiState<Notice> mNoticePageApiState;
-    private NoticeApiAsyncTask mNoticeApiAsyncTask;
 
     public NoticeListFragment() {
     }
@@ -57,6 +62,14 @@ public class NoticeListFragment extends BaseFragment implements
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new NoticeListAdapter(mNoticePageApiState.getItems());
         mAdapter.setOnGetViewListener(this);
+        mAdapter.setOnNoticeItemClickListener(new NoticeListAdapter.OnNoticeItemClickListener() {
+            @Override
+            public void onNoticeItemClick(Notice notice) {
+                if (mOnNoticeClickListener != null) {
+                    mOnNoticeClickListener.onNoticeClick(notice);
+                }
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -75,9 +88,27 @@ public class NoticeListFragment extends BaseFragment implements
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        Fragment parent = getParentFragment();
+        if (parent != null && parent instanceof OnNoticeClickListener) {
+            mOnNoticeClickListener = (OnNoticeClickListener) parent;
+        } else if (activity instanceof OnNoticeClickListener) {
+            mOnNoticeClickListener = (OnNoticeClickListener) activity;
+        } else {
+            throw new RuntimeException("parent or activity must implement listener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mOnNoticeClickListener = null;
+    }
+
+    @Override
     public void onDestroyView() {
         mRecyclerView.setAdapter(null);
-        mRecyclerView = null;
         super.onDestroyView();
     }
 

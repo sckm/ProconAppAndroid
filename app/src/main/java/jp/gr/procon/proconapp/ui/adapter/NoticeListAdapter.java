@@ -1,16 +1,12 @@
 package jp.gr.procon.proconapp.ui.adapter;
 
-import android.content.ClipData;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.model.Notice;
@@ -20,8 +16,13 @@ import jp.gr.procon.proconapp.ui.view.NoticeListItemView;
 // TODO progress 表示
 public class NoticeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public interface OnNoticeItemClickListener {
+        void onNoticeItemClick(Notice notice);
+    }
+
     private ArrayList<Notice> mItems;
     private OnGetViewListener mOnGetViewListener;
+    private OnNoticeItemClickListener mOnNoticeItemClickListener;
 
     public NoticeListAdapter(ArrayList<Notice> items) {
         mItems = items;
@@ -34,7 +35,7 @@ public class NoticeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ItemViewHolder) holder).bindTo(mItems.get(position));
+        ((ItemViewHolder) holder).bindTo(mItems.get(position), mOnNoticeItemClickListener);
         if (mOnGetViewListener != null) {
             mOnGetViewListener.OnGetView(this, position);
         }
@@ -47,6 +48,10 @@ public class NoticeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void setOnGetViewListener(OnGetViewListener onGetViewListener) {
         mOnGetViewListener = onGetViewListener;
+    }
+
+    public void setOnNoticeItemClickListener(OnNoticeItemClickListener onNoticeItemClickListener) {
+        mOnNoticeItemClickListener = onNoticeItemClickListener;
     }
 
     private static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -65,10 +70,18 @@ public class NoticeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             mPublishedAtText = (TextView) itemView.findViewById(R.id.text_published_at);
         }
 
-        public void bindTo(Notice item) {
+        public void bindTo(final Notice item, final OnNoticeItemClickListener onNoticeItemClickListener) {
             // TODO テキスト変更
-            mTitleText.setText(item.getmTitle());
-            mPublishedAtText.setText(item.getmPublishedAt() + "");
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onNoticeItemClickListener != null) {
+                        onNoticeItemClickListener.onNoticeItemClick(item);
+                    }
+                }
+            });
+            mTitleText.setText(item.getTitle());
+            mPublishedAtText.setText(item.getPublishedAt() + "");
         }
     }
 }
