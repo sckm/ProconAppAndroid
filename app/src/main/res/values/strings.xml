@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">ProconApp</string>
 
+    <!-- menu -->
     <string name="action_settings">Settings</string>
+    <string name="action_access">アクセス</string>
+    <string name="action_program">プログラム</string>
 
     <string name="btn_show_all">すべて表示</string>
     <string name="title_outline_notice">お知らせ</string>

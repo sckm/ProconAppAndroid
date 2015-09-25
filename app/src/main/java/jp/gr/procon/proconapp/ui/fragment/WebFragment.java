@@ -13,17 +13,32 @@ import android.webkit.WebViewClient;
 import jp.gr.procon.proconapp.R;
 
 public class WebFragment extends BaseFragment {
+    private static final String ARG_URL = "arg_url";
     private static final String ARG_DATA = "arg_data";
     private static final String MINE_TYPE_TEXT_PLAIN = "text/html";
     private static final String ENCODING_UTF8 = "utf8";
 
-
     private WebView mWebView;
+    private String mUrlString;
     private String mDataString;
 
+    public static WebFragment newInstance(String url) {
+        return newInstance(url, null);
+    }
+
     public static WebFragment newInstanceWithData(String data) {
+        return newInstance(null, data);
+    }
+
+    /**
+     * @param url  loadUrlで開くページurl
+     * @param data loadDataWithBaseUrlで表示するhtmlデータ
+     * @return WebFragment
+     */
+    private static WebFragment newInstance(String url, String data) {
         WebFragment fragment = new WebFragment();
         Bundle args = new Bundle();
+        args.putString(ARG_URL, url);
         args.putString(ARG_DATA, data);
         fragment.setArguments(args);
         return fragment;
@@ -36,6 +51,7 @@ public class WebFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            mUrlString = getArguments().getString(ARG_URL);
             mDataString = getArguments().getString(ARG_DATA);
         }
     }
@@ -69,7 +85,9 @@ public class WebFragment extends BaseFragment {
             }
         });
 
-        if (!TextUtils.isEmpty(mDataString)) {
+        if (!TextUtils.isEmpty(mUrlString)) {
+            mWebView.loadUrl(mUrlString);
+        } else if (!TextUtils.isEmpty(mDataString)) {
             mWebView.loadDataWithBaseURL(null, mDataString, MINE_TYPE_TEXT_PLAIN, ENCODING_UTF8, null);
         }
 
