@@ -10,4 +10,7 @@
     <string name="title_outline_notice">お知らせ</string>
     <string name="title_outline_game_result">競技部門速報</string>
     <string name="title_outline_game_photo">写真</string>
+    <string name="title_setting_notice">通知設定</string>
+    <string name="title_setting_license">ライセンス表示</string>
+    <string name="title_setting_version">バージョン</string>
 </resources>

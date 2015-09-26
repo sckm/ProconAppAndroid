@@ -20,6 +20,8 @@ public class BaseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
+                Intent settingIntent = SettingActivity.createIntent(this);
+                startActivity(settingIntent);
                 return true;
 
             case R.id.action_program:
