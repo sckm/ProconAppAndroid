@@ -43,6 +43,10 @@
             android:name=".ui.activity.SettingActivity"
             android:launchMode="singleTask">
         </activity>
+        <activity
+            android:name=".ui.activity.NoticeSettingActivity">
+        </activity>
+
     </application>
 
 </manifest>

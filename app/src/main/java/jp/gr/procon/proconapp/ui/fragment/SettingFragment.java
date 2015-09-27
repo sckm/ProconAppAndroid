@@ -3,6 +3,7 @@ package jp.gr.procon.proconapp.ui.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,13 @@ import android.widget.TextView;
 import jp.gr.procon.proconapp.R;
 
 public class SettingFragment extends BaseFragment implements View.OnClickListener {
+    public interface OnClickSettingItemListener {
+        void onClickNoticeSetting();
+
+        void onClickLicense();
+    }
+
+    private OnClickSettingItemListener mOnClickSettingItemListener;
 
     public static SettingFragment newInstance() {
         SettingFragment fragment = new SettingFragment();
@@ -49,11 +57,20 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        Fragment fragment = getParentFragment();
+        if (fragment != null && fragment instanceof OnClickSettingItemListener) {
+            mOnClickSettingItemListener = (OnClickSettingItemListener) fragment;
+        } else if (activity instanceof OnClickSettingItemListener) {
+            mOnClickSettingItemListener = (OnClickSettingItemListener) activity;
+        } else {
+            throw new RuntimeException("parent fragment or activity mush implements OnClickSettingItemListener");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        mOnClickSettingItemListener = null;
     }
 
     @Override
@@ -61,9 +78,15 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         int id = v.getId();
         switch (id) {
             case R.id.item_notice:
+                if (mOnClickSettingItemListener != null) {
+                    mOnClickSettingItemListener.onClickNoticeSetting();
+                }
                 break;
 
             case R.id.item_license:
+                if (mOnClickSettingItemListener != null) {
+                    mOnClickSettingItemListener.onClickLicense();
+                }
                 break;
 
             default:

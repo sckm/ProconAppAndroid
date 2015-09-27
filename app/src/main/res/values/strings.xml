@@ -13,4 +13,6 @@
     <string name="title_setting_notice">通知設定</string>
     <string name="title_setting_license">ライセンス表示</string>
     <string name="title_setting_version">バージョン</string>
+    <string name="btn_cancel">キャンセル</string>
+    <string name="btn_submit">完了</string>
 </resources>

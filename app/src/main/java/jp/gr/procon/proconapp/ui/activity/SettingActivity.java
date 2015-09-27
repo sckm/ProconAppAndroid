@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.ui.fragment.SettingFragment;
 
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity implements SettingFragment.OnClickSettingItemListener {
     public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, SettingActivity.class);
         return intent;
@@ -36,5 +36,16 @@ public class SettingActivity extends BaseActivity {
             return true;
         }
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void onClickNoticeSetting() {
+        Intent intent = NoticeSettingActivity.createIntent(this);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClickLicense() {
+// TODO license
     }
 }
