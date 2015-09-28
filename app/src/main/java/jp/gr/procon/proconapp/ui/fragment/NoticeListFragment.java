@@ -17,6 +17,7 @@ import jp.gr.procon.proconapp.model.PageApiState;
 import jp.gr.procon.proconapp.ui.adapter.NoticeListAdapter;
 import jp.gr.procon.proconapp.ui.callback.OnGetViewListener;
 import jp.gr.procon.proconapp.ui.callback.OnNoticeClickListener;
+import jp.gr.procon.proconapp.ui.view.DividerItemDecoration;
 
 public class NoticeListFragment extends BaseFragment implements
         NoticeApiAsyncTask.NoticeApiListener
@@ -60,6 +61,7 @@ public class NoticeListFragment extends BaseFragment implements
         // TODO リストの下の方へいくと自動で次ページを読み込むようにする
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         mAdapter = new NoticeListAdapter(mNoticePageApiState.getItems());
         mAdapter.setOnGetViewListener(this);
         mAdapter.setOnNoticeItemClickListener(new NoticeListAdapter.OnNoticeItemClickListener() {

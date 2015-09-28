@@ -3,7 +3,11 @@
     android:id="@+id/notice_list_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/spacing_medium"
+    android:paddingLeft="@dimen/spacing_medium"
+    android:paddingRight="@dimen/spacing_medium"
+    android:paddingTop="@dimen/spacing_medium">
 
 
     <ImageView
@@ -12,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:src="@mipmap/procon_icon"/>
+        android:src="@drawable/ic_chevron_right_black_24dp"/>
 
     <LinearLayout
         android:id="@+id/text_layout"
@@ -25,12 +29,16 @@
         <TextView
             android:id="@+id/text_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_medium"/>
 
         <TextView
             android:id="@+id/text_published_at"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_micro"/>
 
     </LinearLayout>
 

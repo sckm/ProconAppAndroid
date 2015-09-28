@@ -128,6 +128,8 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
             return;
         }
         LayoutInflater inflater = LayoutInflater.from(mBodyLayout.getContext());
+        View divider = inflater.inflate(R.layout.item_divider, mBodyLayout, false);
+        mBodyLayout.addView(divider);
         for (final Notice notice : mNoticeList.subList(0, Math.min(mNoticeList.size(), MAX_NUM_ROW))) {
             View v = inflater.inflate(NoticeListItemView.RESOURECE_ID, mBodyLayout, false);
             NoticeListItemView itemView = new NoticeListItemView(v);
@@ -141,6 +143,9 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
                 }
             });
             mBodyLayout.addView(v);
+
+            divider = inflater.inflate(R.layout.item_divider, mBodyLayout, false);
+            mBodyLayout.addView(divider);
         }
 
     }

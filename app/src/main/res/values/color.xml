@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="divider_gray">#FFAAAAAA</color>
+
+    <color name="text_primary">#DD000000</color>
+    <color name="text_secondary">#44000000</color>
+
+    <color name="text_accent_dark_blue">#AA0055CC</color>
+
+</resources>

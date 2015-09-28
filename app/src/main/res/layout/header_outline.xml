@@ -1,12 +1,14 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="@dimen/spacing_medium">
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"/>
 
 
     <TextView
@@ -14,13 +16,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="@string/btn_show_all" />
+        android:text="@string/btn_show_all"
+        android:textColor="@color/text_accent_dark_blue"
+        android:textSize="@dimen/text_medium"/>
 
     <TextView
         android:id="@+id/outline_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/outline_show_all"
-        android:layout_toRightOf="@id/icon" />
+        android:layout_toRightOf="@id/icon"
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/text_large"/>
 
 </RelativeLayout>
