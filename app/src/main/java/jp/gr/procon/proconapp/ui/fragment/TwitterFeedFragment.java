@@ -15,6 +15,7 @@ import jp.gr.procon.proconapp.api.SocialTwitterApi;
 import jp.gr.procon.proconapp.model.FeedTwitterStatus;
 import jp.gr.procon.proconapp.model.PageApiState;
 import jp.gr.procon.proconapp.ui.adapter.TwitterFeedRecyclerAdapter;
+import jp.gr.procon.proconapp.ui.view.DividerItemDecoration;
 
 public class TwitterFeedFragment extends BaseFragment {
 
@@ -52,6 +53,7 @@ public class TwitterFeedFragment extends BaseFragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mAdapter = new TwitterFeedRecyclerAdapter(mApiState.getItems());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
 
     }

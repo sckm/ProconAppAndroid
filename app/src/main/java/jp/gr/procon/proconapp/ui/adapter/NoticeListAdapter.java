@@ -12,6 +12,7 @@ import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.model.Notice;
 import jp.gr.procon.proconapp.ui.callback.OnGetViewListener;
 import jp.gr.procon.proconapp.ui.view.NoticeListItemView;
+import jp.gr.procon.proconapp.util.DateUtil;
 
 // TODO progress 表示
 public class NoticeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -81,7 +82,7 @@ public class NoticeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
             });
             mTitleText.setText(item.getTitle());
-            mPublishedAtText.setText(item.getPublishedAt() + "");
+            mPublishedAtText.setText(DateUtil.timeToPostDate(item.getPublishedAt()));
         }
     }
 }

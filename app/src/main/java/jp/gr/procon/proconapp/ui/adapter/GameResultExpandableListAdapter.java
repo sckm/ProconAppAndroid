@@ -1,5 +1,6 @@
 package jp.gr.procon.proconapp.ui.adapter;
 
+import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +9,13 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.model.GameResult;
 import jp.gr.procon.proconapp.model.PlayerResult;
+import jp.gr.procon.proconapp.util.DateUtil;
 
 public class GameResultExpandableListAdapter extends BaseExpandableListAdapter {
     private ArrayList<GameResult> mItems;
@@ -69,7 +73,19 @@ public class GameResultExpandableListAdapter extends BaseExpandableListAdapter {
         GameResult groupItem = getGroup(groupPosition);
 
         holder.mTitleText.setText(groupItem.getTitle());
-        holder.mDateText.setText(groupItem.getStartedAt() + " - " + groupItem.getFinishedAt());
+
+        Calendar startedCal = Calendar.getInstance();
+        startedCal.setTimeInMillis(groupItem.getStartedAt());
+        Calendar finishedCal = Calendar.getInstance();
+        finishedCal.setTimeInMillis(groupItem.getFinishedAt());
+
+        String dateFormat = "hh:mm";
+
+        String startedAt = DateFormat.format(dateFormat, startedCal).toString();
+        String finishedAt = DateFormat.format(dateFormat, finishedCal).toString();
+        String gameResultDateFormat = "開始: %1$s - 終了: %2$s";
+
+        holder.mDateText.setText(String.format(gameResultDateFormat, startedAt, finishedAt));
 
         return convertView;
     }

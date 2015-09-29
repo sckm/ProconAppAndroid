@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.model.Notice;
+import jp.gr.procon.proconapp.util.DateUtil;
 
 public class NoticeListItemView {
     public static final int RESOURECE_ID = R.layout.item_notice_list;
@@ -20,9 +21,8 @@ public class NoticeListItemView {
     }
 
     public void bindTo(Notice notice) {
-        // TODO テキスト変更
         mTitleText.setText(notice.getTitle());
-        mPublishedAtText.setText(notice.getPublishedAt() + "");
+        mPublishedAtText.setText(DateUtil.timeToPostDate(notice.getPublishedAt()));
     }
 
 }

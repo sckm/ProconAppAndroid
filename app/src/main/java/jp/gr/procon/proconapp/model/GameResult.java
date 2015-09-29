@@ -21,9 +21,11 @@ public class GameResult implements Serializable {
     @SerializedName("result")
     private ArrayList<PlayerResult> mResult;
 
+    /** unix time(ms) */
     @SerializedName("started_at")
     private Long mStartedAt;
 
+    /** unix time(ms) */
     @SerializedName("finished_at")
     private Long mFinishedAt;
 
@@ -44,10 +46,10 @@ public class GameResult implements Serializable {
     }
 
     public Long getStartedAt() {
-        return mStartedAt;
+        return mStartedAt * 1000;
     }
 
     public Long getFinishedAt() {
-        return mFinishedAt;
+        return mFinishedAt * 1000;
     }
 }

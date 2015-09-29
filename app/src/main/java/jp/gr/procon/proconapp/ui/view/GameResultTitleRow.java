@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.model.GameResult;
+import jp.gr.procon.proconapp.util.DateUtil;
 
 public class GameResultTitleRow extends TableRow {
     private TextView mTitleText;
@@ -38,7 +39,7 @@ public class GameResultTitleRow extends TableRow {
 
         switch (gameResult.getStatus()) {
             case GameResult.STATUS_GAME_ENDED:
-                mStartedAtText.setText(mGameResult.getStartedAt() + "");
+                mStartedAtText.setText(DateUtil.timeToPostDate(gameResult.getStartedAt()));
                 break;
 
             case GameResult.STATUS_GAME_PROGRESS:

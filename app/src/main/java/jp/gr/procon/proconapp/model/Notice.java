@@ -12,6 +12,7 @@ public class Notice implements Serializable {
     @SerializedName("title")
     private String mTitle;
 
+    /** unix time(ms) */
     @SerializedName("published_at")
     private Long mPublishedAt;
 
@@ -27,7 +28,7 @@ public class Notice implements Serializable {
     }
 
     public Long getPublishedAt() {
-        return mPublishedAt;
+        return mPublishedAt * 1000;
     }
 
     public Long getBodySize() {
