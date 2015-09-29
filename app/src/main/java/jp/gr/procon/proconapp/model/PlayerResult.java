@@ -3,6 +3,7 @@ package jp.gr.procon.proconapp.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class PlayerResult implements Serializable, Comparable<PlayerResult> {
     @SerializedName("player")
@@ -10,6 +11,12 @@ public class PlayerResult implements Serializable, Comparable<PlayerResult> {
 
     @SerializedName("score")
     private Long mScore;
+
+    @SerializedName("scores")
+    private ArrayList<Long> mScores;
+
+    @SerializedName("advance")
+    private boolean mAdvance;
 
     @SerializedName("rank")
     private Integer mRank;
@@ -20,6 +27,14 @@ public class PlayerResult implements Serializable, Comparable<PlayerResult> {
 
     public Long getScore() {
         return mScore;
+    }
+
+    public ArrayList<Long> getScores() {
+        return mScores;
+    }
+
+    public boolean isAdvance() {
+        return mAdvance;
     }
 
     public Integer getRank() {

@@ -16,13 +16,10 @@ import java.util.Collections;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.api.GameResultListApi;
 import jp.gr.procon.proconapp.api.asynctask.GameResultApiAsyncTask;
-import jp.gr.procon.proconapp.dummymodel.DummyGameResultList;
 import jp.gr.procon.proconapp.model.GameResult;
 import jp.gr.procon.proconapp.model.GameResultList;
 import jp.gr.procon.proconapp.model.PlayerResult;
 import jp.gr.procon.proconapp.ui.view.GameResultTitleRow;
-import jp.gr.procon.proconapp.util.JsonUtil;
-import timber.log.Timber;
 
 public class GameResultOutlineFragment extends BaseFragment implements
         View.OnClickListener
@@ -61,6 +58,7 @@ public class GameResultOutlineFragment extends BaseFragment implements
 
         // TODO icon
         ImageView iconImageView = (ImageView) view.findViewById(R.id.icon);
+        iconImageView.setImageResource(R.drawable.news);
 
         TextView titleTextView = (TextView) view.findViewById(R.id.outline_title);
         titleTextView.setText(R.string.title_outline_game_result);
@@ -119,6 +117,9 @@ public class GameResultOutlineFragment extends BaseFragment implements
             return;
         }
         LayoutInflater inflater = LayoutInflater.from(mTableLayout.getContext());
+        View divider = inflater.inflate(R.layout.item_divider, mTableLayout, false);
+        divider.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+        mTableLayout.addView(divider);
         for (GameResult result : mGameResultList.subList(0, Math.min(mGameResultList.size(), MAX_NUM_ROW))) {
             Collections.sort(result.getResult());
 
@@ -143,10 +144,15 @@ public class GameResultOutlineFragment extends BaseFragment implements
                         infoText.setText(playerResult.getScore() + "zk");
                         break;
                 }
-                titleText.setText(playerResult.getPlayer().getmShortName());
+                titleText.setText(playerResult.getPlayer().getShortName());
             }
 
             mTableLayout.addView(row);
+
+            // 区切り線
+            divider = inflater.inflate(R.layout.item_divider, mTableLayout, false);
+            divider.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+            mTableLayout.addView(divider);
         }
 
     }

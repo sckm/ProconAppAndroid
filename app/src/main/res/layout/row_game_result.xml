@@ -2,7 +2,10 @@
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:orientation="vertical">
+          android:orientation="vertical"
+          android:paddingBottom="@dimen/spacing_small"
+          android:paddingLeft="@dimen/spacing_large"
+          android:paddingRight="@dimen/spacing_medium">
 
     <include
         layout="@layout/row_item_game_result"/>

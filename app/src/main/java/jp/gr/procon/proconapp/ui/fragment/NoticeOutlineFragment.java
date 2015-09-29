@@ -57,6 +57,7 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
 
         // TODO icon
         ImageView iconImageView = (ImageView) view.findViewById(R.id.icon);
+        iconImageView.setImageResource(R.drawable.notice);
 
         TextView titleTextView = (TextView) view.findViewById(R.id.outline_title);
         titleTextView.setText(R.string.title_outline_notice);

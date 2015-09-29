@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/spacing_medium"
-    android:paddingLeft="@dimen/spacing_medium"
+    android:paddingLeft="@dimen/spacing_large"
     android:paddingRight="@dimen/spacing_medium"
     android:paddingTop="@dimen/spacing_medium">
 

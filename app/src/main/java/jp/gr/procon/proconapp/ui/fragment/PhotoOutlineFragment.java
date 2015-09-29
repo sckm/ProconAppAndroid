@@ -58,8 +58,8 @@ public class PhotoOutlineFragment extends BaseFragment implements
         // TODO savedInstanceState
 
         // TODO headerをviewかfragmentへまとめる
-        // TODO icon
         ImageView iconImageView = (ImageView) view.findViewById(R.id.icon);
+        iconImageView.setImageResource(R.drawable.photo);
 
         TextView titleTextView = (TextView) view.findViewById(R.id.outline_title);
         titleTextView.setText(R.string.title_outline_game_photo);

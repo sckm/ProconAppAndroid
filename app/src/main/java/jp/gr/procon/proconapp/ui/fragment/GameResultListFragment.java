@@ -61,7 +61,7 @@ public class GameResultListFragment extends BaseFragment
         mExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                return true;
+                return false;
             }
         });
         int groupCount = mAdapter.getGroupCount();
@@ -139,7 +139,7 @@ public class GameResultListFragment extends BaseFragment
 
         mGameResultApiAsyncTask = new GameResultApiAsyncTask(getUserToken(), this);
         // TODO 取得数変更
-        mGameResultApiAsyncTask.execute(10);
+        mGameResultApiAsyncTask.execute(50);
     }
 
     private void stopApiAsyncTask() {

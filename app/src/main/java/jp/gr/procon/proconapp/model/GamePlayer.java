@@ -14,15 +14,15 @@ public class GamePlayer implements Serializable {
     @SerializedName("short_name")
     private String mShortName;
 
-    public Long getmId() {
+    public Long getId() {
         return mId;
     }
 
-    public String getmName() {
+    public String getName() {
         return mName;
     }
 
-    public String getmShortName() {
+    public String getShortName() {
         return mShortName;
     }
 }

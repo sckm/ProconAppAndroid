@@ -1,5 +1,6 @@
 package jp.gr.procon.proconapp.ui.adapter;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,8 +89,11 @@ public class GameResultExpandableListAdapter extends BaseExpandableListAdapter {
 
         // TODO format
         holder.mRankText.setText(item.getRank() + "");
-        holder.mTitleText.setText(item.getPlayer().getmShortName());
-        holder.mScoreText.setText(item.getScore() + "zk");
+        holder.mRankText.setBackgroundResource(item.isAdvance() ? R.drawable.background_circle_red : R.drawable.background_circle_blue);
+
+        holder.mTitleText.setText(item.getPlayer().getName());
+        String score = item.getScore() < 0 ? "未回答" : item.getScore() + "zk";
+        holder.mScoreText.setText(score);
 
         return convertView;
 
