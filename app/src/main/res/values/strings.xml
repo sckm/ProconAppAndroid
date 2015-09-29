@@ -2,7 +2,7 @@
     <string name="app_name">ProconApp</string>
 
     <!-- menu -->
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">設定</string>
     <string name="action_access">アクセス</string>
     <string name="action_program">プログラム</string>
 
