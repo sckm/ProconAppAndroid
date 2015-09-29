@@ -21,6 +21,7 @@ import jp.gr.procon.proconapp.model.Player;
 import jp.gr.procon.proconapp.model.PlayerCheckedItem;
 import jp.gr.procon.proconapp.model.PlayerList;
 import jp.gr.procon.proconapp.ui.adapter.NoticeSettingAdapter;
+import jp.gr.procon.proconapp.ui.view.DividerItemDecoration;
 import jp.gr.procon.proconapp.util.JsonUtil;
 import timber.log.Timber;
 
@@ -67,6 +68,7 @@ public class NoticeSettingFragment extends BaseFragment implements
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(view.getContext()));
         mNoticeSettingAdapter = new NoticeSettingAdapter(items);
         mNoticeSettingAdapter.setOnChangeCheckListener(this);
         mRecyclerView.setAdapter(mNoticeSettingAdapter);

@@ -106,7 +106,6 @@ public class NoticeSettingAdapter extends RecyclerView.Adapter<RecyclerView.View
             mNameText.setText(item.getPlayer().getName());
             mCheckBox.setChecked(item.isCheck());
             if (isClickable) {
-                Timber.d("bindTo: true");
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
