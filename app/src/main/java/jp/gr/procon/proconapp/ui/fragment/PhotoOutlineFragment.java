@@ -24,7 +24,7 @@ import timber.log.Timber;
 public class PhotoOutlineFragment extends BaseFragment implements
         View.OnClickListener
         , GamePhotoApiAsyncTask.GamePhotoApiListener {
-    private static final int MAX_NUM_PHOTO = 3;
+    private static final int MAX_NUM_PHOTO = 4;
     private static final int[] THUMBNAIL_IMAGE_RES_IS = new int[]{R.id.image1, R.id.image2};
 
     public interface OnShowAllGamePhotoClickListener {
@@ -128,8 +128,8 @@ public class PhotoOutlineFragment extends BaseFragment implements
             // TODO 画像表示サイズ調整
             Glide.with(this)
                     .load(photo.getmThumbnailUrl())
-//                    .centerCrop()
-                    .fitCenter()
+                    .centerCrop()
+//                    .fitCenter()
                     .into(imageView);
             i++;
         }

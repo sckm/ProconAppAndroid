@@ -17,6 +17,8 @@ import jp.gr.procon.proconapp.model.GamePhoto;
 import jp.gr.procon.proconapp.model.GamePhotoList;
 import jp.gr.procon.proconapp.model.PageApiState;
 import jp.gr.procon.proconapp.ui.adapter.GamePhotoRecyclerAdapter;
+import jp.gr.procon.proconapp.ui.view.DividerItemDecoration;
+import jp.gr.procon.proconapp.ui.view.GridDividerItemDecoration;
 import jp.gr.procon.proconapp.util.JsonUtil;
 import timber.log.Timber;
 
@@ -51,12 +53,13 @@ public class GamePhotoListFragment extends BaseFragment implements
         }
 
         if (mApiState == null) {
-            mApiState = new PageApiState<>();
+            mApiState = new PageApiState<>(50);
         }
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mAdapter = new GamePhotoRecyclerAdapter(mApiState.getItems());
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mRecyclerView.addItemDecoration(new GridDividerItemDecoration(getActivity(), 2));
         mRecyclerView.setAdapter(mAdapter);
 
     }

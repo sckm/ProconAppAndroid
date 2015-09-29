@@ -57,7 +57,7 @@ public class GamePhotoRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
         public void bindTo(GamePhoto photo) {
             Glide.with(itemView.getContext())
                     .load(photo.getmThumbnailUrl())
-                    .fitCenter()
+                    .centerCrop()
                     .into(mThumbnailView);
         }
 
