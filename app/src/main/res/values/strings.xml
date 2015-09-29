@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">ProconApp</string>
 
+    <string name="title_activity_home">ホーム</string>
+    <string name="title_activity_notice">お知らせ</string>
+    <string name="title_activity_game_result">競技結果</string>
+    <string name="title_activity_photo">写真</string>
+    <string name="title_activity_access">アクセス</string>
+    <string name="title_activity_program">プログラム</string>
+    <string name="title_activity_setting">設定</string>
+    <string name="title_activity_notice_setting">通知設定</string>
+
+
     <!-- menu -->
     <string name="action_settings">設定</string>
     <string name="action_access">アクセス</string>
