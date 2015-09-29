@@ -9,11 +9,27 @@
         layout="@layout/item_setting_list"/>
 
     <include
+        layout="@layout/item_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <include
         android:id="@+id/item_license"
         layout="@layout/item_setting_list"/>
 
     <include
+        layout="@layout/item_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <include
         android:id="@+id/item_version"
         layout="@layout/item_setting_list"/>
+
+    <include
+        layout="@layout/item_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 
 </LinearLayout>

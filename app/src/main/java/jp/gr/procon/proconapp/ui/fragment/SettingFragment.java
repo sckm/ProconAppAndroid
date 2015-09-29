@@ -1,6 +1,9 @@
 package jp.gr.procon.proconapp.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -50,7 +53,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         ((TextView) version.findViewById(R.id.title_text)).setText(R.string.title_setting_version);
         // TODO version
         TextView versionText = (TextView) version.findViewById(R.id.body_text);
-        versionText.setText("version");
+        versionText.setText(getVersionName(getActivity()));
         versionText.setVisibility(View.VISIBLE);
     }
 
@@ -92,5 +95,17 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             default:
                 break;
         }
+    }
+
+    public static String getVersionName(Context context) {
+        PackageManager pm = context.getPackageManager();
+        String versionName = "";
+        try {
+            PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), 0);
+            versionName = packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionName;
     }
 }
