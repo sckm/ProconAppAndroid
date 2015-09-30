@@ -20,9 +20,17 @@ public class NoticeListItemView {
         mPublishedAtText = (TextView) v.findViewById(R.id.text_published_at);
     }
 
-    public void bindTo(Notice notice) {
+    public void bindTo(Notice notice, View.OnClickListener listener) {
+        mRoot.setOnClickListener(listener);
         mTitleText.setText(notice.getTitle());
         mPublishedAtText.setText(DateUtil.timeToPostDate(notice.getPublishedAt()));
     }
 
+    /**
+     * @param visibility
+     * @see View#setVisibility(int)
+     */
+    public void setVisibility(int visibility) {
+        mRoot.setVisibility(visibility);
+    }
 }

@@ -13,4 +13,9 @@
 
     <color name="text_accent_dark_blue">#AA0055CC</color>
     <color name="text_accent_dark_red">#FFFF3300</color>
+
+    <color name="indicator_red">#FFFF0000</color>
+    <color name="indicator_green">#FF00FF00</color>
+    <color name="indicator_blue">#FF0000FF</color>
+    <color name="indicator_orange">#FFFF5500</color>
 </resources>

@@ -3,6 +3,7 @@ package jp.gr.procon.proconapp.ui.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
 
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.api.GamePhotoListApi;
 import jp.gr.procon.proconapp.api.asynctask.GamePhotoApiAsyncTask;
 import jp.gr.procon.proconapp.dummymodel.DummyGamePhoto;
+import jp.gr.procon.proconapp.event.BusHolder;
+import jp.gr.procon.proconapp.event.RequestUpdateEvent;
 import jp.gr.procon.proconapp.model.GamePhoto;
 import jp.gr.procon.proconapp.model.GamePhotoList;
 import jp.gr.procon.proconapp.util.JsonUtil;
@@ -27,6 +33,11 @@ public class PhotoOutlineFragment extends BaseFragment implements
     private static final int MAX_NUM_PHOTO = 4;
     private static final int[] THUMBNAIL_IMAGE_RES_IS = new int[]{R.id.image1, R.id.image2};
 
+    // 失敗/キャンセルを知りたい場合は追加
+    public interface OnUpdatePhotoOutlineListener {
+        void OnCompletePhotoOutlineUpdate();
+    }
+
     public interface OnShowAllGamePhotoClickListener {
         void onShowAllGamePhotoClick();
     }
@@ -37,9 +48,11 @@ public class PhotoOutlineFragment extends BaseFragment implements
     }
 
     private LinearLayout mLinearLayout;
+    private ArrayList<ViewHolder> holders;
 
     private GamePhotoList mPhotoList;
     private OnShowAllGamePhotoClickListener mOnShowAllGamePhotoClickListener;
+    private OnUpdatePhotoOutlineListener mOnUpdatePhotoOutlineListener;
 
     private GamePhotoApiAsyncTask mGamePhotoApiAsyncTask;
 
@@ -68,10 +81,23 @@ public class PhotoOutlineFragment extends BaseFragment implements
         showAllTextView.setOnClickListener(this);
 
         mLinearLayout = (LinearLayout) view.findViewById(R.id.thumbnails_layout);
+        setupView();
 
         if (mPhotoList != null) {
             setDataToView();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        BusHolder.getInstance().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        BusHolder.getInstance().unregister(this);
+        super.onStop();
     }
 
     @Override
@@ -104,6 +130,14 @@ public class PhotoOutlineFragment extends BaseFragment implements
         } else {
             throw new RuntimeException("parent or activity must implement listener");
         }
+
+        if (parent != null && parent instanceof OnUpdatePhotoOutlineListener) {
+            mOnUpdatePhotoOutlineListener = (OnUpdatePhotoOutlineListener) parent;
+        } else if (activity instanceof OnUpdatePhotoOutlineListener) {
+            mOnUpdatePhotoOutlineListener = (OnUpdatePhotoOutlineListener) activity;
+        } else {
+            throw new RuntimeException("parent or activity must implement listener");
+        }
     }
 
     @Override
@@ -113,24 +147,14 @@ public class PhotoOutlineFragment extends BaseFragment implements
     }
 
     private void setDataToView() {
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
         int i = 0;
-        View mLayout = null;
         for (GamePhoto photo : mPhotoList) {
-            if (i % 2 == 0) {
-                mLayout = inflater.inflate(R.layout.view_two_column_image, mLinearLayout, false);
-            }
-            ImageView imageView = (ImageView) mLayout.findViewById(THUMBNAIL_IMAGE_RES_IS[i % 2]).findViewById(R.id.thumbnail_view);
+            ViewHolder holder = holders.get(i);
 
-            if (i % 2 == 0) {
-                mLinearLayout.addView(mLayout);
-            }
-            // TODO 画像表示サイズ調整
             Glide.with(this)
                     .load(photo.getmThumbnailUrl())
                     .centerCrop()
-//                    .fitCenter()
-                    .into(imageView);
+                    .into(holder.imageView);
             i++;
         }
 
@@ -164,10 +188,29 @@ public class PhotoOutlineFragment extends BaseFragment implements
         } else {
             // TODO error
         }
+
+        mOnUpdatePhotoOutlineListener.OnCompletePhotoOutlineUpdate();
     }
 
     @Override
     public void onCanceledGamePhotoApi() {
+        mOnUpdatePhotoOutlineListener.OnCompletePhotoOutlineUpdate();
+    }
+
+
+    private void setupView() {
+        holders = new ArrayList<>();
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        View mLayout = null;
+        for (int i = 0; i < MAX_NUM_PHOTO; i++) {
+            if (i % 2 == 0) {
+                mLayout = inflater.inflate(R.layout.view_two_column_image, mLinearLayout, false);
+                mLinearLayout.addView(mLayout);
+            }
+            ImageView imageView = (ImageView) mLayout.findViewById(THUMBNAIL_IMAGE_RES_IS[i % 2]).findViewById(R.id.thumbnail_view);
+            ViewHolder holder = new ViewHolder(imageView);
+            holders.add(holder);
+        }
     }
 
     private void startApiAsyncTask() {
@@ -184,5 +227,21 @@ public class PhotoOutlineFragment extends BaseFragment implements
             mGamePhotoApiAsyncTask.cancel(true);
             mGamePhotoApiAsyncTask = null;
         }
+    }
+
+    @Subscribe
+    public void requestUpdate(RequestUpdateEvent event) {
+        stopApiAsyncTask();
+        startApiAsyncTask();
+    }
+
+    private static class ViewHolder {
+        private ImageView imageView;
+
+        public ViewHolder(ImageView imageView) {
+            this.imageView = imageView;
+        }
+
+
     }
 }
