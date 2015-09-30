@@ -9,7 +9,7 @@ import jp.gr.procon.proconapp.model.twitter.Metadata;
 import jp.gr.procon.proconapp.model.twitter.User;
 
 // TODO 不必要な要素を除いたクラス作成
-public class FeedTwitterStatus implements Serializable {
+public class FeedTwitterStatus implements Serializable, Comparable<FeedTwitterStatus> {
     @SerializedName("metadata")
     private Metadata mMetadata;
 
@@ -177,5 +177,10 @@ public class FeedTwitterStatus implements Serializable {
 
     public String getLang() {
         return mLang;
+    }
+
+    @Override
+    public int compareTo(FeedTwitterStatus another) {
+        return another.getId().compareTo(this.getId());
     }
 }

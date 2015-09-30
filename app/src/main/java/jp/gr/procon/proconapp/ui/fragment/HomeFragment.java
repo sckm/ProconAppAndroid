@@ -61,13 +61,18 @@ public class HomeFragment extends BaseFragment implements
     }
 
     @Override
+    public void onStop() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        super.onStop();
+    }
+
+    @Override
     public void onRefresh() {
         mUpdatedNotice = false;
         mUpdatedGameResult = false;
         mUpdatedPhoto = false;
         BusHolder.getInstance().post(new RequestUpdateEvent());
     }
-
 
     @Override
     public void OnCompleteNoticeOutlineUpdate() {
