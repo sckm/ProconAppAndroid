@@ -6,8 +6,8 @@
     <!--<jp.gr.procon.proconapp.ui.view.SquareTextView-->
     <TextView
         android:id="@+id/text_rank"
-        android:layout_width="24sp"
-        android:layout_height="24sp"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
         android:background="@drawable/background_circle_blue"
         android:gravity="center"
         android:padding="@dimen/spacing_micro"

@@ -17,6 +17,10 @@ public class DateUtil {
         long currentTime = System.currentTimeMillis();
 
         long diff = currentTime - targetTime;
+        // TODO targetTimeが現在時刻より後の時の文字列
+        if (diff < 0) {
+            return "";
+        }
 
         long day = diff / (MAX_SECOND * MAX_MIN * MAX_HOUR * 1000);
         long hour = diff / (MAX_SECOND * MAX_MIN * 1000);

@@ -131,17 +131,22 @@ public class GameResultOutlineFragment extends BaseFragment implements
             TableRow row = (TableRow) inflater.inflate(R.layout.row_game_result, mTableLayout, false);
             for (int i = 0; i < Math.min(3, result.getResult().size()); i++) {
                 PlayerResult playerResult = result.getResult().get(i);
-                TextView infoText = (TextView) row.getChildAt(i * 2);
+                TextView rankText = (TextView) row.getChildAt(i * 2);
                 TextView titleText = (TextView) row.getChildAt(i * 2 + 1);
 
                 // TODO resource
                 switch (result.getStatus()) {
                     case GameResult.STATUS_GAME_ENDED:
-                        infoText.setText(playerResult.getRank() + "");
+                        if (playerResult.isAdvance()) {
+                            rankText.setBackgroundResource(R.drawable.background_circle_red);
+                        } else {
+                            rankText.setBackgroundResource(R.drawable.background_circle_blue);
+                        }
+                        rankText.setText(playerResult.getRank() + "");
                         break;
 
                     case GameResult.STATUS_GAME_PROGRESS:
-                        infoText.setText(playerResult.getScore() + "zk");
+                        rankText.setText(playerResult.getScore() + "zk");
                         break;
                 }
                 titleText.setText(playerResult.getPlayer().getShortName());

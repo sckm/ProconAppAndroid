@@ -3,18 +3,10 @@
        android:layout_width="match_parent"
        android:layout_height="match_parent">
 
-    <!--<jp.gr.procon.proconapp.ui.view.SquareTextView-->
-    <!--android:layout_marginRight="@dimen/spacing_medium"-->
-    <!--android:background="@drawable/background_circle_blue"-->
-    <!--android:gravity="center"-->
-    <!--android:padding="@dimen/spacing_micro"-->
-    <!--android:textColor="@color/text_primary_reverse"-->
-    <!--android:textSize="@dimen/text_small"-->
-    <!--android:textStyle="bold"/>-->
-
     <include layout="@layout/item_game_result_rank"/>
 
     <TextView
+        android:layout_marginLeft="@dimen/spacing_small"
         android:textColor="@color/text_primary"
         android:textSize="@dimen/text_medium"
         />
