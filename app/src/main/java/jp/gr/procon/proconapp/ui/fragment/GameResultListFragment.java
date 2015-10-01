@@ -22,14 +22,17 @@ import jp.gr.procon.proconapp.util.JsonUtil;
 
 public class GameResultListFragment extends BaseFragment
         implements GameResultApiAsyncTask.GameResultApiListener {
+    private static final String ARG_SHOULD_FILTER = "arg_should_filter";
 
-    public static GameResultListFragment newInstance() {
+    public static GameResultListFragment newInstance(boolean shouldFilter) {
         GameResultListFragment fragment = new GameResultListFragment();
         Bundle args = new Bundle();
+        args.putBoolean(ARG_SHOULD_FILTER, shouldFilter);
         fragment.setArguments(args);
         return fragment;
     }
 
+    private boolean mShouldFilter;
     private ExpandableListView mExpandableListView;
     private GameResultExpandableListAdapter mAdapter;
 
@@ -37,6 +40,14 @@ public class GameResultListFragment extends BaseFragment
     private PageApiState<GameResult> mPageApiState;
 
     public GameResultListFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mShouldFilter = getArguments().getBoolean(ARG_SHOULD_FILTER, false);
+        }
     }
 
     @Override
@@ -139,7 +150,8 @@ public class GameResultListFragment extends BaseFragment
 
         mGameResultApiAsyncTask = new GameResultApiAsyncTask(getUserToken(), this);
         // TODO 取得数変更
-        mGameResultApiAsyncTask.execute(50);
+        String filter = mShouldFilter ? GameResultListApi.GetRequest.FILTER_ONLY_FOR_NOTIFICATION : GameResultListApi.GetRequest.FILTER_ALL;
+        mGameResultApiAsyncTask.execute(50, filter);
     }
 
     private void stopApiAsyncTask() {

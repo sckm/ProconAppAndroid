@@ -1,5 +1,6 @@
 package jp.gr.procon.proconapp.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import jp.gr.procon.proconapp.ui.callback.OnNoticeClickListener;
 import jp.gr.procon.proconapp.ui.fragment.GameResultOutlineFragment;
 import jp.gr.procon.proconapp.ui.fragment.NoticeOutlineFragment;
 import jp.gr.procon.proconapp.ui.fragment.PhotoOutlineFragment;
+import jp.gr.procon.proconapp.ui.fragment.RegisterTokenFragment;
 import jp.gr.procon.proconapp.util.AppSharedPreference;
 import timber.log.Timber;
 
@@ -34,6 +36,10 @@ public class MainActivity extends BaseActivity implements
     private TabLayout mTabLayout;
 
     private AuthApiAsyncTask mAuthApiAsyncTask;
+
+    public static Intent createIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,7 @@ public class MainActivity extends BaseActivity implements
             mAuthApiAsyncTask = new AuthApiAsyncTask();
             mAuthApiAsyncTask.execute();
         } else if (mViewPager.getAdapter() == null) {
+            replaceRegisterFragment();
             setupView();
         }
     }
@@ -69,6 +76,16 @@ public class MainActivity extends BaseActivity implements
     private void setupView() {
         mViewPager.setAdapter(new HomeViewPagerAdapter(getSupportFragmentManager()));
         mTabLayout.setupWithViewPager(mViewPager);
+    }
+
+    private void replaceRegisterFragment() {
+        if (TextUtils.isEmpty(AppSharedPreference.getString(this, AppSharedPreference.PREFERENCE_USER_TOKEN))) {
+            return;
+        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, RegisterTokenFragment.newInstance())
+                .commit();
     }
 
     @Override
@@ -115,6 +132,7 @@ public class MainActivity extends BaseActivity implements
                 AppSharedPreference.putString(activity,
                         AppSharedPreference.PREFERENCE_USER_TOKEN, api.getResponseObj().getUserToken());
                 setupView();
+                replaceRegisterFragment();
             } else {
                 // TODO error
             }

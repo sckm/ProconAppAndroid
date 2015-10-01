@@ -1,4 +1,10 @@
 /build
 
+# ライブラリは再配布しない
+/libs
+
+# 通知設定は公開しない
+NotificationConfig.java
+
 # API設定は公開しない
 ApiConfig.java
