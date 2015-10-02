@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,6 @@ public class RegisterTokenFragment extends BaseFragment {
 
         NotificationsManager.handleNotifications(getActivity(), NotificationConfig.SENDER_ID, NotificationHandler.class);
         mGcm = GoogleCloudMessaging.getInstance(getActivity());
-        mHub = new NotificationHub(NotificationConfig.HUB_NAME, NotificationConfig.HUB_LISTEN_CONNECTION_STRING, getActivity());
         registerWithNotificationHubs();
     }
 
@@ -82,7 +82,12 @@ public class RegisterTokenFragment extends BaseFragment {
             return;
         }
 
-        startAsyncTask();
+        String registeredId = AppSharedPreference.getString(getActivity(), AppSharedPreference.PREFERENCE_GCM_REGISTER_ID);
+        if (TextUtils.isEmpty(registeredId)) {
+            startAsyncTask();
+        } else {
+            Timber.d("registerWithNotificationHubs: already registered");
+        }
     }
 
     private class RegisterAsyncTask extends AsyncTask<Object, Void, PushTokenApi.PutRequest> {
@@ -97,8 +102,7 @@ public class RegisterTokenFragment extends BaseFragment {
         protected PushTokenApi.PutRequest doInBackground(Object... params) {
             try {
                 mRegisterId = mGcm.register(NotificationConfig.SENDER_ID);
-                Timber.d("Registered Successfully", "RegId : " +
-                        mHub.register(mRegisterId).getRegistrationId());
+                Timber.d("Registered Successfully", "RegId : " + mRegisterId);
 
                 return new PushTokenApi.PutRequest(getUserToken()).put(mRegisterId);
             } catch (Exception e) {
