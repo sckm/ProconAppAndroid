@@ -5,6 +5,7 @@ import android.content.Context;
 public class AppSharedPreference {
     private static final String FILE_NAME = "procon_pref";
 
+    public static final String PREFERENCE_IS_FIRST_LAUNCH = "preference=_is_first_launch";
     public static final String PREFERENCE_USER_TOKEN = "preference_user_token";
     public static final String PREFERENCE_GCM_REGISTER_ID = "preference_gcm_register_id";
 

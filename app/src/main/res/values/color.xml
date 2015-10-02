@@ -5,11 +5,12 @@
     <color name="background_gray">#77CCCCCC</color>
     <!-- TODO outline背景色変更-->
     <color name="background_outline_title">#00000000</color>
-
+    <color name="background_white">#FFFFFFFF</color>
 
     <color name="text_primary">#DD000000</color>
     <color name="text_primary_reverse">#DDFFFFFF</color>
     <color name="text_secondary">#44000000</color>
+    <color name="text_feature">#AA000000</color>
 
     <color name="text_accent_dark_blue">#AA0055CC</color>
     <color name="text_accent_dark_red">#FFFF3300</color>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="jp.gr.procon.proconapp.ui.activity.EnterActivity"
+    tools:showIn="@layout/activity_enter">
+
+    <TextView
+        android:id="@+id/feature_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="プロコン公式アプリで\nできること"
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/text_xxlarge"
+        android:textStyle="bold"/>
+
+    <ImageView
+        android:id="@+id/icon_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/feature_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/spacing_xlarge"
+        android:layout_marginTop="@dimen/spacing_xlarge"
+        android:src="@drawable/welcome_app_icon"/>
+
+    <!--<include-->
+    <!--android:id="@+id/feature_text1"-->
+    <!--layout="@layout/item_welcome_check_text"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@id/icon_app"/>-->
+
+    <!--<include-->
+    <!--android:id="@+id/feature_text2"-->
+    <!--layout="@layout/item_welcome_check_text"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@id/feature_text1"/>-->
+
+    <!--<include-->
+    <!--android:id="@+id/feature_text3"-->
+    <!--layout="@layout/item_welcome_check_text"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@id/feature_text2"/>-->
+
+
+    <TableLayout
+        android:id="@+id/table_feature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/icon_app"
+        android:shrinkColumns="0,1"
+        android:stretchColumns="0,1">
+
+        <TableRow
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:gravity="center_vertical">
+
+            <ImageView style="@style/ImageWelcomeCheck"/>
+
+            <TextView
+                style="@style/TextWelcomeFeature"
+                android:text="ホーム画面でお知らせや\n競技結果をチェック"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium">
+
+            <ImageView style="@style/ImageWelcomeCheck"/>
+
+            <TextView
+                style="@style/TextWelcomeFeature"
+                android:text="プログラムや\n会場への行き方を表示"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium">
+
+            <ImageView style="@style/ImageWelcomeCheck"/>
+
+            <TextView
+                style="@style/TextWelcomeFeature"
+                android:text="気になる学校の競技結果を\nプッシュ通知でお知らせ"/>
+        </TableRow>
+
+    </TableLayout>
+
+    <Button
+        android:id="@+id/btn_enter_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/table_feature"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:background="#FF5555AA"
+        android:paddingBottom="@dimen/spacing_medium"
+        android:paddingLeft="@dimen/spacing_xlarge"
+        android:paddingRight="@dimen/spacing_xlarge"
+        android:paddingTop="@dimen/spacing_medium"
+        android:text="はじめる"
+        android:textColor="@color/text_primary_reverse"
+        android:textSize="@dimen/text_feature"/>
+
+</RelativeLayout>

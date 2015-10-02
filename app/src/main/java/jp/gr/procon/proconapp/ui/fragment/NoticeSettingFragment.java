@@ -28,6 +28,8 @@ import timber.log.Timber;
 public class NoticeSettingFragment extends BaseFragment implements
         NoticeSettingAdapter.OnChangeCheckListener
         , View.OnClickListener {
+    private static final String ARG_IS_CANCELABLE = "arg_is_cancelable";
+    private static final String ARG_SHOULD_CHECK_ALL = "arg_should_check_all";
 
     public interface OnCompleteNoticeSettingListener {
         void onCompleteNoticeSetting();
@@ -40,12 +42,32 @@ public class NoticeSettingFragment extends BaseFragment implements
     private OnCompleteNoticeSettingListener mOnCompleteNoticeSettingListener;
     private ArrayList<Long> mGameNotificationIds;
 
+    private boolean mIsCancelable;
+    private boolean mShouldCheckAll;
+
     private GetGameNotificationApiAsyncTask mGetGameNotificationApiAsyncTask;
     private PutGameNotificationApiAsyncTask mPutGameNotificationApiAsyncTask;
 
-    public static NoticeSettingFragment newInstance() {
+    public static NoticeSettingFragment newInstance(boolean isCancelable, boolean shouldCheckAll) {
         NoticeSettingFragment fragment = new NoticeSettingFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(ARG_IS_CANCELABLE, isCancelable);
+        args.putBoolean(ARG_SHOULD_CHECK_ALL, shouldCheckAll);
+        fragment.setArguments(args);
         return fragment;
+    }
+
+    public static NoticeSettingFragment newInstance() {
+        return newInstance(true, false);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mIsCancelable = getArguments().getBoolean(ARG_IS_CANCELABLE, true);
+            mShouldCheckAll = getArguments().getBoolean(ARG_SHOULD_CHECK_ALL, false);
+        }
     }
 
     @Nullable
@@ -62,7 +84,7 @@ public class NoticeSettingFragment extends BaseFragment implements
         ArrayList<Player> players = JsonUtil.fromJson(DummyPlayer.getPlayerList(), PlayerList.class);
         ArrayList<PlayerCheckedItem> items = new ArrayList<>();
         for (Player player : players) {
-            items.add(new PlayerCheckedItem(player, false));
+            items.add(new PlayerCheckedItem(player, mShouldCheckAll));
         }
         // TODO savedInstanceState
 
@@ -74,6 +96,11 @@ public class NoticeSettingFragment extends BaseFragment implements
         mRecyclerView.setAdapter(mNoticeSettingAdapter);
 
         view.findViewById(R.id.btn_cancel).setOnClickListener(this);
+        if (mIsCancelable) {
+            view.findViewById(R.id.btn_cancel).setOnClickListener(this);
+        } else {
+            view.findViewById(R.id.btn_cancel).setVisibility(View.GONE);
+        }
         view.findViewById(R.id.btn_submit).setOnClickListener(this);
     }
 
@@ -100,7 +127,9 @@ public class NoticeSettingFragment extends BaseFragment implements
     public void onResume() {
         super.onResume();
         Timber.d("onResume: " + mGameNotificationIds);
-        if (mGameNotificationIds == null) {
+        if (mShouldCheckAll) {
+            mNoticeSettingAdapter.setClickable(true);
+        } else if (mGameNotificationIds == null) {
             startGetApiAsyncTask();
         }
     }
