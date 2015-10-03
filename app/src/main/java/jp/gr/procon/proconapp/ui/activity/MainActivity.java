@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity implements
         , GameResultOutlineFragment.OnShowAllGameResultClickListener
         , PhotoOutlineFragment.OnShowAllGamePhotoClickListener
         , OnNoticeClickListener {
-    
+
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
 
@@ -51,7 +51,9 @@ public class MainActivity extends BaseActivity implements
         super.onResume();
 
         replaceRegisterFragment();
-        setupView();
+        if (mViewPager.getAdapter() == null) {
+            setupView();
+        }
     }
 
     @Override
