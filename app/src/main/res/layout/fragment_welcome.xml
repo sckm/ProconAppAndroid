@@ -107,7 +107,7 @@
         android:layout_below="@id/table_feature"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_medium"
-        android:background="#FF5555AA"
+        android:background="@drawable/background_button_blue"
         android:paddingBottom="@dimen/spacing_medium"
         android:paddingLeft="@dimen/spacing_xlarge"
         android:paddingRight="@dimen/spacing_xlarge"

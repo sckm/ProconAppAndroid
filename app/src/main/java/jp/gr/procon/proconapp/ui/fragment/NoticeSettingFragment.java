@@ -96,8 +96,10 @@ public class NoticeSettingFragment extends BaseFragment implements
         mRecyclerView.setAdapter(mNoticeSettingAdapter);
 
         view.findViewById(R.id.btn_cancel).setOnClickListener(this);
+        // TODO キャンセルボタンの削除
         if (mIsCancelable) {
             view.findViewById(R.id.btn_cancel).setOnClickListener(this);
+            view.findViewById(R.id.btn_cancel).setVisibility(View.GONE);
         } else {
             view.findViewById(R.id.btn_cancel).setVisibility(View.GONE);
         }

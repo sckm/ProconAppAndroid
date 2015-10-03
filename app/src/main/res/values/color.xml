@@ -2,14 +2,15 @@
 <resources>
 
     <color name="divider_gray">#FFAAAAAA</color>
+    <color name="background_light_gray">#33CCCCCC</color>
     <color name="background_gray">#77CCCCCC</color>
     <!-- TODO outline背景色変更-->
     <color name="background_outline_title">#00000000</color>
     <color name="background_white">#FFFFFFFF</color>
-    <color name="background_action_bar">#FF5555AA</color>
+    <color name="background_gray_blue">#FF5555AA</color>
 
     <color name="text_primary">#DD000000</color>
-    <color name="text_primary_reverse">#DDFFFFFF</color>
+    <color name="text_primary_reverse">#FFFFFFFF</color>
     <color name="text_secondary">#44000000</color>
     <color name="text_feature">#AA000000</color>
 
