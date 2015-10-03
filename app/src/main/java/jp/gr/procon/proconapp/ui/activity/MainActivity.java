@@ -29,13 +29,9 @@ public class MainActivity extends BaseActivity implements
         , GameResultOutlineFragment.OnShowAllGameResultClickListener
         , PhotoOutlineFragment.OnShowAllGamePhotoClickListener
         , OnNoticeClickListener {
-
-    private final WeakReference<MainActivity> wkRef = new WeakReference<>(this);
-
+    
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
-
-    private AuthApiAsyncTask mAuthApiAsyncTask;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -54,22 +50,12 @@ public class MainActivity extends BaseActivity implements
     protected void onResume() {
         super.onResume();
 
-        String userToken = getUserToken();
-        if (TextUtils.isEmpty(userToken)) {
-            mAuthApiAsyncTask = new AuthApiAsyncTask();
-            mAuthApiAsyncTask.execute();
-        } else if (mViewPager.getAdapter() == null) {
-            replaceRegisterFragment();
-            setupView();
-        }
+        replaceRegisterFragment();
+        setupView();
     }
 
     @Override
     protected void onPause() {
-        if (mAuthApiAsyncTask != null) {
-            mAuthApiAsyncTask.cancel(true);
-            mAuthApiAsyncTask = null;
-        }
         super.onPause();
     }
 
@@ -110,34 +96,5 @@ public class MainActivity extends BaseActivity implements
         Timber.d("onNoticeClick: ");
         Intent intent = NoticeDetailActivity.createIntent(this, notice.getId());
         startActivity(intent);
-    }
-
-    // TODO fragment内で行う
-    private class AuthApiAsyncTask extends AsyncTask<Void, Void, BaseApi<User>> {
-
-        @Override
-        protected BaseApi<User> doInBackground(Void... params) {
-            return new AuthApi.PostNewUser().post();
-        }
-
-        @Override
-        protected void onPostExecute(BaseApi<User> api) {
-            super.onPostExecute(api);
-            MainActivity activity = wkRef.get();
-            if (isCancelled() || activity == null) {
-                return;
-            }
-
-            if (api.isSuccessful()) {
-                AppSharedPreference.putString(activity,
-                        AppSharedPreference.PREFERENCE_USER_TOKEN, api.getResponseObj().getUserToken());
-                setupView();
-                replaceRegisterFragment();
-            } else {
-                // TODO error
-            }
-
-
-        }
     }
 }

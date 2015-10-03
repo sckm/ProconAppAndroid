@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,13 +16,20 @@ import com.microsoft.windowsazure.messaging.NotificationHub;
 
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.ui.fragment.NoticeSettingFragment;
+import jp.gr.procon.proconapp.ui.fragment.RegisterUserFragment;
 import jp.gr.procon.proconapp.ui.fragment.WelcomeFragment;
 import jp.gr.procon.proconapp.util.AppSharedPreference;
+import timber.log.Timber;
 
-public class EnterActivity extends AppCompatActivity implements
+public class EnterActivity extends BaseActivity implements
         View.OnClickListener
         , WelcomeFragment.OnClickEnterButtonListener
-        , NoticeSettingFragment.OnCompleteNoticeSettingListener {
+        , NoticeSettingFragment.OnCompleteNoticeSettingListener
+        , RegisterUserFragment.OnCompleteRegisterUserListener {
+
+    private boolean mClickedEnterButton;
+    private String mUserToken;
+
 
     public static Intent createIntent(Context context) {
         return new Intent(context, EnterActivity.class);
@@ -34,10 +42,12 @@ public class EnterActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mUserToken = getUserToken();
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.container, WelcomeFragment.newInstance())
+                    .add(R.id.container, RegisterUserFragment.newInstance())
                     .commit();
         }
     }
@@ -51,11 +61,10 @@ public class EnterActivity extends AppCompatActivity implements
 
     @Override
     public void onClickEnterButton() {
-        setTitle(R.string.title_setting_notice);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, NoticeSettingFragment.newInstance(false, true))
-                .commit();
+        mClickedEnterButton = true;
+        if (mClickedEnterButton && !TextUtils.isEmpty(mUserToken)) {
+            replaceWithNotificationSetting();
+        }
     }
 
     @Override
@@ -71,5 +80,22 @@ public class EnterActivity extends AppCompatActivity implements
     @Override
     public void onCancelNoticeSetting() {
 
+    }
+
+    @Override
+    public void onCompleteRegisterUser(String token) {
+        Timber.d("onCompleteRegisterUser: " + token);
+        mUserToken = token;
+        if (mClickedEnterButton && !TextUtils.isEmpty(mUserToken)) {
+            replaceWithNotificationSetting();
+        }
+    }
+
+    private void replaceWithNotificationSetting() {
+        setTitle(R.string.title_setting_notice);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, NoticeSettingFragment.newInstance(false, true))
+                .commit();
     }
 }
