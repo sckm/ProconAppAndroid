@@ -34,10 +34,11 @@ public class NotificationHandler extends NotificationsHandler {
                 GameResultListActivity.createIntent(context, true),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
+        String appName = context.getString(R.string.app_name);
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_chevron_right_black_24dp)
-                        .setContentTitle("Notification Hub Demo")
+                        .setContentTitle(appName)
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
                         .setContentText(msg);
