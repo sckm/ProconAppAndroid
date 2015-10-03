@@ -39,6 +39,8 @@ public class NoticeSettingFragment extends BaseFragment implements
 
     private RecyclerView mRecyclerView;
     private NoticeSettingAdapter mNoticeSettingAdapter;
+    private View mLoadingView;
+
     private OnCompleteNoticeSettingListener mOnCompleteNoticeSettingListener;
     private ArrayList<Long> mGameNotificationIds;
 
@@ -87,6 +89,8 @@ public class NoticeSettingFragment extends BaseFragment implements
             items.add(new PlayerCheckedItem(player, mShouldCheckAll));
         }
         // TODO savedInstanceState
+
+        mLoadingView = view.findViewById(R.id.progress);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -214,6 +218,9 @@ public class NoticeSettingFragment extends BaseFragment implements
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            if (mLoadingView != null) {
+                mLoadingView.setVisibility(View.VISIBLE);
+            }
         }
 
         @Override
@@ -231,11 +238,18 @@ public class NoticeSettingFragment extends BaseFragment implements
             } else {
                 // TODO error
             }
+
+            if (mLoadingView != null) {
+                mLoadingView.setVisibility(View.GONE);
+            }
         }
 
         @Override
         protected void onCancelled() {
             super.onCancelled();
+            if (mLoadingView != null) {
+                mLoadingView.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -250,6 +264,9 @@ public class NoticeSettingFragment extends BaseFragment implements
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            if (mLoadingView != null) {
+                mLoadingView.setVisibility(View.VISIBLE);
+            }
         }
 
         @Override
@@ -264,6 +281,12 @@ public class NoticeSettingFragment extends BaseFragment implements
                 if (mOnCompleteNoticeSettingListener != null) {
                     mOnCompleteNoticeSettingListener.onCompleteNoticeSetting();
                 }
+            } else {
+                // TODO error
+            }
+
+            if (mLoadingView != null) {
+                mLoadingView.setVisibility(View.GONE);
             }
         }
 
@@ -271,6 +294,9 @@ public class NoticeSettingFragment extends BaseFragment implements
         protected void onCancelled() {
             super.onCancelled();
             mPutGameNotificationApiAsyncTask = null;
+            if (mLoadingView != null) {
+                mLoadingView.setVisibility(View.GONE);
+            }
         }
     }
 }

@@ -23,6 +23,8 @@ public class NoticeListFragment extends BaseFragment implements
         NoticeApiAsyncTask.NoticeApiListener
         , OnGetViewListener {
     private static final String STATE_PAGE_API_STATE = "state_page_api_state";
+
+    private View mLoadingView;
     private RecyclerView mRecyclerView;
 
     private NoticeListAdapter mAdapter;
@@ -57,8 +59,8 @@ public class NoticeListFragment extends BaseFragment implements
             mNoticePageApiState = new PageApiState<>();
         }
 
-        // TODO RecyclerViewを使用
-        // TODO リストの下の方へいくと自動で次ページを読み込むようにする
+        mLoadingView = view.findViewById(R.id.progress);
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
@@ -117,7 +119,10 @@ public class NoticeListFragment extends BaseFragment implements
 
     @Override
     public void onPreExecuteNoticeApi() {
-        // TODO progress
+        // TODO リスト内にプログレス表示
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -133,11 +138,17 @@ public class NoticeListFragment extends BaseFragment implements
         } else {
             // TODO error
         }
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onCanceledNoticeApi() {
         mNoticeApiAsyncTask = null;
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.GONE);
+        }
     }
 
     @Override

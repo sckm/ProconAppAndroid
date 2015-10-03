@@ -67,21 +67,27 @@ public class WebFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         mWebView = (WebView) view.findViewById(R.id.web_view);
+        final View loadingView = view.findViewById(R.id.progress);
         // TODO progress
         mWebView.setWebViewClient(new WebViewClient() {
+
+
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
+                loadingView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                loadingView.setVisibility(View.GONE);
             }
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
+                loadingView.setVisibility(View.GONE);
             }
         });
 
@@ -97,6 +103,7 @@ public class WebFragment extends BaseFragment {
     public void onDestroy() {
         if (mWebView != null) {
             mWebView.stopLoading();
+            mWebView.setWebViewClient(null);
             mWebView.destroy();
             mWebView = null;
         }

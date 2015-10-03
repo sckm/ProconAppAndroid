@@ -33,6 +33,7 @@ public class GameResultListFragment extends BaseFragment
     }
 
     private boolean mShouldFilter;
+    private View mLoadingView;
     private ExpandableListView mExpandableListView;
     private GameResultExpandableListAdapter mAdapter;
 
@@ -66,6 +67,7 @@ public class GameResultListFragment extends BaseFragment
             mPageApiState = new PageApiState<>();
         }
 
+        mLoadingView = view.findViewById(R.id.progress);
         mExpandableListView = (ExpandableListView) view.findViewById(R.id.expandable_list_view);
         mAdapter = new GameResultExpandableListAdapter(mPageApiState.getItems());
         mExpandableListView.setAdapter(mAdapter);
@@ -114,7 +116,9 @@ public class GameResultListFragment extends BaseFragment
 
     @Override
     public void onPreExecuteGameResultApi() {
-        // TODO progress
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -136,11 +140,17 @@ public class GameResultListFragment extends BaseFragment
         } else {
             // TODO error
         }
+
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onCanceledGameResultApi() {
-
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.GONE);
+        }
     }
 
     private void startApiAsyncTask() {

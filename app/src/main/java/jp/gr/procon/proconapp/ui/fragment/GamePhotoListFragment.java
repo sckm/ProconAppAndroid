@@ -30,6 +30,7 @@ public class GamePhotoListFragment extends BaseFragment implements
         return fragment;
     }
 
+    private View mLoadingView;
     private RecyclerView mRecyclerView;
     private GamePhotoRecyclerAdapter mAdapter;
     private PageApiState<GamePhoto> mApiState;
@@ -56,6 +57,7 @@ public class GamePhotoListFragment extends BaseFragment implements
             mApiState = new PageApiState<>(50);
         }
 
+        mLoadingView = view.findViewById(R.id.progress);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mAdapter = new GamePhotoRecyclerAdapter(mApiState.getItems());
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -85,6 +87,9 @@ public class GamePhotoListFragment extends BaseFragment implements
 
     @Override
     public void onPreExecuteGamePhotoApi() {
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -100,10 +105,17 @@ public class GamePhotoListFragment extends BaseFragment implements
         } else {
             // TODO error
         }
+
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onCanceledGamePhotoApi() {
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.GONE);
+        }
     }
 
     private void startApiAsyncTask() {
