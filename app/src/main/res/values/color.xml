@@ -6,6 +6,7 @@
     <!-- TODO outline背景色変更-->
     <color name="background_outline_title">#00000000</color>
     <color name="background_white">#FFFFFFFF</color>
+    <color name="background_action_bar">#FF5555AA</color>
 
     <color name="text_primary">#DD000000</color>
     <color name="text_primary_reverse">#DDFFFFFF</color>

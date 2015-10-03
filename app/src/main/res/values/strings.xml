@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ProconApp</string>
 
+    <string name="title_activity_app_name">プロコン2015</string>
     <string name="title_activity_home">ホーム</string>
     <string name="title_activity_notice">お知らせ</string>
     <string name="title_activity_game_result">競技結果</string>
