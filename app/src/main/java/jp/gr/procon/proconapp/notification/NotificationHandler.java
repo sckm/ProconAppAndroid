@@ -10,6 +10,7 @@ import com.microsoft.windowsazure.notifications.NotificationsHandler;
 
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.ui.activity.GameResultListActivity;
+import jp.gr.procon.proconapp.ui.activity.MainActivity;
 import timber.log.Timber;
 
 public class NotificationHandler extends NotificationsHandler {
@@ -31,12 +32,14 @@ public class NotificationHandler extends NotificationsHandler {
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-                GameResultListActivity.createIntent(context, true),
+//                GameResultListActivity.createIntent(context, true),
+                MainActivity.createIntent(context, true),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         String appName = context.getString(R.string.app_name);
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
+                        // TODO icon 変更
                         .setSmallIcon(R.drawable.ic_chevron_right_black_24dp)
                         .setContentTitle(appName)
                         .setStyle(new NotificationCompat.BigTextStyle()
@@ -44,6 +47,6 @@ public class NotificationHandler extends NotificationsHandler {
                         .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(NotificationConfig.NOTIFICATION_ID_GAME_RESULT, mBuilder.build());
+        mNotificationManager.notify(NotificationConfig.NOTIFICATION_ID_MAIN, mBuilder.build());
     }
 }

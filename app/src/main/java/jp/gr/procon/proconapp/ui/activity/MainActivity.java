@@ -1,5 +1,7 @@
 package jp.gr.procon.proconapp.ui.activity;
 
+import android.app.NotificationManager;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,6 +17,7 @@ import jp.gr.procon.proconapp.api.AuthApi;
 import jp.gr.procon.proconapp.api.BaseApi;
 import jp.gr.procon.proconapp.model.Notice;
 import jp.gr.procon.proconapp.model.User;
+import jp.gr.procon.proconapp.notification.NotificationConfig;
 import jp.gr.procon.proconapp.ui.adapter.HomeViewPagerAdapter;
 import jp.gr.procon.proconapp.ui.callback.OnNoticeClickListener;
 import jp.gr.procon.proconapp.ui.fragment.GameResultOutlineFragment;
@@ -29,18 +32,38 @@ public class MainActivity extends BaseActivity implements
         , GameResultOutlineFragment.OnShowAllGameResultClickListener
         , PhotoOutlineFragment.OnShowAllGamePhotoClickListener
         , OnNoticeClickListener {
+    private static final String ARG_FROM_NOTIFICATION = "arg_from_notification";
 
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
 
     public static Intent createIntent(Context context) {
-        return new Intent(context, MainActivity.class);
+        return createIntent(context, false);
+    }
+
+    public static Intent createIntent(Context context, boolean fromNotification) {
+        Intent intent = new Intent(context, MainActivity.class);
+        Bundle args = new Bundle();
+        args.putBoolean(ARG_FROM_NOTIFICATION, fromNotification);
+        intent.putExtras(args);
+        return intent;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 通知からきていた場合 通知を削除
+        Bundle args = getIntent().getExtras();
+        boolean isFromNotification = false;
+        if (args != null) {
+            isFromNotification = args.getBoolean(ARG_FROM_NOTIFICATION, false);
+        }
+        if (isFromNotification) {
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE);
+            notificationManager.cancel(NotificationConfig.NOTIFICATION_ID_MAIN);
+        }
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
