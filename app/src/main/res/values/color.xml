@@ -8,14 +8,13 @@
     <color name="background_outline_title">#00000000</color>
     <color name="background_white">#FFFFFFFF</color>
     <color name="background_gray_blue">#FF5555AA</color>
+    <color name="background_circle_blue">#FF848CAF</color>
+    <color name="background_circle_red">#FFD39293</color>
 
     <color name="text_primary">#DD000000</color>
     <color name="text_primary_reverse">#FFFFFFFF</color>
     <color name="text_secondary">#44000000</color>
     <color name="text_feature">#AA000000</color>
-
-    <color name="text_accent_dark_blue">#AA0055CC</color>
-    <color name="text_accent_dark_red">#FFFF3300</color>
 
     <color name="indicator_red">#FFFF0000</color>
     <color name="indicator_green">#FF00FF00</color>

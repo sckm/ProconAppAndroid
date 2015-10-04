@@ -21,7 +21,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/spacing_medium"
         android:text="@string/btn_show_all"
-        android:textColor="@color/text_accent_dark_blue"
+        android:textColor="@color/background_circle_blue"
         android:textSize="@dimen/text_medium"/>
 
     <TextView
