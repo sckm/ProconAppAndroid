@@ -85,6 +85,11 @@
             android:name=".ui.activity.NoticeSettingActivity"
             android:label="@string/title_activity_notice_setting">
         </activity>
+
+        <activity
+            android:name=".ui.activity.LicenseActivity"
+            android:label="ライセンス">
+        </activity>
     </application>
 
 </manifest>

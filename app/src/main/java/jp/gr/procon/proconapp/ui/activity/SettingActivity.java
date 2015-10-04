@@ -47,5 +47,7 @@ public class SettingActivity extends BaseActivity implements SettingFragment.OnC
     @Override
     public void onClickLicense() {
 // TODO license
+        Intent intent = LicenseActivity.createIntent(this);
+        startActivity(intent);
     }
 }
