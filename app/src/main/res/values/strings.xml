@@ -10,7 +10,7 @@
     <string name="title_activity_program">プログラム</string>
     <string name="title_activity_setting">設定</string>
     <string name="title_activity_notice_setting">通知設定</string>
-    
+
     <!-- menu -->
     <string name="action_settings">設定</string>
     <string name="action_access">アクセス</string>
@@ -25,4 +25,6 @@
     <string name="title_setting_version">バージョン</string>
     <string name="btn_cancel">キャンセル</string>
     <string name="btn_submit">完了</string>
+
+    <string name="desc_notification_setting">選択した学校の競技結果を通知します</string>
 </resources>

@@ -1,13 +1,10 @@
 package jp.gr.procon.proconapp.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,6 +16,10 @@ import jp.gr.procon.proconapp.model.PlayerCheckedItem;
 import timber.log.Timber;
 
 public class NoticeSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int VIEW_TYPE_HEADER = 1;
+    private static final int VIEW_TYPE_ITEM = 2;
+
+
     public interface OnChangeCheckListener {
         void onChangeCheck(PlayerCheckedItem item);
     }
@@ -33,17 +34,40 @@ public class NoticeSettingAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return ItemViewHolder.create(parent);
+        switch (viewType) {
+            case VIEW_TYPE_HEADER:
+                return HeaderViewHolder.create(parent);
+
+            default:
+                return ItemViewHolder.create(parent);
+        }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ItemViewHolder) holder).bindTo(mItems.get(position), mIsClickable, mOnChangeCheckListener);
+        switch (getItemViewType(position)) {
+            case VIEW_TYPE_HEADER:
+                ((HeaderViewHolder) holder).bindTo();
+                break;
+
+            case VIEW_TYPE_ITEM:
+                ((ItemViewHolder) holder).bindTo(mItems.get(position), mIsClickable, mOnChangeCheckListener);
+                break;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return VIEW_TYPE_HEADER;
+        } else {
+            return VIEW_TYPE_ITEM;
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return mItems.size() + 1;
     }
 
     public void setCheckWithIds(ArrayList<Long> ids, boolean isCheck) {
@@ -84,6 +108,25 @@ public class NoticeSettingAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void setOnChangeCheckListener(OnChangeCheckListener onChangeCheckListener) {
         mOnChangeCheckListener = onChangeCheckListener;
+    }
+
+    private static class HeaderViewHolder extends RecyclerView.ViewHolder {
+        private static final int RES_ID = R.layout.text_description;
+
+        private TextView mTextView;
+
+        public static HeaderViewHolder create(ViewGroup parent) {
+            return new HeaderViewHolder(LayoutInflater.from(parent.getContext()).inflate(RES_ID, parent, false));
+        }
+
+        public HeaderViewHolder(View itemView) {
+            super(itemView);
+            mTextView = (TextView) itemView.findViewById(R.id.text_body);
+        }
+
+        public void bindTo() {
+            mTextView.setText(R.string.desc_notification_setting);
+        }
     }
 
     private static class ItemViewHolder extends RecyclerView.ViewHolder {
