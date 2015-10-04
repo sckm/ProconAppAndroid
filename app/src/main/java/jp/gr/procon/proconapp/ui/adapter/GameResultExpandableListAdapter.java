@@ -107,9 +107,15 @@ public class GameResultExpandableListAdapter extends BaseExpandableListAdapter {
         holder.mRankText.setText(item.getRank() + "");
         holder.mRankText.setBackgroundResource(item.isAdvance() ? R.drawable.background_circle_red : R.drawable.background_circle_blue);
 
-        holder.mTitleText.setText(item.getPlayer().getName());
-        String score = item.getScore() < 0 ? "未回答" : item.getScore() + "zk";
-        holder.mScoreText.setText(score);
+        holder.mTitleText.setText(item.getPlayer().getShortName());
+        StringBuilder sb = new StringBuilder();
+        ArrayList<Long> scores = item.getScores();
+        for (int i = 0; i < scores.size(); i++) {
+            String score = item.getScore() < 0 ? "×" : item.getScore().toString();
+            sb.append(String.format("問%1$d:%2$s ", i + 1, score));
+        }
+        sb.append("(zk)");
+        holder.mScoreText.setText(sb.toString());
 
         return convertView;
 

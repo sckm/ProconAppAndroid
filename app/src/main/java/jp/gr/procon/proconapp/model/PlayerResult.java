@@ -25,6 +25,7 @@ public class PlayerResult implements Serializable, Comparable<PlayerResult> {
         return mPlayer;
     }
 
+    /** スコアが負の時は未回答 */
     public Long getScore() {
         return mScore;
     }
