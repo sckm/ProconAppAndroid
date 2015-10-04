@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">高専プロコン-dev</string>
     <string name="url_access">https://proconapp.com/docs/access/</string>
     <string name="url_program">https://proconapp.com/docs/procon_program/</string>
 </resources>
