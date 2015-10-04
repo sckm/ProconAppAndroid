@@ -27,4 +27,5 @@
     <string name="btn_submit">完了</string>
 
     <string name="desc_notification_setting">選択した学校の競技結果を通知します</string>
+    <string name="desc_game_result">次の試合に進出できるチームを赤色の順位で表示しています</string>
 </resources>

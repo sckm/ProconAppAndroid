@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +38,9 @@ public class GameResultListFragment extends BaseFragment
     private ExpandableListView mExpandableListView;
     private GameResultExpandableListAdapter mAdapter;
 
+    private View mDescriptionLayoutView;
+    private TextView mDescriptionText;
+
     private GameResultApiAsyncTask mGameResultApiAsyncTask;
     private PageApiState<GameResult> mPageApiState;
 
@@ -54,6 +58,7 @@ public class GameResultListFragment extends BaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mDescriptionLayoutView = inflater.inflate(R.layout.text_description, null, false);
         return inflater.inflate(R.layout.fragment_game_result_list, container, false);
     }
 
@@ -67,8 +72,12 @@ public class GameResultListFragment extends BaseFragment
             mPageApiState = new PageApiState<>();
         }
 
+        mDescriptionText = (TextView) mDescriptionLayoutView.findViewById(R.id.text_body);
+        mDescriptionText.setText(R.string.desc_game_result);
+
         mLoadingView = view.findViewById(R.id.progress);
         mExpandableListView = (ExpandableListView) view.findViewById(R.id.expandable_list_view);
+        mExpandableListView.addHeaderView(mDescriptionLayoutView, null, false);
         mAdapter = new GameResultExpandableListAdapter(mPageApiState.getItems());
         mExpandableListView.setAdapter(mAdapter);
         mExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
