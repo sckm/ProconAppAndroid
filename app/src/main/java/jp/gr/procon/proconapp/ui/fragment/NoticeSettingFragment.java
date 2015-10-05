@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.api.GameNotificationApi;
-import jp.gr.procon.proconapp.dummymodel.DummyPlayer;
 import jp.gr.procon.proconapp.model.GameNotificationList;
 import jp.gr.procon.proconapp.model.Player;
 import jp.gr.procon.proconapp.model.PlayerCheckedItem;
@@ -84,7 +83,7 @@ public class NoticeSettingFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
 
         // TODO 初回起動時に取得 apiから取得しておく
-        ArrayList<Player> players = JsonUtil.fromJson(DummyPlayer.getPlayerList(), PlayerList.class);
+        ArrayList<Player> players = JsonUtil.fromJson(Player.getPlayerList(), PlayerList.class);
         ArrayList<PlayerCheckedItem> items = new ArrayList<>();
         for (Player player : players) {
             items.add(new PlayerCheckedItem(player, mShouldCheckAll));

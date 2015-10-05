@@ -3,7 +3,6 @@ package jp.gr.procon.proconapp.ui.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +18,10 @@ import java.util.ArrayList;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.api.GamePhotoListApi;
 import jp.gr.procon.proconapp.api.asynctask.GamePhotoApiAsyncTask;
-import jp.gr.procon.proconapp.dummymodel.DummyGamePhoto;
 import jp.gr.procon.proconapp.event.BusHolder;
 import jp.gr.procon.proconapp.event.RequestUpdateEvent;
 import jp.gr.procon.proconapp.model.GamePhoto;
 import jp.gr.procon.proconapp.model.GamePhotoList;
-import jp.gr.procon.proconapp.util.JsonUtil;
-import timber.log.Timber;
 
 public class PhotoOutlineFragment extends BaseFragment implements
         View.OnClickListener

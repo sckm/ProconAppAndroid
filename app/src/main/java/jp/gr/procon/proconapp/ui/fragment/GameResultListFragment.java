@@ -14,12 +14,9 @@ import java.util.Collections;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.api.GameResultListApi;
 import jp.gr.procon.proconapp.api.asynctask.GameResultApiAsyncTask;
-import jp.gr.procon.proconapp.dummymodel.DummyGameResultList;
 import jp.gr.procon.proconapp.model.GameResult;
-import jp.gr.procon.proconapp.model.GameResultList;
 import jp.gr.procon.proconapp.model.PageApiState;
 import jp.gr.procon.proconapp.ui.adapter.GameResultExpandableListAdapter;
-import jp.gr.procon.proconapp.util.JsonUtil;
 import jp.gr.procon.proconapp.util.ToastUtil;
 
 public class GameResultListFragment extends BaseFragment

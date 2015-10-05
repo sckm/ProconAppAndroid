@@ -12,16 +12,11 @@ import java.util.ArrayList;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.api.GamePhotoListApi;
 import jp.gr.procon.proconapp.api.asynctask.GamePhotoApiAsyncTask;
-import jp.gr.procon.proconapp.dummymodel.DummyGamePhoto;
 import jp.gr.procon.proconapp.model.GamePhoto;
-import jp.gr.procon.proconapp.model.GamePhotoList;
 import jp.gr.procon.proconapp.model.PageApiState;
 import jp.gr.procon.proconapp.ui.adapter.GamePhotoRecyclerAdapter;
-import jp.gr.procon.proconapp.ui.view.DividerItemDecoration;
 import jp.gr.procon.proconapp.ui.view.GridDividerItemDecoration;
-import jp.gr.procon.proconapp.util.JsonUtil;
 import jp.gr.procon.proconapp.util.ToastUtil;
-import timber.log.Timber;
 
 public class GamePhotoListFragment extends BaseFragment implements
         GamePhotoApiAsyncTask.GamePhotoApiListener {

@@ -16,15 +16,12 @@ import java.util.ArrayList;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.api.NoticeListApi;
 import jp.gr.procon.proconapp.api.asynctask.NoticeApiAsyncTask;
-import jp.gr.procon.proconapp.dummymodel.DummyNotice;
 import jp.gr.procon.proconapp.event.BusHolder;
 import jp.gr.procon.proconapp.event.RequestUpdateEvent;
 import jp.gr.procon.proconapp.model.Notice;
 import jp.gr.procon.proconapp.model.NoticeList;
 import jp.gr.procon.proconapp.ui.callback.OnNoticeClickListener;
 import jp.gr.procon.proconapp.ui.view.NoticeListItemView;
-import jp.gr.procon.proconapp.util.JsonUtil;
-import timber.log.Timber;
 
 public class NoticeOutlineFragment extends BaseFragment implements View.OnClickListener, NoticeApiAsyncTask.NoticeApiListener {
     private static final int MAX_NUM_ROW = 3;
