@@ -66,16 +66,20 @@ public class MainActivity extends BaseActivity implements
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        if (mViewPager.getAdapter() == null) {
+            setupView();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+    }
 
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
         replaceRegisterFragment();
-        if (mViewPager.getAdapter() == null) {
-            setupView();
-        }
     }
 
     @Override
@@ -134,5 +138,22 @@ public class MainActivity extends BaseActivity implements
         Uri httpUri = Uri.parse(String.format(formatTweetUrl, user.getScreenName(), tweet.getIdStr()));
         twitterIntent.setData(httpUri);
         startActivity(twitterIntent);
+    }
+
+    @Override
+    public void onClickPostTweet() {
+        String hashTag = getString(R.string.twitter_hash_tag);
+        Uri uri = Uri.parse("twitter://post?message=" + Uri.encode(hashTag));
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setData(uri);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Intent httpTweetIntent = new Intent(Intent.ACTION_VIEW);
+            String formatHttpUrl = "http://twitter.com/share?text=%1$s";
+            Uri httpUri = Uri.parse(String.format(formatHttpUrl, Uri.encode(hashTag)));
+            httpTweetIntent.setData(httpUri);
+            startActivity(httpTweetIntent);
+        }
     }
 }

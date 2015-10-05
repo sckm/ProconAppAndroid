@@ -1,8 +1,10 @@
 package jp.gr.procon.proconapp.ui.fragment;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +29,8 @@ public class TwitterFeedFragment extends BaseFragment implements SwipeRefreshLay
 
     public interface OnClickTweetListener {
         void onClickTweet(FeedTwitterStatus tweet);
+
+        void onClickPostTweet();
     }
 
     public static TwitterFeedFragment newInstance() {
@@ -78,6 +82,18 @@ public class TwitterFeedFragment extends BaseFragment implements SwipeRefreshLay
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
+
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.floating_action_button);
+        fab.setVisibility(View.VISIBLE);
+        fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.background_fab_gray_blue)));
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnClickTweetListener != null) {
+                    mOnClickTweetListener.onClickPostTweet();
+                }
+            }
+        });
     }
 
     @Override
