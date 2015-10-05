@@ -23,6 +23,7 @@ import jp.gr.procon.proconapp.model.PlayerList;
 import jp.gr.procon.proconapp.ui.adapter.NoticeSettingAdapter;
 import jp.gr.procon.proconapp.ui.view.DividerItemDecoration;
 import jp.gr.procon.proconapp.util.JsonUtil;
+import jp.gr.procon.proconapp.util.ToastUtil;
 import timber.log.Timber;
 
 public class NoticeSettingFragment extends BaseFragment implements
@@ -236,7 +237,7 @@ public class NoticeSettingFragment extends BaseFragment implements
                 mNoticeSettingAdapter.setClickable(true);
                 mNoticeSettingAdapter.notifyDataSetChanged();
             } else {
-                // TODO error
+                ToastUtil.show(getActivity(), R.string.error_network);
             }
 
             if (mLoadingView != null) {
@@ -282,7 +283,7 @@ public class NoticeSettingFragment extends BaseFragment implements
                     mOnCompleteNoticeSettingListener.onCompleteNoticeSetting();
                 }
             } else {
-                // TODO error
+                ToastUtil.show(getActivity(), R.string.error_network);
             }
 
             if (mLoadingView != null) {

@@ -20,6 +20,7 @@ import jp.gr.procon.proconapp.model.GameResultList;
 import jp.gr.procon.proconapp.model.PageApiState;
 import jp.gr.procon.proconapp.ui.adapter.GameResultExpandableListAdapter;
 import jp.gr.procon.proconapp.util.JsonUtil;
+import jp.gr.procon.proconapp.util.ToastUtil;
 
 public class GameResultListFragment extends BaseFragment
         implements GameResultApiAsyncTask.GameResultApiListener {
@@ -147,7 +148,7 @@ public class GameResultListFragment extends BaseFragment
                 mExpandableListView.expandGroup(i);
             }
         } else {
-            // TODO error
+            ToastUtil.show(getActivity(), R.string.error_network);
         }
 
         if (mLoadingView != null) {

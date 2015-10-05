@@ -30,4 +30,7 @@
     <string name="desc_game_result">次の試合に進出できるチームを赤色の順位で表示しています</string>
 
     <string name="url_about_app">https://proconapp.com/docs/about/</string>
+
+    <!-- TODO メッセージ変更-->
+    <string name="error_network">読み込みに失敗しました。通信環境の良いところで再度お試しください。</string>
 </resources>

@@ -20,6 +20,7 @@ import jp.gr.procon.proconapp.ui.adapter.GamePhotoRecyclerAdapter;
 import jp.gr.procon.proconapp.ui.view.DividerItemDecoration;
 import jp.gr.procon.proconapp.ui.view.GridDividerItemDecoration;
 import jp.gr.procon.proconapp.util.JsonUtil;
+import jp.gr.procon.proconapp.util.ToastUtil;
 import timber.log.Timber;
 
 public class GamePhotoListFragment extends BaseFragment implements
@@ -103,7 +104,7 @@ public class GamePhotoListFragment extends BaseFragment implements
             mApiState.addPageList(photoList);
             mAdapter.notifyDataSetChanged();
         } else {
-            // TODO error
+            ToastUtil.show(getActivity(), R.string.error_network);
         }
 
         if (mLoadingView != null) {
