@@ -51,14 +51,14 @@ public class NoticeSettingAdapter extends RecyclerView.Adapter<RecyclerView.View
                 break;
 
             case VIEW_TYPE_ITEM:
-                ((ItemViewHolder) holder).bindTo(mItems.get(position), mIsClickable, mOnChangeCheckListener);
+                ((ItemViewHolder) holder).bindTo(mItems.get(position - getHeadersCount()), mIsClickable, mOnChangeCheckListener);
                 break;
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
+        if (position < getHeadersCount()) {
             return VIEW_TYPE_HEADER;
         } else {
             return VIEW_TYPE_ITEM;
@@ -67,7 +67,11 @@ public class NoticeSettingAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return mItems.size() + 1;
+        return mItems.size() + getHeadersCount();
+    }
+
+    public int getHeadersCount() {
+        return 1;
     }
 
     public void setCheckWithIds(ArrayList<Long> ids, boolean isCheck) {
