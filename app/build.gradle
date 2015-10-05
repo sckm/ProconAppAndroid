@@ -40,7 +40,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.2.1'
     compile 'com.android.support:gridlayout-v7:22.2.1'
     compile 'com.android.support:design:22.2.1'
-    compile 'com.google.android.gms:play-services-base:6.5.87'
+    compile 'com.google.android.gms:play-services-analytics:7.3.0'
+    compile 'com.google.android.gms:play-services-gcm:7.3.0'
 
     compile 'com.jakewharton.timber:timber:3.1.0'
     compile 'com.google.code.gson:gson:2.3.1'

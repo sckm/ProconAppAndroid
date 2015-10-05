@@ -2,9 +2,14 @@ package jp.gr.procon.proconapp;
 
 import android.app.Application;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+
 import timber.log.Timber;
 
-public class BaseApplication extends Application {
+abstract public class BaseApplication extends Application {
+    protected Tracker mTracker;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -12,4 +17,6 @@ public class BaseApplication extends Application {
             Timber.plant(new Timber.DebugTree());
         }
     }
+
+    abstract public Tracker getTracker();
 }

@@ -10,6 +10,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
+import jp.gr.procon.proconapp.GoogleAnalyticsConfig;
+import jp.gr.procon.proconapp.ProconApplication;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.model.FeedTwitterStatus;
 import jp.gr.procon.proconapp.model.Notice;
@@ -30,7 +35,8 @@ public class MainActivity extends BaseActivity implements
         , GameResultOutlineFragment.OnShowAllGameResultClickListener
         , PhotoOutlineFragment.OnShowAllGamePhotoClickListener
         , OnNoticeClickListener
-        , TwitterFeedFragment.OnClickTweetListener {
+        , TwitterFeedFragment.OnClickTweetListener
+        , ViewPager.OnPageChangeListener {
     private static final String ARG_FROM_NOTIFICATION = "arg_from_notification";
 
     private ViewPager mViewPager;
@@ -65,6 +71,7 @@ public class MainActivity extends BaseActivity implements
         }
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        mViewPager.addOnPageChangeListener(this);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         if (mViewPager.getAdapter() == null) {
             setupView();
@@ -90,6 +97,8 @@ public class MainActivity extends BaseActivity implements
     private void setupView() {
         mViewPager.setAdapter(new HomeViewPagerAdapter(getSupportFragmentManager()));
         mTabLayout.setupWithViewPager(mViewPager);
+        // 最初にアイテムが選択される際にonPageSelectedが呼び出されないので呼んでおく
+        onPageSelected(0);
     }
 
     private void replaceRegisterFragment() {
@@ -163,5 +172,27 @@ public class MainActivity extends BaseActivity implements
         Uri uri = Uri.parse("https://twitter.com/hashtag/" + getString(R.string.twitter_hash_tag));
         intent.setData(uri);
         startActivity(intent);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        sendAnalyticsWithScreenName(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
+
+    private void sendAnalyticsWithScreenName(int position) {
+        Tracker tracker = ((ProconApplication) getApplication()).getTracker();
+        String screenName = position == 0
+                ? GoogleAnalyticsConfig.SCREEN_NAME_HOME
+                : GoogleAnalyticsConfig.SCREEN_NAME_SOCIAL;
+        tracker.setScreenName(screenName);
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 }

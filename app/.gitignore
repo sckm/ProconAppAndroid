@@ -8,3 +8,6 @@ NotificationConfig.java
 
 # API設定は公開しない
 ApiConfig.java
+
+# GoogleAnalyticsの設定は非公開
+GoogleAnalyticsConfig.java
