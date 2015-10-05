@@ -21,7 +21,8 @@ public class LicenseActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container, WebFragment.newInstance("file:///android_asset/license.html"))
+                    .add(R.id.container, WebFragment.newInstance(getString(R.string.url_about_app)))
+//                    .add(R.id.container, WebFragment.newInstance("file:///android_asset/license.html"))
                     .commit();
         }
     }

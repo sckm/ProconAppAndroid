@@ -21,11 +21,13 @@
     <string name="title_outline_game_result">競技部門速報</string>
     <string name="title_outline_game_photo">写真</string>
     <string name="title_setting_notice">通知設定</string>
-    <string name="title_setting_license">ライセンス表示</string>
+    <string name="title_setting_license">このアプリについて</string>
     <string name="title_setting_version">バージョン</string>
     <string name="btn_cancel">キャンセル</string>
     <string name="btn_submit">完了</string>
 
     <string name="desc_notification_setting">選択した学校の競技結果を通知します</string>
     <string name="desc_game_result">次の試合に進出できるチームを赤色の順位で表示しています</string>
+
+    <string name="url_about_app">https://proconapp.com/docs/about/</string>
 </resources>
