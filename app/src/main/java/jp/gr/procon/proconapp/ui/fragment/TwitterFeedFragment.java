@@ -1,7 +1,9 @@
 package jp.gr.procon.proconapp.ui.fragment;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +25,10 @@ import timber.log.Timber;
 public class TwitterFeedFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final int API_MAX_COUNT = 50;
 
+    public interface OnClickTweetListener {
+        void onClickTweet(FeedTwitterStatus tweet);
+    }
+
     public static TwitterFeedFragment newInstance() {
         TwitterFeedFragment fragment = new TwitterFeedFragment();
         return fragment;
@@ -32,9 +38,9 @@ public class TwitterFeedFragment extends BaseFragment implements SwipeRefreshLay
     private RecyclerView mRecyclerView;
     private TwitterFeedRecyclerAdapter mAdapter;
     private ArrayList<FeedTwitterStatus> mTweetList;
-//    private PageApiState<FeedTwitterStatus> mApiState;
 
     private SocialTwitterApiAsyncTask mSocialTwitterApiAsyncTask;
+    private OnClickTweetListener mOnClickTweetListener;
 
     public TwitterFeedFragment() {
     }
@@ -68,6 +74,7 @@ public class TwitterFeedFragment extends BaseFragment implements SwipeRefreshLay
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mAdapter = new TwitterFeedRecyclerAdapter(mTweetList);
+        mAdapter.setOnClickTweetListener(mOnClickTweetListener);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
@@ -86,6 +93,25 @@ public class TwitterFeedFragment extends BaseFragment implements SwipeRefreshLay
         stopApiAsyncTask();
         mSwipeRefreshLayout.setRefreshing(false);
         super.onPause();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        Fragment parent = getParentFragment();
+        if (parent != null && parent instanceof OnClickTweetListener) {
+            mOnClickTweetListener = (OnClickTweetListener) parent;
+        } else if (activity instanceof OnClickTweetListener) {
+            mOnClickTweetListener = (OnClickTweetListener) activity;
+        } else {
+            throw new RuntimeException("activity or parent fragment implement OnClickTweetListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mOnClickTweetListener = null;
     }
 
     private void startApiAsyncTask() {

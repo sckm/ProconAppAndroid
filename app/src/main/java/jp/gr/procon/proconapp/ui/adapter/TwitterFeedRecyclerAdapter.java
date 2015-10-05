@@ -21,11 +21,13 @@ import java.util.Locale;
 
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.model.FeedTwitterStatus;
+import jp.gr.procon.proconapp.ui.fragment.TwitterFeedFragment;
 import jp.gr.procon.proconapp.util.DateUtil;
 import timber.log.Timber;
 
 public class TwitterFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<FeedTwitterStatus> mItems;
+    private TwitterFeedFragment.OnClickTweetListener mOnClickTweetListener;
 
     public TwitterFeedRecyclerAdapter(@NonNull List<FeedTwitterStatus> items) {
         mItems = items;
@@ -38,12 +40,16 @@ public class TwitterFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ItemViewHolder) holder).bindTo(mItems.get(position));
+        ((ItemViewHolder) holder).bindTo(mItems.get(position), mOnClickTweetListener);
     }
 
     @Override
     public int getItemCount() {
         return mItems.size();
+    }
+
+    public void setOnClickTweetListener(TwitterFeedFragment.OnClickTweetListener onClickTweetListener) {
+        mOnClickTweetListener = onClickTweetListener;
     }
 
     private static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -69,7 +75,15 @@ public class TwitterFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
             mTweetBody = (TextView) itemView.findViewById(R.id.tweet_body);
         }
 
-        public void bindTo(FeedTwitterStatus tweet) {
+        public void bindTo(final FeedTwitterStatus tweet, final TwitterFeedFragment.OnClickTweetListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onClickTweet(tweet);
+                    }
+                }
+            });
             Glide.with(itemView.getContext())
                     .load(convertProfileIconUrlToLargeUrl(tweet.getUser().getProfileImageUrl()))
                     .fitCenter()

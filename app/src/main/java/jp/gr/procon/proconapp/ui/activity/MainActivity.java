@@ -4,19 +4,16 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 
-import java.lang.ref.WeakReference;
-
 import jp.gr.procon.proconapp.R;
-import jp.gr.procon.proconapp.api.AuthApi;
-import jp.gr.procon.proconapp.api.BaseApi;
+import jp.gr.procon.proconapp.model.FeedTwitterStatus;
 import jp.gr.procon.proconapp.model.Notice;
-import jp.gr.procon.proconapp.model.User;
+import jp.gr.procon.proconapp.model.twitter.User;
 import jp.gr.procon.proconapp.notification.NotificationConfig;
 import jp.gr.procon.proconapp.ui.adapter.HomeViewPagerAdapter;
 import jp.gr.procon.proconapp.ui.callback.OnNoticeClickListener;
@@ -24,6 +21,7 @@ import jp.gr.procon.proconapp.ui.fragment.GameResultOutlineFragment;
 import jp.gr.procon.proconapp.ui.fragment.NoticeOutlineFragment;
 import jp.gr.procon.proconapp.ui.fragment.PhotoOutlineFragment;
 import jp.gr.procon.proconapp.ui.fragment.RegisterTokenFragment;
+import jp.gr.procon.proconapp.ui.fragment.TwitterFeedFragment;
 import jp.gr.procon.proconapp.util.AppSharedPreference;
 import timber.log.Timber;
 
@@ -31,7 +29,8 @@ public class MainActivity extends BaseActivity implements
         NoticeOutlineFragment.OnShowAllNoticeClickListener
         , GameResultOutlineFragment.OnShowAllGameResultClickListener
         , PhotoOutlineFragment.OnShowAllGamePhotoClickListener
-        , OnNoticeClickListener {
+        , OnNoticeClickListener
+        , TwitterFeedFragment.OnClickTweetListener {
     private static final String ARG_FROM_NOTIFICATION = "arg_from_notification";
 
     private ViewPager mViewPager;
@@ -121,5 +120,19 @@ public class MainActivity extends BaseActivity implements
         Timber.d("onNoticeClick: ");
         Intent intent = NoticeDetailActivity.createIntent(this, notice.getId());
         startActivity(intent);
+    }
+
+    @Override
+    public void onClickTweet(FeedTwitterStatus tweet) {
+        if (tweet == null || tweet.getUser() == null) {
+            return;
+        }
+        // ツイート詳細を表示
+        Intent twitterIntent = new Intent(Intent.ACTION_VIEW);
+        User user = tweet.getUser();
+        String formatTweetUrl = "https://twitter.com/%1$s/status/%2$s";
+        Uri httpUri = Uri.parse(String.format(formatTweetUrl, user.getScreenName(), tweet.getIdStr()));
+        twitterIntent.setData(httpUri);
+        startActivity(twitterIntent);
     }
 }
