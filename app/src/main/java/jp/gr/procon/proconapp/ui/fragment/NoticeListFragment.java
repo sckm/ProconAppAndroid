@@ -50,7 +50,6 @@ public class NoticeListFragment extends BaseFragment implements
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // TODO savedInstanceState
         if (savedInstanceState != null) {
             mNoticePageApiState = (PageApiState<Notice>) savedInstanceState.getSerializable(STATE_PAGE_API_STATE);
         }

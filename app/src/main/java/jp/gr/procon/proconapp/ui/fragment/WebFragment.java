@@ -75,7 +75,6 @@ public class WebFragment extends BaseFragment {
 
         mWebView = (WebView) view.findViewById(R.id.web_view);
         final View loadingView = view.findViewById(R.id.progress);
-        // TODO progress
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

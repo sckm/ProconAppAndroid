@@ -64,11 +64,8 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // TODO apiから取得
-//        mNoticeList = JsonUtil.fromJson(DummyNotice.getDummyNoticeList(), NoticeList.class);
-//        Timber.d(mNoticeList.toString());
+// TODO save
 
-        // TODO icon
         ImageView iconImageView = (ImageView) view.findViewById(R.id.icon);
         iconImageView.setImageResource(R.drawable.notice);
 

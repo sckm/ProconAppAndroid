@@ -39,7 +39,6 @@ public class NotificationHandler extends NotificationsHandler {
         String appName = context.getString(R.string.app_name);
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        // TODO icon 変更
                         .setSmallIcon(R.drawable.ic_stat_procon_icon4aa)
                         .setContentTitle(appName)
                         .setStyle(new NotificationCompat.BigTextStyle()

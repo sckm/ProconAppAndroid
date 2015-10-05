@@ -208,7 +208,6 @@ public class NoticeSettingFragment extends BaseFragment implements
         }
     }
 
-    // TODO progress
     private class GetGameNotificationApiAsyncTask extends AsyncTask<Void, Void, GameNotificationApi.GetRequest> {
 
         @Override
@@ -254,7 +253,6 @@ public class NoticeSettingFragment extends BaseFragment implements
         }
     }
 
-    // TODO progress
     private class PutGameNotificationApiAsyncTask extends AsyncTask<GameNotificationList, Void, GameNotificationApi.PutRequest> {
 
         @Override

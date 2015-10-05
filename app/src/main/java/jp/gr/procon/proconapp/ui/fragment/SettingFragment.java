@@ -51,7 +51,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         // バージョン
         View version = view.findViewById(R.id.item_version);
         ((TextView) version.findViewById(R.id.title_text)).setText(R.string.title_setting_version);
-        // TODO version
+        
         TextView versionText = (TextView) version.findViewById(R.id.body_text);
         versionText.setText(getVersionName(getActivity()));
         versionText.setVisibility(View.VISIBLE);

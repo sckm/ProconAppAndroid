@@ -93,7 +93,6 @@ public class TwitterFeedFragment extends BaseFragment implements SwipeRefreshLay
             return;
         }
 
-        // TODO 取得数変更
         mSocialTwitterApiAsyncTask = new SocialTwitterApiAsyncTask(getUserToken());
         mSocialTwitterApiAsyncTask.execute(API_MAX_COUNT);
     }

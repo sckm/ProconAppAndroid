@@ -72,7 +72,6 @@ public class NoticeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         public void bindTo(final Notice item, final OnNoticeItemClickListener onNoticeItemClickListener) {
-            // TODO テキスト変更
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

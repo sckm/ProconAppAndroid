@@ -9,6 +9,7 @@ import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.model.NoticeDetail;
 import jp.gr.procon.proconapp.ui.fragment.ObtainNoticeDetailFragment;
 import jp.gr.procon.proconapp.ui.fragment.WebFragment;
+import jp.gr.procon.proconapp.util.ToastUtil;
 
 public class NoticeDetailActivity extends BaseActivity implements
         ObtainNoticeDetailFragment.OnObtainNewsDetailListener {
@@ -62,7 +63,7 @@ public class NoticeDetailActivity extends BaseActivity implements
 
     @Override
     public void onFailedObtainNewsDetail() {
-        // TODO error
+        ToastUtil.show(this, R.string.error_network);
         mLoadingView.setVisibility(View.GONE);
     }
 }

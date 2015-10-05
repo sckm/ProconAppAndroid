@@ -64,11 +64,8 @@ public class GameResultOutlineFragment extends BaseFragment implements
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // TODO apiから取得
-//        mGameResultList = JsonUtil.fromJson(DummyGameResultList.getDummyGameResultList(), GameResultList.class);
-//        Timber.d(mGameResultList.toString());
+        // TODO save
 
-        // TODO icon
         ImageView iconImageView = (ImageView) view.findViewById(R.id.icon);
         iconImageView.setImageResource(R.drawable.news);
 
