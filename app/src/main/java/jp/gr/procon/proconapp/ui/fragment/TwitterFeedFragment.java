@@ -31,6 +31,8 @@ public class TwitterFeedFragment extends BaseFragment implements SwipeRefreshLay
         void onClickTweet(FeedTwitterStatus tweet);
 
         void onClickPostTweet();
+
+        void onClickMoreButton();
     }
 
     public static TwitterFeedFragment newInstance() {
@@ -79,6 +81,14 @@ public class TwitterFeedFragment extends BaseFragment implements SwipeRefreshLay
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mAdapter = new TwitterFeedRecyclerAdapter(mTweetList);
         mAdapter.setOnClickTweetListener(mOnClickTweetListener);
+        mAdapter.setOnClickMoreButtonListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnClickTweetListener != null) {
+                    mOnClickTweetListener.onClickMoreButton();
+                }
+            }
+        });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         mRecyclerView.setAdapter(mAdapter);

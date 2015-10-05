@@ -32,5 +32,8 @@
     <string name="url_about_app">https://proconapp.com/docs/about/</string>
 
     <string name="error_network">読み込みに失敗しました。通信環境の良いところで再度お試しください。</string>
-    <string name="twitter_hash_tag">#procon26</string>
+
+    <string name="twitter_hash_tag">procon26</string>
+
+    <string name="text_show_more_tweet">さらに表示</string>
 </resources>

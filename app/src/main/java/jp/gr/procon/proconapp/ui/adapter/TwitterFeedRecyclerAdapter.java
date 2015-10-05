@@ -3,7 +3,6 @@ package jp.gr.procon.proconapp.ui.adapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -26,8 +23,12 @@ import jp.gr.procon.proconapp.util.DateUtil;
 import timber.log.Timber;
 
 public class TwitterFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int VIEW_TYPE_ITEM = 1;
+    private static final int VIEW_TYPE_FOOTER = 2;
+
     private List<FeedTwitterStatus> mItems;
     private TwitterFeedFragment.OnClickTweetListener mOnClickTweetListener;
+    private View.OnClickListener mOnClickMoreButtonListener;
 
     public TwitterFeedRecyclerAdapter(@NonNull List<FeedTwitterStatus> items) {
         mItems = items;
@@ -35,21 +36,53 @@ public class TwitterFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return ItemViewHolder.create(parent);
+        switch (viewType) {
+            case VIEW_TYPE_FOOTER:
+                return FooterViewHolder.create(parent);
+
+            default:
+                return ItemViewHolder.create(parent);
+        }
+
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ItemViewHolder) holder).bindTo(mItems.get(position), mOnClickTweetListener);
+        switch (getItemViewType(position)) {
+            case VIEW_TYPE_ITEM:
+                ((ItemViewHolder) holder).bindTo(mItems.get(position), mOnClickTweetListener);
+                break;
+
+            case VIEW_TYPE_FOOTER:
+                ((FooterViewHolder) holder).bindTo(mOnClickMoreButtonListener);
+                break;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position < mItems.size()) {
+            return VIEW_TYPE_ITEM;
+        } else {
+            return VIEW_TYPE_FOOTER;
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return mItems.size() + getFootersCount();
+    }
+
+    public int getFootersCount() {
+        return mItems.size() == 0 ? 0 : 1;
     }
 
     public void setOnClickTweetListener(TwitterFeedFragment.OnClickTweetListener onClickTweetListener) {
         mOnClickTweetListener = onClickTweetListener;
+    }
+
+    public void setOnClickMoreButtonListener(View.OnClickListener onClickMoreButtonListener) {
+        mOnClickMoreButtonListener = onClickMoreButtonListener;
     }
 
     private static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -117,5 +150,24 @@ public class TwitterFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
+    private static class FooterViewHolder extends RecyclerView.ViewHolder {
+        private static final int RES_ID = R.layout.text_show_more_tweet;
+        private TextView mDescText;
+
+        public static FooterViewHolder create(ViewGroup parent) {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            return new FooterViewHolder(inflater.inflate(RES_ID, parent, false));
+        }
+
+        public FooterViewHolder(View itemView) {
+            super(itemView);
+            mDescText = (TextView) itemView.findViewById(R.id.text_body);
+        }
+
+        public void bindTo(View.OnClickListener listener) {
+            mDescText.setText(R.string.text_show_more_tweet);
+            mDescText.setOnClickListener(listener);
+        }
+    }
 
 }

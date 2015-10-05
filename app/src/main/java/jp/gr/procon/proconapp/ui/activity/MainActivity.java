@@ -142,7 +142,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onClickPostTweet() {
-        String hashTag = getString(R.string.twitter_hash_tag);
+        String hashTag = "#" + getString(R.string.twitter_hash_tag);
         Uri uri = Uri.parse("twitter://post?message=" + Uri.encode(hashTag));
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setData(uri);
@@ -155,5 +155,13 @@ public class MainActivity extends BaseActivity implements
             httpTweetIntent.setData(httpUri);
             startActivity(httpTweetIntent);
         }
+    }
+
+    @Override
+    public void onClickMoreButton() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.parse("https://twitter.com/hashtag/" + getString(R.string.twitter_hash_tag));
+        intent.setData(uri);
+        startActivity(intent);
     }
 }
