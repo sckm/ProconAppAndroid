@@ -86,7 +86,7 @@ public class RegisterTokenFragment extends BaseFragment {
         if (TextUtils.isEmpty(registeredId)) {
             startAsyncTask();
         } else {
-            Timber.d("registerWithNotificationHubs: already registered");
+            Timber.d("registerWithNotificationHubs: already registered id=" + registeredId);
         }
     }
 
@@ -102,7 +102,7 @@ public class RegisterTokenFragment extends BaseFragment {
         protected PushTokenApi.PutRequest doInBackground(Object... params) {
             try {
                 mRegisterId = mGcm.register(NotificationConfig.SENDER_ID);
-                Timber.d("Registered Successfully", "RegId : " + mRegisterId);
+                Timber.d("Registered Successfully Id=" + mRegisterId);
 
                 return new PushTokenApi.PutRequest(getUserToken()).put(mRegisterId);
             } catch (Exception e) {

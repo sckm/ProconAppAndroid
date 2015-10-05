@@ -40,7 +40,7 @@ public class NotificationHandler extends NotificationsHandler {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         // TODO icon 変更
-                        .setSmallIcon(R.drawable.ic_chevron_right_black_24dp)
+                        .setSmallIcon(R.drawable.ic_stat_procon_icon4aa)
                         .setContentTitle(appName)
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
