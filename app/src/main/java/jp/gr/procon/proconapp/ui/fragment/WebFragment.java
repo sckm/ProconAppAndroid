@@ -1,8 +1,10 @@
 package jp.gr.procon.proconapp.ui.fragment;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +20,14 @@ public class WebFragment extends BaseFragment {
     private static final String MINE_TYPE_TEXT_PLAIN = "text/html";
     private static final String ENCODING_UTF8 = "utf8";
 
+    public interface OnLoadUrlListener {
+        boolean onLoadUrl(String url);
+    }
+
     private WebView mWebView;
     private String mUrlString;
     private String mDataString;
+    private OnLoadUrlListener mOnLoadUrlListener;
 
     public static WebFragment newInstance(String url) {
         return newInstance(url, null);
@@ -70,7 +77,15 @@ public class WebFragment extends BaseFragment {
         final View loadingView = view.findViewById(R.id.progress);
         // TODO progress
         mWebView.setWebViewClient(new WebViewClient() {
-
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (mOnLoadUrlListener != null) {
+                    if (mOnLoadUrlListener.onLoadUrl(url)) {
+                        return true;
+                    }
+                }
+                return super.shouldOverrideUrlLoading(view, url);
+            }
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -96,7 +111,23 @@ public class WebFragment extends BaseFragment {
         } else if (!TextUtils.isEmpty(mDataString)) {
             mWebView.loadDataWithBaseURL(null, mDataString, MINE_TYPE_TEXT_PLAIN, ENCODING_UTF8, null);
         }
+    }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        Fragment parent = getParentFragment();
+        if (parent != null && parent instanceof OnLoadUrlListener) {
+            mOnLoadUrlListener = (OnLoadUrlListener) parent;
+        } else if (activity instanceof OnLoadUrlListener) {
+            mOnLoadUrlListener = (OnLoadUrlListener) activity;
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mOnLoadUrlListener = null;
     }
 
     @Override
