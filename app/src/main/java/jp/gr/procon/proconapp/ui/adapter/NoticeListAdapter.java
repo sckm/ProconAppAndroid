@@ -1,5 +1,6 @@
 package jp.gr.procon.proconapp.ui.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,35 +17,73 @@ import jp.gr.procon.proconapp.util.DateUtil;
 
 // TODO progress 表示
 public class NoticeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int VIEW_TYPE_ITEM = 1;
+    private static final int VIEW_TYPE_FOOTER = 2;
+
 
     public interface OnNoticeItemClickListener {
         void onNoticeItemClick(Notice notice);
     }
 
     private ArrayList<Notice> mItems;
+    private boolean mIsShowLoading;
+
     private OnGetViewListener mOnGetViewListener;
     private OnNoticeItemClickListener mOnNoticeItemClickListener;
 
-    public NoticeListAdapter(ArrayList<Notice> items) {
+    public NoticeListAdapter(@NonNull ArrayList<Notice> items) {
         mItems = items;
+        mIsShowLoading = false;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return ItemViewHolder.create(parent);
+        switch (viewType) {
+            case VIEW_TYPE_FOOTER:
+                return FooterViewHolder.create(parent);
+
+            default:
+                return ItemViewHolder.create(parent);
+        }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ItemViewHolder) holder).bindTo(mItems.get(position), mOnNoticeItemClickListener);
+        switch (getItemViewType(position)) {
+            case VIEW_TYPE_FOOTER:
+                break;
+
+            case VIEW_TYPE_ITEM:
+                ((ItemViewHolder) holder).bindTo(mItems.get(position), mOnNoticeItemClickListener);
+                break;
+        }
+
         if (mOnGetViewListener != null) {
             mOnGetViewListener.OnGetView(this, position);
         }
     }
 
     @Override
+    public int getItemViewType(int position) {
+        if (position < mItems.size()) {
+            return VIEW_TYPE_ITEM;
+        } else {
+            return VIEW_TYPE_FOOTER;
+        }
+    }
+
+    @Override
     public int getItemCount() {
-        return mItems == null ? 0 : mItems.size();
+        return mItems.size() + getFootersCount();
+    }
+
+    public int getFootersCount() {
+        return mIsShowLoading ? 1 : 0;
+    }
+
+    /** フッターにプログレスを表示する場合はtrue, それ以外はfalse */
+    public void setIsShowLoading(boolean isShowLoading) {
+        mIsShowLoading = isShowLoading;
     }
 
     public void setOnGetViewListener(OnGetViewListener onGetViewListener) {
@@ -82,6 +121,19 @@ public class NoticeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             });
             mTitleText.setText(item.getTitle());
             mPublishedAtText.setText(DateUtil.timeToPostDate(item.getPublishedAt()));
+        }
+    }
+
+    public static class FooterViewHolder extends RecyclerView.ViewHolder {
+        private static final int RES_ID = R.layout.loading;
+
+        public static FooterViewHolder create(ViewGroup parent) {
+            return new FooterViewHolder(LayoutInflater.from(parent.getContext()).inflate(RES_ID, parent, false));
+        }
+
+        public FooterViewHolder(View itemView) {
+            super(itemView);
+            itemView.findViewById(R.id.progress).setVisibility(View.VISIBLE);
         }
     }
 }

@@ -22,10 +22,13 @@ import jp.gr.procon.proconapp.ui.view.DividerItemDecoration;
 public class NoticeListFragment extends BaseFragment implements
         NoticeApiAsyncTask.NoticeApiListener
         , OnGetViewListener {
+    private static final String STATE_FAIL_LOADING = "state_fail_loading";
     private static final String STATE_PAGE_API_STATE = "state_page_api_state";
 
     private View mLoadingView;
     private RecyclerView mRecyclerView;
+    /** ロードに失敗したらtrue, それ以外はfalse */
+    private boolean mFailLoading;
 
     private NoticeListAdapter mAdapter;
 
@@ -51,10 +54,13 @@ public class NoticeListFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
 
         if (savedInstanceState != null) {
-            mNoticePageApiState = (PageApiState<Notice>) savedInstanceState.getSerializable(STATE_PAGE_API_STATE);
+            // 前のデータを保存しておく場合は新規データ読み込み時に差分のみ追加するようにする
+//            mFailLoading = savedInstanceState.getBoolean(STATE_FAIL_LOADING);
+//            mNoticePageApiState = (PageApiState<Notice>) savedInstanceState.getSerializable(STATE_PAGE_API_STATE);
         }
 
-        if (mNoticePageApiState == null) {
+        // 前回表示時にロードに失敗していたらいったんデータをリセットしておく
+        if (mFailLoading || mNoticePageApiState == null) {
             mNoticePageApiState = new PageApiState<>();
         }
 
@@ -79,6 +85,7 @@ public class NoticeListFragment extends BaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
+        mFailLoading = false;
         if (!mNoticePageApiState.isLoadedAll()) {
             startApiAsyncTask();
         }
@@ -115,11 +122,18 @@ public class NoticeListFragment extends BaseFragment implements
         super.onDestroyView();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_FAIL_LOADING, mFailLoading);
+        outState.putSerializable(STATE_PAGE_API_STATE, mNoticePageApiState);
+    }
 
     @Override
     public void onPreExecuteNoticeApi() {
-        // TODO リスト内にプログレス表示
-        if (mLoadingView != null) {
+        // リストにアイテムが無い時だけmLoadingViewでプログレス表示
+        // リストにアイテムがある場合はリストフッターでプログレス表示
+        if (mNoticePageApiState.getItems().size() == 0 && mLoadingView != null) {
             mLoadingView.setVisibility(View.VISIBLE);
         }
     }
@@ -133,9 +147,13 @@ public class NoticeListFragment extends BaseFragment implements
 
         if (api.isSuccessful()) {
             mNoticePageApiState.addPageList(api.getResponseObj());
-            mAdapter.notifyDataSetChanged();
+            setShowListFooter(!mNoticePageApiState.isLoadedAll());
+
         } else {
-            // TODO error
+            // 必要ならエラー表示
+//            ToastUtil.show(getActivity(), R.string.error_network);
+            mFailLoading = true;
+            setShowListFooter(false);
         }
         if (mLoadingView != null) {
             mLoadingView.setVisibility(View.GONE);
@@ -148,13 +166,19 @@ public class NoticeListFragment extends BaseFragment implements
         if (mLoadingView != null) {
             mLoadingView.setVisibility(View.GONE);
         }
+        setShowListFooter(false);
     }
 
     @Override
     public void OnGetView(RecyclerView.Adapter adapter, int position) {
-        if (adapter.getItemCount() - 5 < position) {
+        if (!mFailLoading && adapter.getItemCount() - 5 < position && !mNoticePageApiState.isLoadedAll()) {
             startApiAsyncTask();
         }
+    }
+
+    private void setShowListFooter(boolean isShow) {
+        mAdapter.setIsShowLoading(isShow);
+        mAdapter.notifyDataSetChanged();
     }
 
     private void startApiAsyncTask() {
