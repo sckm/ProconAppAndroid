@@ -17,10 +17,12 @@ import jp.gr.procon.proconapp.GoogleAnalyticsConfig;
 import jp.gr.procon.proconapp.ProconApplication;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.model.FeedTwitterStatus;
+import jp.gr.procon.proconapp.model.GamePhoto;
 import jp.gr.procon.proconapp.model.Notice;
 import jp.gr.procon.proconapp.model.twitter.User;
 import jp.gr.procon.proconapp.notification.NotificationConfig;
 import jp.gr.procon.proconapp.ui.adapter.HomeViewPagerAdapter;
+import jp.gr.procon.proconapp.ui.callback.OnClickPhotoListener;
 import jp.gr.procon.proconapp.ui.callback.OnNoticeClickListener;
 import jp.gr.procon.proconapp.ui.fragment.GameResultOutlineFragment;
 import jp.gr.procon.proconapp.ui.fragment.NoticeOutlineFragment;
@@ -36,7 +38,8 @@ public class MainActivity extends BaseActivity implements
         , PhotoOutlineFragment.OnShowAllGamePhotoClickListener
         , OnNoticeClickListener
         , TwitterFeedFragment.OnClickTweetListener
-        , ViewPager.OnPageChangeListener {
+        , ViewPager.OnPageChangeListener
+        , OnClickPhotoListener {
     private static final String ARG_FROM_NOTIFICATION = "arg_from_notification";
 
     private ViewPager mViewPager;
@@ -194,5 +197,11 @@ public class MainActivity extends BaseActivity implements
                 : GoogleAnalyticsConfig.SCREEN_NAME_SOCIAL;
         tracker.setScreenName(screenName);
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    @Override
+    public void onClickPhoto(GamePhoto photo) {
+        Intent intent = PhotoDetailActivity.createIntent(this, photo);
+        startActivity(intent);
     }
 }

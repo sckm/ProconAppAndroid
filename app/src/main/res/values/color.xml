@@ -2,6 +2,7 @@
 <resources>
 
     <color name="divider_gray">#FFAAAAAA</color>
+    <color name="background_black">#FF000000</color>
     <color name="background_light_gray">#33CCCCCC</color>
     <color name="background_gray">#77CCCCCC</color>
     <color name="background_outline_title">#00000000</color>

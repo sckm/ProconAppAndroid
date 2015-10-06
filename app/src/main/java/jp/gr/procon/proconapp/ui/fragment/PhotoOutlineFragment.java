@@ -24,6 +24,7 @@ import jp.gr.procon.proconapp.event.BusHolder;
 import jp.gr.procon.proconapp.event.RequestUpdateEvent;
 import jp.gr.procon.proconapp.model.GamePhoto;
 import jp.gr.procon.proconapp.model.GamePhotoList;
+import jp.gr.procon.proconapp.ui.callback.OnClickPhotoListener;
 import jp.gr.procon.proconapp.util.JsonUtil;
 import timber.log.Timber;
 
@@ -53,6 +54,7 @@ public class PhotoOutlineFragment extends BaseFragment implements
     private GamePhotoList mPhotoList;
     private OnShowAllGamePhotoClickListener mOnShowAllGamePhotoClickListener;
     private OnUpdatePhotoOutlineListener mOnUpdatePhotoOutlineListener;
+    private OnClickPhotoListener mOnClickPhotoListener;
 
     private GamePhotoApiAsyncTask mGamePhotoApiAsyncTask;
 
@@ -138,6 +140,14 @@ public class PhotoOutlineFragment extends BaseFragment implements
         } else {
             throw new RuntimeException("parent or activity must implement listener");
         }
+
+        if (parent != null && parent instanceof OnClickPhotoListener) {
+            mOnClickPhotoListener = (OnClickPhotoListener) parent;
+        } else if (activity instanceof OnClickPhotoListener) {
+            mOnClickPhotoListener = (OnClickPhotoListener) activity;
+        } else {
+            throw new RuntimeException("parent or activity must implement listener");
+        }
     }
 
     @Override
@@ -151,11 +161,22 @@ public class PhotoOutlineFragment extends BaseFragment implements
         for (GamePhoto photo : mPhotoList) {
             ViewHolder holder = holders.get(i);
 
+            final GamePhoto gamePhoto = photo;
             Glide.with(this)
                     .load(photo.getmThumbnailUrl())
                     .centerCrop()
                     .into(holder.imageView);
+            holder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnClickPhotoListener != null) {
+                        mOnClickPhotoListener.onClickPhoto(gamePhoto);
+                    }
+                }
+            });
+
             i++;
+
         }
 
     }
