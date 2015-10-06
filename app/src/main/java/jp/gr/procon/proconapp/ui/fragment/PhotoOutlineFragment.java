@@ -73,14 +73,13 @@ public class PhotoOutlineFragment extends BaseFragment implements
         // TODO savedInstanceState
 
         // TODO headerをviewかfragmentへまとめる
+        View header = view.findViewById(R.id.header);
+        header.setOnClickListener(this);
         ImageView iconImageView = (ImageView) view.findViewById(R.id.icon);
         iconImageView.setImageResource(R.drawable.photo);
 
         TextView titleTextView = (TextView) view.findViewById(R.id.outline_title);
         titleTextView.setText(R.string.title_outline_game_photo);
-
-        TextView showAllTextView = (TextView) view.findViewById(R.id.outline_show_all);
-        showAllTextView.setOnClickListener(this);
 
         mLinearLayout = (LinearLayout) view.findViewById(R.id.thumbnails_layout);
         setupView();
@@ -185,6 +184,7 @@ public class PhotoOutlineFragment extends BaseFragment implements
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
+            case R.id.header:
             case R.id.outline_show_all:
                 if (mOnShowAllGamePhotoClickListener != null) {
                     mOnShowAllGamePhotoClickListener.onShowAllGamePhotoClick();
