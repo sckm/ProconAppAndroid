@@ -22,6 +22,6 @@
         android:layout_alignLeft="@id/title_text"
         android:layout_below="@id/title_text"
         android:textColor="@color/text_secondary"
-        android:textSize="@dimen/text_large"
+        android:textSize="@dimen/text_medium"
         android:visibility="gone"/>
 </RelativeLayout>
