@@ -169,9 +169,13 @@ public class PhotoOutlineFragment extends BaseFragment implements
                     }
                 }
             });
+            holder.imageView.setVisibility(View.VISIBLE);
 
             i++;
+        }
 
+        for (int j = i; j < holders.size(); j++) {
+            holders.get(j).imageView.setVisibility(View.GONE);
         }
 
     }
@@ -225,6 +229,7 @@ public class PhotoOutlineFragment extends BaseFragment implements
                 mLinearLayout.addView(mLayout);
             }
             ImageView imageView = (ImageView) mLayout.findViewById(THUMBNAIL_IMAGE_RES_IS[i % 2]).findViewById(R.id.thumbnail_view);
+            imageView.setVisibility(View.GONE);
             ViewHolder holder = new ViewHolder(imageView);
             holders.add(holder);
         }
