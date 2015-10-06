@@ -7,7 +7,8 @@
     <color name="background_gray">#77CCCCCC</color>
     <color name="background_outline_title">#00000000</color>
     <color name="background_white">#FFFFFFFF</color>
-    <color name="background_gray_blue">#FF5555AA</color>
+    <color name="background_gray_blue">#DD5555AA</color>
+    <color name="background_gray_blue_pressed">#FF5555AA</color>
     <color name="background_circle_blue">#FF848CAF</color>
     <color name="background_circle_red">#FFD39293</color>
     <color name="background_fab_gray_blue">#995555AA</color>
@@ -21,4 +22,6 @@
     <color name="indicator_green">#FF00FF00</color>
     <color name="indicator_blue">#FF0000FF</color>
     <color name="indicator_orange">#FFFF5500</color>
+
+    <color name="ripple_highlight">#33000000</color>
 </resources>
