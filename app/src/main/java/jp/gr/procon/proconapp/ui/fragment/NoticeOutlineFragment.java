@@ -62,7 +62,8 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
         super.onViewCreated(view, savedInstanceState);
 
 // TODO save
-
+        View header = view.findViewById(R.id.header);
+        header.setOnClickListener(this);
         ImageView iconImageView = (ImageView) view.findViewById(R.id.icon);
         iconImageView.setImageResource(R.drawable.notice);
 
@@ -70,7 +71,7 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
         titleTextView.setText(R.string.title_outline_notice);
 
         TextView showAllTextView = (TextView) view.findViewById(R.id.outline_show_all);
-        showAllTextView.setOnClickListener(this);
+//        showAllTextView.setOnClickListener(this);
 
         mBodyLayout = (ViewGroup) view.findViewById(R.id.outline_body);
         setupView();
@@ -191,6 +192,7 @@ public class NoticeOutlineFragment extends BaseFragment implements View.OnClickL
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
+            case R.id.header:
             case R.id.outline_show_all:
                 if (mOnShowAllNoticeClickListener != null) {
                     mOnShowAllNoticeClickListener.onShowAllNoticeClick();

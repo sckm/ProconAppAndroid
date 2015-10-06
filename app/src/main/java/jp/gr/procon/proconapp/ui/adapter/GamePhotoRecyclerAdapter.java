@@ -1,9 +1,7 @@
 package jp.gr.procon.proconapp.ui.adapter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +9,15 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.model.GamePhoto;
+import jp.gr.procon.proconapp.ui.callback.OnClickPhotoListener;
 
 public class GamePhotoRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<GamePhoto> mItems;
+    private OnClickPhotoListener mOnClickPhotoListener;
 
     public GamePhotoRecyclerAdapter(@NonNull List<GamePhoto> items) {
         mItems = items;
@@ -32,12 +30,16 @@ public class GamePhotoRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ItemViewHolder) holder).bindTo(mItems.get(position));
+        ((ItemViewHolder) holder).bindTo(mItems.get(position), mOnClickPhotoListener);
     }
 
     @Override
     public int getItemCount() {
         return mItems.size();
+    }
+
+    public void setOnClickPhotoListener(OnClickPhotoListener onClickPhotoListener) {
+        mOnClickPhotoListener = onClickPhotoListener;
     }
 
     private static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -54,11 +56,20 @@ public class GamePhotoRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
             mThumbnailView = (ImageView) itemView.findViewById(R.id.thumbnail_view);
         }
 
-        public void bindTo(GamePhoto photo) {
+        public void bindTo(final GamePhoto photo, final OnClickPhotoListener listener) {
             Glide.with(itemView.getContext())
                     .load(photo.getmThumbnailUrl())
                     .centerCrop()
                     .into(mThumbnailView);
+
+            mThumbnailView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onClickPhoto(photo);
+                    }
+                }
+            });
         }
 
     }

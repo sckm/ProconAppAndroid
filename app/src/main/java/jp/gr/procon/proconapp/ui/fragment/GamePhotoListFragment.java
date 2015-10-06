@@ -1,6 +1,8 @@
 package jp.gr.procon.proconapp.ui.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import jp.gr.procon.proconapp.api.asynctask.GamePhotoApiAsyncTask;
 import jp.gr.procon.proconapp.model.GamePhoto;
 import jp.gr.procon.proconapp.model.PageApiState;
 import jp.gr.procon.proconapp.ui.adapter.GamePhotoRecyclerAdapter;
+import jp.gr.procon.proconapp.ui.callback.OnClickPhotoListener;
 import jp.gr.procon.proconapp.ui.view.GridDividerItemDecoration;
 import jp.gr.procon.proconapp.util.ToastUtil;
 
@@ -32,6 +35,8 @@ public class GamePhotoListFragment extends BaseFragment implements
     private PageApiState<GamePhoto> mApiState;
 
     private GamePhotoApiAsyncTask mGamePhotoApiAsyncTask;
+
+    private OnClickPhotoListener mOnClickPhotoListener;
 
     public GamePhotoListFragment() {
     }
@@ -56,6 +61,7 @@ public class GamePhotoListFragment extends BaseFragment implements
         mLoadingView = view.findViewById(R.id.progress);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mAdapter = new GamePhotoRecyclerAdapter(mApiState.getItems());
+        mAdapter.setOnClickPhotoListener(mOnClickPhotoListener);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mRecyclerView.addItemDecoration(new GridDividerItemDecoration(getActivity(), 2));
         mRecyclerView.setAdapter(mAdapter);
@@ -74,6 +80,25 @@ public class GamePhotoListFragment extends BaseFragment implements
     public void onPause() {
         stopApiAsyncTask();
         super.onPause();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        Fragment parent = getParentFragment();
+        if (parent != null && parent instanceof OnClickPhotoListener) {
+            mOnClickPhotoListener = (OnClickPhotoListener) parent;
+        } else if (activity instanceof OnClickPhotoListener) {
+            mOnClickPhotoListener = (OnClickPhotoListener) activity;
+        } else {
+            throw new RuntimeException("parent or activity must implement listener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mOnClickPhotoListener = null;
     }
 
     @Override

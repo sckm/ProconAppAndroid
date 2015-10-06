@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+       android:insetBottom="@dimen/spacing_micro"
+       android:insetLeft="@dimen/spacing_micro"
+       android:insetRight="@dimen/spacing_micro"
+       android:insetTop="@dimen/spacing_micro">
+    <shape android:shape="rectangle">
+        <corners android:radius="@dimen/spacing_medium"/>
+        <stroke
+            android:width="@dimen/spacing_small"
+            android:color="@android:color/transparent"/>
+        <solid android:color="@color/background_gray_blue"/>
+        <padding
+            android:bottom="@dimen/spacing_micro"
+            android:left="@dimen/spacing_medium"
+            android:right="@dimen/spacing_medium"
+            android:top="@dimen/spacing_micro"/>
+    </shape>
+</inset>

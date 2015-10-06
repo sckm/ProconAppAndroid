@@ -18,10 +18,13 @@
             android:layout_marginLeft="@dimen/spacing_small"
             android:layout_marginRight="@dimen/spacing_medium"
             android:background="@drawable/background_button_blue"
+            android:paddingBottom="@dimen/spacing_small"
             android:paddingLeft="@dimen/spacing_small"
             android:paddingRight="@dimen/spacing_small"
+            android:paddingTop="@dimen/spacing_small"
             android:text="@string/btn_submit"
-            android:textColor="@color/text_primary_reverse"/>
+            android:textColor="@color/text_primary_reverse"
+            android:textSize="@dimen/text_medium"/>
 
         <Button
             android:id="@+id/btn_cancel"

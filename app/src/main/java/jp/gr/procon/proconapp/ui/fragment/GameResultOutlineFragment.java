@@ -65,15 +65,13 @@ public class GameResultOutlineFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
 
         // TODO save
-
+        View header = view.findViewById(R.id.header);
+        header.setOnClickListener(this);
         ImageView iconImageView = (ImageView) view.findViewById(R.id.icon);
         iconImageView.setImageResource(R.drawable.news);
 
         TextView titleTextView = (TextView) view.findViewById(R.id.outline_title);
         titleTextView.setText(R.string.title_outline_game_result);
-
-        TextView showAllTextView = (TextView) view.findViewById(R.id.outline_show_all);
-        showAllTextView.setOnClickListener(this);
 
         mTableLayout = (TableLayout) view.findViewById(R.id.outline_table);
         setupView();
@@ -220,6 +218,7 @@ public class GameResultOutlineFragment extends BaseFragment implements
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
+            case R.id.header:
             case R.id.outline_show_all:
                 if (mOnShowAllGameResultClickListener != null) {
                     mOnShowAllGameResultClickListener.onShowAllGameResultClick();

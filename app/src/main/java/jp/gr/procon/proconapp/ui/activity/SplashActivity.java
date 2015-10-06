@@ -19,6 +19,11 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        // 前回登録したGCMのregister idの情報を削除
+        // 本来なら起動時に前回との差分を見て異なった場合だけAPIサーバーへ登録する方が良い
+        // 今回はとりあえず起動ごとにAPIサーバーへ投げるようにするためにリセット
+        AppSharedPreference.putString(this, AppSharedPreference.PREFERENCE_GCM_REGISTER_ID, null);
     }
 
     @Override

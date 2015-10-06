@@ -105,6 +105,12 @@
             android:name=".ui.activity.LicenseActivity"
             android:label="ライセンス">
         </activity>
+
+        <activity
+            android:name=".ui.activity.PhotoDetailActivity"
+            android:label="@string/title_activity_photo"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

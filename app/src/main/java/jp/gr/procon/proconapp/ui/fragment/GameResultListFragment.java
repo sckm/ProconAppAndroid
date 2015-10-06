@@ -78,12 +78,6 @@ public class GameResultListFragment extends BaseFragment
         mExpandableListView.addHeaderView(mDescriptionLayoutView, null, false);
         mAdapter = new GameResultExpandableListAdapter(mPageApiState.getItems());
         mExpandableListView.setAdapter(mAdapter);
-        mExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                return false;
-            }
-        });
         int groupCount = mAdapter.getGroupCount();
         for (int i = 0; i < groupCount; i++) {
             mExpandableListView.expandGroup(i);
