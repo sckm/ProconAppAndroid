@@ -35,8 +35,7 @@ public class RegisterTokenFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        NotificationsManager.handleNotifications(getActivity(), NotificationConfig.SENDER_ID, NotificationHandler.class);
-        mGcm = GoogleCloudMessaging.getInstance(getActivity());
+//        NotificationsManager.handleNotifications(getActivity(), NotificationConfig.SENDER_ID, NotificationHandler.class);
         registerWithNotificationHubs();
     }
 
@@ -84,6 +83,9 @@ public class RegisterTokenFragment extends BaseFragment {
 
         String registeredId = AppSharedPreference.getString(getActivity(), AppSharedPreference.PREFERENCE_GCM_REGISTER_ID);
         if (TextUtils.isEmpty(registeredId)) {
+            if (mGcm == null) {
+                mGcm = GoogleCloudMessaging.getInstance(getActivity());
+            }
             startAsyncTask();
         } else {
             Timber.d("registerWithNotificationHubs: already registered id=" + registeredId);
