@@ -2,6 +2,7 @@ package jp.gr.procon.proconapp.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,7 +10,7 @@ import android.view.MenuItem;
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.ui.fragment.WebFragment;
 
-public class ProgramActivity extends BaseActivity {
+public class ProgramActivity extends BaseActivity implements WebFragment.OnLoadUrlListener {
     private static final String ARG_URL = "arg_url";
 
     public static Intent createIntent(Context context) {
@@ -41,5 +42,17 @@ public class ProgramActivity extends BaseActivity {
             ret = true;
         }
         return ret;
+    }
+
+    @Override
+    public boolean onLoadUrl(String url) {
+        if (url.endsWith(".pdf")) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            Uri uri = Uri.parse(url);
+            intent.setData(uri);
+            startActivity(intent);
+            return true;
+        }
+        return false;
     }
 }
