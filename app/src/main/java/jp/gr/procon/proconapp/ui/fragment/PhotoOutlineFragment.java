@@ -157,6 +157,7 @@ public class PhotoOutlineFragment extends BaseFragment implements
             ViewHolder holder = holders.get(i);
 
             final GamePhoto gamePhoto = photo;
+            holder.imageView.setVisibility(View.VISIBLE);
             Glide.with(this)
                     .load(photo.getmThumbnailUrl())
                     .centerCrop()
@@ -169,7 +170,7 @@ public class PhotoOutlineFragment extends BaseFragment implements
                     }
                 }
             });
-            holder.imageView.setVisibility(View.VISIBLE);
+
 
             i++;
         }

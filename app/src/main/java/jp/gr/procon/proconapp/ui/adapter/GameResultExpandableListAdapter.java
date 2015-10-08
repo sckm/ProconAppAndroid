@@ -111,8 +111,9 @@ public class GameResultExpandableListAdapter extends BaseExpandableListAdapter {
         StringBuilder sb = new StringBuilder();
         ArrayList<Long> scores = item.getScores();
         for (int i = 0; i < scores.size(); i++) {
-            String score = item.getScore() < 0 ? "×" : item.getScore().toString();
-            sb.append(String.format("問%1$d:%2$s ", i + 1, score));
+            Long score = scores.get(i);
+            String scoreStr = score < 0 ? "×" : score.toString();
+            sb.append(String.format("問%1$d:%2$s ", i + 1, scoreStr));
         }
         sb.append("(zk)");
         holder.mScoreText.setText(sb.toString());
