@@ -1,7 +1,6 @@
 package jp.gr.procon.proconapp.ui.adapter;
 
 import android.text.format.DateFormat;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.model.GameResult;
 import jp.gr.procon.proconapp.model.PlayerResult;
-import jp.gr.procon.proconapp.util.DateUtil;
 
 public class GameResultExpandableListAdapter extends BaseExpandableListAdapter {
     private ArrayList<GameResult> mItems;
@@ -79,7 +76,7 @@ public class GameResultExpandableListAdapter extends BaseExpandableListAdapter {
         Calendar finishedCal = Calendar.getInstance();
         finishedCal.setTimeInMillis(groupItem.getFinishedAt());
 
-        String dateFormat = "hh:mm";
+        String dateFormat = "kk:mm";
 
         String startedAt = DateFormat.format(dateFormat, startedCal).toString();
         String finishedAt = DateFormat.format(dateFormat, finishedCal).toString();
