@@ -201,7 +201,7 @@ public class TwitterFeedFragment extends BaseFragment implements SwipeRefreshLay
                     // 取得済みの最新ツイートより新しいものを追加
                     int index = Collections.binarySearch(feed, latestTweet);
                     if (index > 0) {
-                        mTweetList.addAll(0, feed.subList(0, index - 1));
+                        mTweetList.addAll(0, feed.subList(0, index));
                     } else if (index < 0) {
                         // indexが-1の時全部最新ツイート
                         // -2以下の場合がないと想定
