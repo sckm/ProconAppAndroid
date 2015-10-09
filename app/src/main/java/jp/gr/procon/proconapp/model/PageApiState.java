@@ -2,6 +2,7 @@ package jp.gr.procon.proconapp.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import timber.log.Timber;
 

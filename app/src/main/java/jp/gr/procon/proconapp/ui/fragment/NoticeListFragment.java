@@ -9,21 +9,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import jp.gr.procon.proconapp.R;
 import jp.gr.procon.proconapp.api.NoticeListApi;
 import jp.gr.procon.proconapp.api.asynctask.NoticeApiAsyncTask;
 import jp.gr.procon.proconapp.model.Notice;
-import jp.gr.procon.proconapp.model.PageApiState;
 import jp.gr.procon.proconapp.ui.adapter.NoticeListAdapter;
 import jp.gr.procon.proconapp.ui.callback.OnGetViewListener;
 import jp.gr.procon.proconapp.ui.callback.OnNoticeClickListener;
 import jp.gr.procon.proconapp.ui.view.DividerItemDecoration;
+import jp.gr.procon.proconapp.util.ToastUtil;
+import timber.log.Timber;
 
 public class NoticeListFragment extends BaseFragment implements
         NoticeApiAsyncTask.NoticeApiListener
         , OnGetViewListener {
     private static final String STATE_FAIL_LOADING = "state_fail_loading";
     private static final String STATE_PAGE_API_STATE = "state_page_api_state";
+    private static final int PAGE_COUNT = 10;
 
     private View mLoadingView;
     private RecyclerView mRecyclerView;
@@ -32,7 +37,13 @@ public class NoticeListFragment extends BaseFragment implements
 
     private NoticeListAdapter mAdapter;
 
-    private PageApiState<Notice> mNoticePageApiState;
+    //    private PageApiState<Notice> mNoticePageApiState;
+    private ArrayList<Notice> mNoticeList;
+    private boolean mIsLoadedAll;
+
+    /** APIで次に取得すべきページ */
+    private int mNextPage;
+
     private NoticeApiAsyncTask mNoticeApiAsyncTask;
     private OnNoticeClickListener mOnNoticeClickListener;
 
@@ -60,8 +71,8 @@ public class NoticeListFragment extends BaseFragment implements
         }
 
         // 前回表示時にロードに失敗していたらいったんデータをリセットしておく
-        if (mFailLoading || mNoticePageApiState == null) {
-            mNoticePageApiState = new PageApiState<>();
+        if (mFailLoading || mNoticeList == null) {
+            mNoticeList = new ArrayList<>();
         }
 
         mLoadingView = view.findViewById(R.id.progress);
@@ -69,7 +80,7 @@ public class NoticeListFragment extends BaseFragment implements
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
-        mAdapter = new NoticeListAdapter(mNoticePageApiState.getItems());
+        mAdapter = new NoticeListAdapter(mNoticeList);
         mAdapter.setOnGetViewListener(this);
         mAdapter.setOnNoticeItemClickListener(new NoticeListAdapter.OnNoticeItemClickListener() {
             @Override
@@ -86,7 +97,7 @@ public class NoticeListFragment extends BaseFragment implements
     public void onResume() {
         super.onResume();
         mFailLoading = false;
-        if (!mNoticePageApiState.isLoadedAll()) {
+        if (!mIsLoadedAll) {
             startApiAsyncTask();
         }
     }
@@ -126,14 +137,14 @@ public class NoticeListFragment extends BaseFragment implements
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(STATE_FAIL_LOADING, mFailLoading);
-        outState.putSerializable(STATE_PAGE_API_STATE, mNoticePageApiState);
+        outState.putSerializable(STATE_PAGE_API_STATE, mNoticeList);
     }
 
     @Override
     public void onPreExecuteNoticeApi() {
         // リストにアイテムが無い時だけmLoadingViewでプログレス表示
         // リストにアイテムがある場合はリストフッターでプログレス表示
-        if (mNoticePageApiState.getItems().size() == 0 && mLoadingView != null) {
+        if (mNoticeList.size() == 0 && mLoadingView != null) {
             mLoadingView.setVisibility(View.VISIBLE);
         }
     }
@@ -146,15 +157,38 @@ public class NoticeListFragment extends BaseFragment implements
         }
 
         if (api.isSuccessful()) {
-            mNoticePageApiState.addPageList(api.getResponseObj());
-            setShowListFooter(!mNoticePageApiState.isLoadedAll());
+            ArrayList<Notice> list = api.getResponseObj();
 
+            ArrayList<Notice> newList = new ArrayList<>();
+            if (mNoticeList.size() == 0) {
+                newList.addAll(list);
+            } else {
+                // リストに追加されていないお知らせをnewListに追加
+                for (Notice notice : list) {
+                    int index = Collections.binarySearch(mNoticeList, notice);
+                    if (index < 0) {
+                        newList.add(notice);
+                    } else {
+                        Timber.d("onPostExecuteNoticeApi: already added id=" + notice.getId() + " pub_at=" + notice.getPublishedAt() + " index=" + index);
+                    }
+                }
+            }
+            Timber.d("onPostExecuteNoticeApi: page=" + mNextPage + " size=" + newList.size());
+            mNoticeList.addAll(newList);
+            Collections.sort(mNoticeList);
+            mIsLoadedAll = newList.size() == 0;
+
+            mNextPage++;
+            mAdapter.notifyDataSetChanged();
+            setShowListFooter(!mIsLoadedAll);
         } else {
-            // 必要ならエラー表示
-//            ToastUtil.show(getActivity(), R.string.error_network);
+            if (mNoticeList.size() == 0) {
+                ToastUtil.show(getActivity(), R.string.error_network);
+            }
             mFailLoading = true;
             setShowListFooter(false);
         }
+
         if (mLoadingView != null) {
             mLoadingView.setVisibility(View.GONE);
         }
@@ -171,7 +205,7 @@ public class NoticeListFragment extends BaseFragment implements
 
     @Override
     public void OnGetView(RecyclerView.Adapter adapter, int position) {
-        if (!mFailLoading && adapter.getItemCount() - 5 < position && !mNoticePageApiState.isLoadedAll()) {
+        if (!mFailLoading && adapter.getItemCount() - 5 < position && !mIsLoadedAll) {
             startApiAsyncTask();
         }
     }
@@ -182,12 +216,12 @@ public class NoticeListFragment extends BaseFragment implements
     }
 
     private void startApiAsyncTask() {
-        if (mNoticeApiAsyncTask != null || mNoticePageApiState.isLoadedAll()) {
+        if (mNoticeApiAsyncTask != null || mIsLoadedAll) {
             return;
         }
 
         mNoticeApiAsyncTask = new NoticeApiAsyncTask(getUserToken(), this);
-        mNoticeApiAsyncTask.execute(mNoticePageApiState.getNextPage(), mNoticePageApiState.getNumPageItem());
+        mNoticeApiAsyncTask.execute(mNextPage, PAGE_COUNT);
     }
 
     private void stopApiAsyncTask() {
