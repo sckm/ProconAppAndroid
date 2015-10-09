@@ -117,7 +117,7 @@ public class RegisterTokenFragment extends BaseFragment {
         @Override
         protected void onPostExecute(PushTokenApi.PutRequest api) {
             super.onPostExecute(api);
-            if (isCancelled() || isDetached() || getActivity() == null) {
+            if (isCancelled() || isDetached() || getActivity() == null || api == null) {
                 return;
             }
 
