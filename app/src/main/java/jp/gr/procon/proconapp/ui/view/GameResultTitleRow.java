@@ -39,7 +39,7 @@ public class GameResultTitleRow extends TableRow {
 
         switch (gameResult.getStatus()) {
             case GameResult.STATUS_GAME_ENDED:
-                mStartedAtText.setText(DateUtil.timeToPostDate(gameResult.getStartedAt()));
+                mStartedAtText.setText(DateUtil.timeToPostDate(gameResult.getFinishedAt()));
                 break;
 
             case GameResult.STATUS_GAME_PROGRESS:
