@@ -238,7 +238,7 @@ public class Player implements Serializable {
                 "  {\n" +
                 "    \"id\": 30060,\n" +
                 "    \"name\": \"宇部工業高等専門学校\",\n" +
-                "    \"short_name\": \"宇都宮\"\n" +
+                "    \"short_name\": \"宇部\"\n" +
                 "  },\n" +
                 "  {\n" +
                 "    \"id\": 30053,\n" +
