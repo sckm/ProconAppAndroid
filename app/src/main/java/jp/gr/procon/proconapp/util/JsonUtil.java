@@ -2,6 +2,7 @@ package jp.gr.procon.proconapp.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 public class JsonUtil {
 
@@ -33,7 +34,12 @@ public class JsonUtil {
 
     public static <T> T fromJson(String responseBodyText, Class<T> clazz) {
         Gson gson = new Gson();
-        T obj = gson.fromJson(responseBodyText, clazz);
+        T obj;
+        try {
+            obj = gson.fromJson(responseBodyText, clazz);
+        } catch (JsonSyntaxException e) {
+            obj = null;
+        }
         return obj;
     }
 }
