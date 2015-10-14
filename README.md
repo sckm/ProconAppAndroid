@@ -21,6 +21,7 @@
 
 ###API設定
 APIサーバーの接続先の設定
+`app/src/main/java/jp/gr/procon/proconapp/api/ApiConfig.java`
 
 ``` app/src/main/java/jp/gr/procon/proconapp/api/ApiConfig.java
 public class ApiConfig {
@@ -31,6 +32,8 @@ public class ApiConfig {
 ```
 
 ###Google Analytics設定
+`app/src/main/java/jp/gr/procon/proconapp/GoogleAnalyticsConfig.java`
+
 ``` app/src/main/java/jp/gr/procon/proconapp/GoogleAnalyticsConfig.java
 public class GoogleAnalyticsConfig {
     public static final String SCREEN_NAME_HOME = "Home";
@@ -42,6 +45,7 @@ public class GoogleAnalyticsConfig {
 
 ###通知の設定
 Google Cloud Messaging for Androidを使用した通知の設定
+`app/src/main/java/jp/gr/procon/proconapp/notification/Notification.java`
 
 ``` app/src/main/java/jp/gr/procon/proconapp/notification/Notification.java
 public class NotificationConfig {
