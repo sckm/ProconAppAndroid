@@ -21,9 +21,9 @@
 
 ###API設定
 APIサーバーの接続先の設定
-`app/src/main/java/jp/gr/procon/proconapp/api/ApiConfig.java`
+`app/src/main/java/jp/gr/procon/proconapp/ApiConfig.java`
 
-``` app/src/main/java/jp/gr/procon/proconapp/api/ApiConfig.java
+``` app/src/main/java/jp/gr/procon/proconapp/ApiConfig.java
 public class ApiConfig {
     public static final String DEFAULT_SCHEME = "YOUR API SERVER SCHEME";
     public static final String DEFAULT_HOST = "YOUR SERVER HOST";
