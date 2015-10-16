@@ -30,9 +30,9 @@ public abstract class BaseApi<T> {
 
     protected HttpUrl.Builder getDefaultUrlBuilder() {
         return new HttpUrl.Builder()
-                .scheme(ApiConfig.DEFAULT_SCHEME)
-                .host(ApiConfig.DEFAULT_HOST)
-                .addEncodedPathSegment(ApiConfig.DEFAULT_PREFIX_PATH_SEGMENT);
+                .scheme(ApiConfig.getDefaultScheme())
+                .host(ApiConfig.getDefaultHost())
+                .addEncodedPathSegment(ApiConfig.getDefaultPrefixPathSegment());
     }
 
     protected Request.Builder getDefaultRequestBuilder() {
