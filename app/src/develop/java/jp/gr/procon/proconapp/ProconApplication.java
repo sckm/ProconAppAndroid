@@ -7,6 +7,7 @@ public class ProconApplication extends BaseApplication {
     synchronized public Tracker getTracker() {
         if (mTracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            analytics.setDryRun(true);
 
             mTracker = analytics.newTracker(GoogleAnalyticsConfig.ANALYTICS_PROPERTY_ID);
             mTracker.enableExceptionReporting(true);
